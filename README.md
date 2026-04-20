@@ -7,6 +7,7 @@ A Flutter prayer journal application with bottom navigation and an expandable dr
 
 ```bash
 git clone https://github.com/BaptistMissionsOS/pray.git
+cd pray
 flutter pub get
 flutter run
 ```
