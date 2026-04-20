@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../app/assets/i18n/strings.g.dart';
 
 class DashboardLayout extends StatelessWidget {
   const DashboardLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard Layout'),
+        title: Text(t.titles.dashboardLayout),
       ),
-      body: const Center(
-        child: Text('Dashboard Layout'),
+      body: Center(
+        child: Text(t.titles.dashboardLayout),
       ),
     );
   }

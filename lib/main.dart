@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:slang_flutter/slang_flutter.dart';
+import 'app/assets/i18n/strings.g.dart';
 import 'features/home/dashboard.dart';
 import 'features/home/dashboard.add.dart';
 import 'features/home/dashboard.edit.dart';
@@ -17,7 +20,40 @@ import 'settings.dart';
 import 'support.dart';
 
 void main() {
-  runApp(const PrayerApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale();
+  runApp(
+    TranslationProvider(
+      child: const LocaleAwareApp(),
+    ),
+  );
+}
+
+class LocaleAwareApp extends StatefulWidget {
+  const LocaleAwareApp({super.key});
+
+  @override
+  State<LocaleAwareApp> createState() => _LocaleAwareAppState();
+}
+
+class _LocaleAwareAppState extends State<LocaleAwareApp> {
+  Stream<AppLocale>? _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = LocaleSettings.getLocaleStream();
+    _stream!.listen((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PrayerApp(key: ValueKey(LocaleSettings.currentLocale));
+  }
 }
 
 class PrayerApp extends StatelessWidget {
@@ -26,11 +62,14 @@ class PrayerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Prayer App',
+      title: t.appTitle,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      locale: LocaleSettings.currentLocale.flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       home: const MainNavigation(),
     );
   }
@@ -86,9 +125,9 @@ class _MainNavigationState extends State<MainNavigation> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Menu',
-                    style: TextStyle(
+                  Text(
+                    t.drawer.menu,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                     ),
@@ -134,11 +173,11 @@ class _MainNavigationState extends State<MainNavigation> {
             ),
             ExpansionTile(
               leading: const Icon(Icons.home),
-              title: const Text('Dashboard'),
+              title: Text(t.drawer.categories.dashboard),
               children: [
                 ListTile(
                   leading: const Icon(Icons.add),
-                  title: const Text('Add'),
+                  title: Text(t.drawer.actions.add),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -149,7 +188,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.edit),
-                  title: const Text('Edit'),
+                  title: Text(t.drawer.actions.edit),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -160,7 +199,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.grid_view),
-                  title: const Text('Layout'),
+                  title: Text(t.drawer.actions.layout),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -173,11 +212,11 @@ class _MainNavigationState extends State<MainNavigation> {
             ),
             ExpansionTile(
               leading: const Icon(Symbols.folded_hands),
-              title: const Text('Prayers'),
+              title: Text(t.drawer.categories.prayers),
               children: [
                 ListTile(
                   leading: const Icon(Icons.add),
-                  title: const Text('Add'),
+                  title: Text(t.drawer.actions.add),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -188,7 +227,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.edit),
-                  title: const Text('Edit'),
+                  title: Text(t.drawer.actions.edit),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -199,7 +238,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.share),
-                  title: const Text('Share'),
+                  title: Text(t.drawer.actions.share),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -212,11 +251,11 @@ class _MainNavigationState extends State<MainNavigation> {
             ),
             ExpansionTile(
               leading: const Icon(Icons.book),
-              title: const Text('Journal'),
+              title: Text(t.drawer.categories.journal),
               children: [
                 ListTile(
                   leading: const Icon(Icons.add),
-                  title: const Text('Add'),
+                  title: Text(t.drawer.actions.add),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -227,7 +266,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.edit),
-                  title: const Text('Edit'),
+                  title: Text(t.drawer.actions.edit),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -238,7 +277,7 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.folder),
-                  title: const Text('Organize'),
+                  title: Text(t.drawer.actions.organize),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -256,18 +295,18 @@ class _MainNavigationState extends State<MainNavigation> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTap,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home),
+            label: t.bottomNav.home,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Symbols.folded_hands),
-            label: 'Prayers',
+            icon: const Icon(Symbols.folded_hands),
+            label: t.bottomNav.prayers,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Journal',
+            icon: const Icon(Icons.book),
+            label: t.bottomNav.journal,
           ),
         ],
       ),

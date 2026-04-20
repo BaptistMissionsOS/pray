@@ -1,0 +1,9 @@
+base_locale: en
+fallback_strategy: base_locale
+input_directory: lib/app/assets/i18n
+input_file_pattern: .i18n.json
+output_directory: lib/app/i18n
+output_file_pattern: .g.dart
+output_format: multiple_files
+locale_handling: true
+flutter_integration: true

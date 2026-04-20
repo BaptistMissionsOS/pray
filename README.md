@@ -16,3 +16,8 @@ For release build:
 ```bash
 flutter run --release
 ```
+
+For slang generation:
+```bash
+dart run build_runner build
+```
