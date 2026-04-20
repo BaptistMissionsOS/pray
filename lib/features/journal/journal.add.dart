@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../app/assets/i18n/strings.g.dart';
 
 class JournalAdd extends StatelessWidget {
   const JournalAdd({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Journal Add'),
+        title: Text(t.titles.journalAdd),
       ),
-      body: const Center(
-        child: Text('Journal Add'),
+      body: Center(
+        child: Text(t.titles.journalAdd),
       ),
     );
   }

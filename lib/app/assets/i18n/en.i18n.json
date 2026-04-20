@@ -1,0 +1,50 @@
+{
+  "appTitle": "Prayer App",
+  "bottomNav": {
+    "home": "Home",
+    "prayers": "Prayers",
+    "journal": "Journal"
+  },
+  "drawer": {
+    "menu": "Menu",
+    "categories": {
+      "dashboard": "Dashboard",
+      "prayers": "Prayers",
+      "journal": "Journal"
+    },
+    "actions": {
+      "add": "Add",
+      "edit": "Edit",
+      "layout": "Layout",
+      "share": "Share",
+      "organize": "Organize"
+    }
+  },
+  "pages": {
+    "about": "About",
+    "settings": "Settings",
+    "support": "Support"
+  },
+  "settings": {
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish"
+  },
+  "titles": {
+    "home": "Home",
+    "dashboardAdd": "Dashboard Add",
+    "dashboardEdit": "Dashboard Edit",
+    "dashboardLayout": "Dashboard Layout",
+    "prayersAdd": "Prayers Add",
+    "prayersEdit": "Prayers Edit",
+    "prayersShare": "Prayers Share",
+    "journalAdd": "Journal Add",
+    "journalEdit": "Journal Edit",
+    "journalOrganize": "Journal Organize"
+  },
+  "content": {
+    "dashboard": "Dashboard",
+    "prayers": "Prayers",
+    "journal": "Journal"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "appTitle": "App de Oración",
+  "bottomNav": {
+    "home": "Inicio",
+    "prayers": "Oraciones",
+    "journal": "Diario"
+  },
+  "drawer": {
+    "menu": "Menú",
+    "categories": {
+      "dashboard": "Panel",
+      "prayers": "Oraciones",
+      "journal": "Diario"
+    },
+    "actions": {
+      "add": "Agregar",
+      "edit": "Editar",
+      "layout": "Diseño",
+      "share": "Compartir",
+      "organize": "Organizar"
+    }
+  },
+  "pages": {
+    "about": "Acerca de",
+    "settings": "Configuración",
+    "support": "Soporte"
+  },
+  "settings": {
+    "language": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español"
+  },
+  "titles": {
+    "home": "Inicio",
+    "dashboardAdd": "Agregar al Panel",
+    "dashboardEdit": "Editar Panel",
+    "dashboardLayout": "Diseño del Panel",
+    "prayersAdd": "Agregar Oración",
+    "prayersEdit": "Editar Oración",
+    "prayersShare": "Compartir Oración",
+    "journalAdd": "Agregar al Diario",
+    "journalEdit": "Editar Diario",
+    "journalOrganize": "Organizar Diario"
+  },
+  "content": {
+    "dashboard": "Panel",
+    "prayers": "Oraciones",
+    "journal": "Diario"
+  }
+}

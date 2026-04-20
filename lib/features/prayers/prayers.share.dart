@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../app/assets/i18n/strings.g.dart';
 
 class PrayersShare extends StatelessWidget {
   const PrayersShare({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Prayers Share'),
+        title: Text(t.titles.prayersShare),
       ),
-      body: const Center(
-        child: Text('Prayers Share'),
+      body: Center(
+        child: Text(t.titles.prayersShare),
       ),
     );
   }
