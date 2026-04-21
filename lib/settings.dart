@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'app/assets/i18n/strings.g.dart';
+import 'core/db/db_provider.dart';
+import 'main.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
+
+  void _setLocale(AppLocale locale) {
+    LocaleSettings.setLocale(locale);
+    DatabaseProvider.instance.setPreference(localePrefKey, locale.name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,7 @@ class Settings extends StatelessWidget {
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,
             onTap: () {
-              LocaleSettings.setLocale(AppLocale.en);
+              _setLocale(AppLocale.en);
             },
           ),
           ListTile(
@@ -40,7 +47,7 @@ class Settings extends StatelessWidget {
                 ? const Icon(Icons.check, color: Colors.green)
                 : null,
             onTap: () {
-              LocaleSettings.setLocale(AppLocale.es);
+              _setLocale(AppLocale.es);
             },
           ),
         ],
