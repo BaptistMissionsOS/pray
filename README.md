@@ -17,7 +17,12 @@ For release build:
 flutter run --release
 ```
 
-For slang generation:
+For slang and drift database generation:
 ```bash
 dart run build_runner build
+```
+
+For force regeneration:
+```bash
+dart run build_runner build --delete-conflicting-outputs
 ```

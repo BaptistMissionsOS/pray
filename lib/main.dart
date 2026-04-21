@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:slang_flutter/slang_flutter.dart';
 import 'app/assets/i18n/strings.g.dart';
+import 'core/db/db_provider.dart';
 import 'features/home/dashboard.dart';
 import 'features/home/dashboard.add.dart';
 import 'features/home/dashboard.edit.dart';
@@ -19,9 +20,24 @@ import 'about.dart';
 import 'settings.dart';
 import 'support.dart';
 
-void main() {
+const String localePrefKey = 'app_locale';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocaleSettings.useDeviceLocale();
+
+  final db = DatabaseProvider.instance;
+  final savedLocale = await db.getPreference(localePrefKey);
+
+  if (savedLocale != null) {
+    final locale = AppLocale.values.firstWhere(
+      (l) => l.name == savedLocale,
+      orElse: () => AppLocale.en,
+    );
+    LocaleSettings.setLocale(locale);
+  } else {
+    LocaleSettings.useDeviceLocale();
+  }
+
   runApp(
     TranslationProvider(
       child: const LocaleAwareApp(),
