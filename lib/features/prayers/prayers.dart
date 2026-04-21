@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app/assets/i18n/strings.g.dart';
+import '../../app/i18n/strings.g.dart';
 
 class Prayers extends StatelessWidget {
   const Prayers({super.key});

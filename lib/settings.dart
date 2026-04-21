@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app/assets/i18n/strings.g.dart';
+import 'app/i18n/strings.g.dart';
 import 'core/db/db_provider.dart';
 import 'main.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:slang_flutter/slang_flutter.dart';
-import 'app/assets/i18n/strings.g.dart';
+import 'app/i18n/strings.g.dart';
 import 'core/db/db_provider.dart';
 import 'features/home/dashboard.dart';
 import 'features/home/dashboard.add.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../app/assets/i18n/strings.g.dart';
+import '../../app/i18n/strings.g.dart';
 
 class JournalEdit extends StatelessWidget {
   const JournalEdit({super.key});
