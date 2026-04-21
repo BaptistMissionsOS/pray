@@ -28,23 +28,153 @@
   "settings": {
     "language": "Language",
     "english": "English",
-    "spanish": "Spanish"
+    "spanish": "Spanish",
+    "sections": {
+      "appearance": "Appearance",
+      "dashboard": "Dashboard",
+      "prayers": "Prayers",
+      "journal": "Journal",
+      "data": "Data"
+    },
+    "options": {
+      "theme": "Theme",
+      "dailyReminder": "Daily Reminder",
+      "defaultView": "Default View",
+      "autoArchive": "Auto-archive Answered",
+      "privateMode": "Private Mode",
+      "backupRestore": "Backup & Restore",
+      "clearData": "Clear All Data"
+    }
   },
   "titles": {
     "home": "Home",
-    "dashboardAdd": "Dashboard Add",
-    "dashboardEdit": "Dashboard Edit",
-    "dashboardLayout": "Dashboard Layout",
-    "prayersAdd": "Prayers Add",
-    "prayersEdit": "Prayers Edit",
-    "prayersShare": "Prayers Share",
-    "journalAdd": "Journal Add",
-    "journalEdit": "Journal Edit",
-    "journalOrganize": "Journal Organize"
+    "dashboardAdd": "Add Dashboard Block",
+    "dashboardEdit": "Edit Dashboard Block",
+    "dashboardLayout": "Arrange Dashboard",
+    "prayersAdd": "Add Prayer",
+    "prayersEdit": "Edit Prayer",
+    "prayersShare": "Share Prayers",
+    "journalAdd": "Add Journal Entry",
+    "journalEdit": "Edit Journal Entry",
+    "journalOrganize": "Organize Journal"
   },
   "content": {
     "dashboard": "Dashboard",
     "prayers": "Prayers",
     "journal": "Journal"
+  },
+  "about": {
+    "title": "A Flutter Prayer Journal App",
+    "by": "by Baptist Missions OS",
+    "description": "A personal prayer journal to track your prayers, see answered prayers, and grow in your faith journey.",
+    "version": "Version",
+    "openSource": "Open Source",
+    "copyright": "© 2026 Baptist Missions OS"
+  },
+  "support": {
+    "title": "Need Help?",
+    "description": "If you need assistance with Baptist Missions OS, please reach out through our support channels:",
+    "channels": {
+      "email": "Email",
+      "discord": "Discord",
+      "facebook": "Facebook",
+      "gab": "Gab",
+      "github": "GitHub",
+      "matrix": "Matrix",
+      "irc": "IRC Libera.Chat"
+    },
+    "quickTips": "Quick Tips"
+  },
+  "dashboard": {
+    "stats": {
+      "totalPrayers": "Total Prayers",
+      "answered": "Answered",
+      "unanswered": "Unanswered",
+      "streak": "Day Streak",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month"
+    },
+    "empty": "No statistics yet. Add blocks to see your prayer stats.",
+    "blockTypes": {
+      "counter": "Counter Block",
+      "streak": "Streak Block",
+      "chart": "Chart Block",
+      "list": "Recent List",
+      "category": "Category Breakdown",
+      "rate": "Answered Rate"
+    }
+  },
+  "prayers": {
+    "tabs": {
+      "unanswered": "Unanswered",
+      "active": "Active",
+      "answered": "Answered"
+    },
+    "addToJournal": "Add to Journal",
+    "markAnswered": "Mark Answered",
+    "empty": {
+      "unanswered": "No unanswered prayers",
+      "active": "No active prayers",
+      "answered": "No answered prayers yet"
+    },
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "category": "Category",
+      "status": "Status",
+      "date": "Date",
+      "tags": "Tags",
+      "save": "Save Prayer",
+      "cancel": "Cancel"
+    },
+    "share": {
+      "selectAll": "Select All",
+      "selected": "selected",
+      "exportFormat": "Export Format",
+      "copy": "Copy",
+      "share": "Share"
+    }
+  },
+  "journal": {
+    "empty": "No journal entries yet. Start journaling your prayers!",
+    "newEntry": "New Entry",
+    "categories": {
+      "title": "Categories",
+      "uncategorized": "Uncategorized",
+      "addNew": "New Category"
+    },
+    "form": {
+      "title": "Title",
+      "content": "Content",
+      "relatedPrayer": "Related Prayer (Optional)",
+      "category": "Category",
+      "date": "Date",
+      "mood": "How are you feeling?",
+      "save": "Save Entry",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "move": "Move to Category",
+      "delete": "Delete",
+      "edit": "Edit"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "done": "Done",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "move": "Move",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "tip": "Tip"
   }
 }

@@ -28,23 +28,153 @@
   "settings": {
     "language": "Idioma",
     "english": "Inglés",
-    "spanish": "Español"
+    "spanish": "Español",
+    "sections": {
+      "appearance": "Apariencia",
+      "dashboard": "Panel",
+      "prayers": "Oraciones",
+      "journal": "Diario",
+      "data": "Datos"
+    },
+    "options": {
+      "theme": "Tema",
+      "dailyReminder": "Recordatorio Diario",
+      "defaultView": "Vista Predeterminada",
+      "autoArchive": "Auto-archivar Respondidas",
+      "privateMode": "Modo Privado",
+      "backupRestore": "Copia de Seguridad y Restauración",
+      "clearData": "Borrar Todos los Datos"
+    }
   },
   "titles": {
     "home": "Inicio",
-    "dashboardAdd": "Agregar al Panel",
-    "dashboardEdit": "Editar Panel",
-    "dashboardLayout": "Diseño del Panel",
+    "dashboardAdd": "Agregar Bloque al Panel",
+    "dashboardEdit": "Editar Bloque del Panel",
+    "dashboardLayout": "Organizar Panel",
     "prayersAdd": "Agregar Oración",
     "prayersEdit": "Editar Oración",
-    "prayersShare": "Compartir Oración",
-    "journalAdd": "Agregar al Diario",
-    "journalEdit": "Editar Diario",
+    "prayersShare": "Compartir Oraciones",
+    "journalAdd": "Agregar Entrada al Diario",
+    "journalEdit": "Editar Entrada del Diario",
     "journalOrganize": "Organizar Diario"
   },
   "content": {
     "dashboard": "Panel",
     "prayers": "Oraciones",
     "journal": "Diario"
+  },
+  "about": {
+    "title": "Una App de Diario de Oración Flutter",
+    "by": "por Baptist Missions OS",
+    "description": "Un diario de oración personal para registrar tus oraciones, ver las respuestas y crecer en tu camino de fe.",
+    "version": "Versión",
+    "openSource": "Código Abierto",
+    "copyright": "© 2026 Baptist Missions OS"
+  },
+  "support": {
+    "title": "¿Necesitas Ayuda?",
+    "description": "Si necesitas ayuda con Baptist Missions OS, por favor contáctanos a través de nuestros canales de soporte:",
+    "channels": {
+      "email": "Correo",
+      "discord": "Discord",
+      "facebook": "Facebook",
+      "gab": "Gab",
+      "github": "GitHub",
+      "matrix": "Matrix",
+      "irc": "IRC Libera.Chat"
+    },
+    "quickTips": "Consejos Rápidos"
+  },
+  "dashboard": {
+    "stats": {
+      "totalPrayers": "Oraciones Totales",
+      "answered": "Respondidas",
+      "unanswered": "Sin Responder",
+      "streak": "Racha de Días",
+      "thisWeek": "Esta Semana",
+      "thisMonth": "Este Mes"
+    },
+    "empty": "Aún no hay estadísticas. Agrega bloques para ver tus estadísticas de oración.",
+    "blockTypes": {
+      "counter": "Bloque Contador",
+      "streak": "Bloque Racha",
+      "chart": "Bloque Gráfico",
+      "list": "Lista Reciente",
+      "category": "Desglose por Categoría",
+      "rate": "Tasa de Respuestas"
+    }
+  },
+  "prayers": {
+    "tabs": {
+      "unanswered": "Sin Responder",
+      "active": "Activas",
+      "answered": "Respondidas"
+    },
+    "addToJournal": "Agregar al Diario",
+    "markAnswered": "Marcar Respondida",
+    "empty": {
+      "unanswered": "No hay oraciones sin responder",
+      "active": "No hay oraciones activas",
+      "answered": "Aún no hay oraciones respondidas"
+    },
+    "form": {
+      "title": "Título",
+      "description": "Descripción",
+      "category": "Categoría",
+      "status": "Estado",
+      "date": "Fecha",
+      "tags": "Etiquetas",
+      "save": "Guardar Oración",
+      "cancel": "Cancelar"
+    },
+    "share": {
+      "selectAll": "Seleccionar Todo",
+      "selected": "seleccionado(s)",
+      "exportFormat": "Formato de Exportación",
+      "copy": "Copiar",
+      "share": "Compartir"
+    }
+  },
+  "journal": {
+    "empty": "Aún no hay entradas en el diario. ¡Empieza a escribir tus oraciones!",
+    "newEntry": "Nueva Entrada",
+    "categories": {
+      "title": "Categorías",
+      "uncategorized": "Sin Categoría",
+      "addNew": "Nueva Categoría"
+    },
+    "form": {
+      "title": "Título",
+      "content": "Contenido",
+      "relatedPrayer": "Oración Relacionada (Opcional)",
+      "category": "Categoría",
+      "date": "Fecha",
+      "mood": "¿Cómo te sientes?",
+      "save": "Guardar Entrada",
+      "cancel": "Cancelar"
+    },
+    "actions": {
+      "move": "Mover a Categoría",
+      "delete": "Eliminar",
+      "edit": "Editar"
+    }
+  },
+  "common": {
+    "save": "Guardar",
+    "done": "Hecho",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "remove": "Eliminar",
+    "move": "Mover",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "tip": "Consejo"
   }
 }
