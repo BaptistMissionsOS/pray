@@ -15,12 +15,33 @@ class Journal extends StatefulWidget {
 class _JournalState extends State<Journal> {
   final db = DatabaseProvider.instance;
   List<JournalEntry> _entries = [];
+  List<JournalEntry> _filteredEntries = [];
   bool _isLoading = true;
+  String _searchQuery = '';
+  String? _filterCategory;
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+
+  final List<String> _categories = [
+    'Answered Prayers',
+    'Daily Devotion',
+    'Health',
+    'Missions',
+    'Family',
+    'Spiritual Growth',
+    'Other',
+  ];
 
   @override
   void initState() {
     super.initState();
     _loadEntries();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadEntries() async {
@@ -29,8 +50,121 @@ class _JournalState extends State<Journal> {
     if (mounted) {
       setState(() {
         _entries = entries;
+        _applyFilters();
         _isLoading = false;
       });
+    }
+  }
+
+  void _applyFilters() {
+    var filtered = _entries;
+
+    // Apply category filter
+    if (_filterCategory != null) {
+      filtered = filtered.where((e) => e.category == _filterCategory).toList();
+    }
+
+    // Apply search query
+    if (_searchQuery.isNotEmpty) {
+      final query = _searchQuery.toLowerCase();
+      filtered = filtered.where((e) =>
+        e.title.toLowerCase().contains(query) ||
+        e.content.toLowerCase().contains(query)
+      ).toList();
+    }
+
+    setState(() {
+      _filteredEntries = filtered;
+    });
+  }
+
+  void _showFilterDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Filter by Category'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              ListTile(
+                title: const Text('All Categories'),
+                selected: _filterCategory == null,
+                onTap: () {
+                  setState(() {
+                    _filterCategory = null;
+                  });
+                  _applyFilters();
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(),
+              ..._categories.map((category) => ListTile(
+                title: Text(category),
+                selected: _filterCategory == category,
+                onTap: () {
+                  setState(() {
+                    _filterCategory = category;
+                  });
+                  _applyFilters();
+                  Navigator.pop(context);
+                },
+              )),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchQuery = '';
+        _searchController.clear();
+        _applyFilters();
+      }
+    });
+  }
+
+  Future<void> _showMoveCategoryDialog(JournalEntry entry) async {
+    final newCategory = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Move to Category'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView(
+            shrinkWrap: true,
+            children: _categories.map((category) => ListTile(
+              title: Text(category),
+              selected: entry.category == category,
+              onTap: () => Navigator.pop(context, category),
+            )).toList(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+
+    if (newCategory != null && newCategory != entry.category) {
+      await db.updateJournalEntry(
+        entry.copyWith(category: newCategory),
+      );
+      _loadEntries();
     }
   }
 
@@ -74,21 +208,39 @@ class _JournalState extends State<Journal> {
     final t = Translations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.drawer.categories.journal),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Search entries...',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.white70),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                  _applyFilters();
+                },
+              )
+            : Text(t.drawer.categories.journal),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
-            onPressed: () {},
+            color: _filterCategory != null ? Colors.yellow : null,
+            onPressed: _showFilterDialog,
           ),
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
+            icon: Icon(_isSearching ? Icons.close : Icons.search),
+            onPressed: _toggleSearch,
           ),
         ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : _entries.isEmpty
+          : _filteredEntries.isEmpty
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -119,9 +271,9 @@ class _JournalState extends State<Journal> {
                   onRefresh: _loadEntries,
                   child: ListView.builder(
                     padding: const EdgeInsets.all(16),
-                    itemCount: _entries.length,
+                    itemCount: _filteredEntries.length,
                     itemBuilder: (context, index) {
-                      final entry = _entries[index];
+                      final entry = _filteredEntries[index];
                       return _buildJournalCard(context, entry);
                     },
                   ),
@@ -169,6 +321,8 @@ class _JournalState extends State<Journal> {
                           ),
                         );
                         if (result == true) _loadEntries();
+                      } else if (value == 'move') {
+                        _showMoveCategoryDialog(entry);
                       } else if (value == 'delete') {
                         final confirmed = await showDialog<bool>(
                           context: context,

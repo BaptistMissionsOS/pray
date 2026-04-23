@@ -20,6 +20,7 @@ class _JournalAddState extends State<JournalAdd> {
   int? _selectedPrayerId;
   String? _selectedMood;
   List<Prayer> _prayers = [];
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _JournalAddState extends State<JournalAdd> {
   Future<void> _saveEntry() async {
     if (_formKey.currentState!.validate()) {
       final db = DatabaseProvider.instance;
-      
+
       await db.insertJournalEntry(
         JournalEntriesCompanion(
           title: Value(_titleController.text),
@@ -72,12 +73,28 @@ class _JournalAddState extends State<JournalAdd> {
           category: Value(_selectedCategory),
           mood: Value(_selectedMood),
           relatedPrayerId: Value(_selectedPrayerId),
+          createdAt: Value(_selectedDate),
+          updatedAt: Value(_selectedDate),
         ),
       );
-      
+
       if (mounted) {
         Navigator.pop(context, true);
       }
+    }
+  }
+
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
     }
   }
 
@@ -188,9 +205,11 @@ class _JournalAddState extends State<JournalAdd> {
             ListTile(
               leading: const Icon(Icons.calendar_today),
               title: Text(t.journal.form.date),
-              subtitle: Text(t.common.today),
+              subtitle: Text(
+                '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}',
+              ),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              onTap: _selectDate,
             ),
             const Divider(),
             const SizedBox(height: 8),
