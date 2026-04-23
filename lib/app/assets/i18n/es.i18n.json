@@ -38,12 +38,21 @@
     },
     "options": {
       "theme": "Tema",
+      "themeSubtitle": "Predeterminado del sistema",
       "dailyReminder": "Recordatorio Diario",
+      "dailyReminderSubtitle": "Recordarme orar diariamente",
       "defaultView": "Vista Predeterminada",
+      "defaultViewSubtitle": "Mostrar todas las estadísticas",
       "autoArchive": "Auto-archivar Respondidas",
+      "autoArchiveSubtitle": "Mover oraciones respondidas al archivo después de 7 días",
+      "defaultFilter": "Filtro Predeterminado",
+      "defaultFilterSubtitle": "Mostrar oraciones activas",
       "privateMode": "Modo Privado",
+      "privateModeSubtitle": "Requerir autenticación para ver el diario",
       "backupRestore": "Copia de Seguridad y Restauración",
-      "clearData": "Borrar Todos los Datos"
+      "backupRestoreSubtitle": "Exportar o importar tus datos",
+      "clearData": "Borrar Todos los Datos",
+      "clearDataConfirm": "Esto eliminará permanentemente todas tus oraciones y entradas del diario. Esta acción no se puede deshacer."
     }
   },
   "titles": {
@@ -88,20 +97,67 @@
   "dashboard": {
     "stats": {
       "totalPrayers": "Oraciones Totales",
+      "allTimePrayers": "Oraciones de todos los tiempos",
       "answered": "Respondidas",
+      "prayersAnswered": "Oraciones respondidas",
       "unanswered": "Sin Responder",
+      "stillPraying": "Sigue orando",
       "streak": "Racha de Días",
+      "dayPrayerStreak": "Racha de oración por días",
       "thisWeek": "Esta Semana",
       "thisMonth": "Este Mes"
     },
     "empty": "Aún no hay estadísticas. Agrega bloques para ver tus estadísticas de oración.",
+    "quickActions": "Acciones Rápidas",
+    "iPrayedToday": "Oré Hoy",
+    "add": {
+      "selectBlockType": "Seleccionar Tipo de Bloque",
+      "selectBlockTypeSubtitle": "Elige un bloque de estadísticas para agregar a tu panel",
+      "tipRearrange": "Puedes reorganizar los bloques más tarde usando la opción Diseño en el menú."
+    },
+    "edit": {
+      "title": "Editar Bloques del Panel",
+      "subtitle": "Toca un bloque para editar su configuración o eliminarlo",
+      "typeLabel": "Tipo",
+      "blockNames": {
+        "totalPrayers": "Oraciones Totales",
+        "answeredPrayers": "Oraciones Respondidas",
+        "unanswered": "Sin Responder",
+        "prayerStreak": "Racha de Oración",
+        "weeklyActivity": "Actividad Semanal"
+      },
+      "blockTypes": {
+        "counter": "Contador",
+        "streak": "Racha",
+        "chart": "Gráfico"
+      }
+    },
+    "layout": {
+      "title": "Organizar Bloques",
+      "subtitle": "Arrastra y suelta para reordenar los bloques del panel",
+      "empty": "Aún no hay bloques. ¡Agrega tu primer bloque!",
+      "orderSaved": "Orden guardado",
+      "blockNames": {
+        "totalPrayers": "Oraciones Totales",
+        "answered": "Respondidas",
+        "unanswered": "Sin Responder",
+        "streak": "Racha",
+        "weekly": "Semanal"
+      }
+    },
     "blockTypes": {
       "counter": "Bloque Contador",
+      "counterDesc": "Muestra un conteo simple de oraciones",
       "streak": "Bloque Racha",
+      "streakDesc": "Muestra tu racha de oración",
       "chart": "Bloque Gráfico",
+      "chartDesc": "Gráfico visual de estadísticas de oración",
       "list": "Lista Reciente",
+      "listDesc": "Lista de oraciones recientes",
       "category": "Desglose por Categoría",
-      "rate": "Tasa de Respuestas"
+      "categoryDesc": "Oraciones agrupadas por categoría",
+      "rate": "Tasa de Respuestas",
+      "rateDesc": "Porcentaje de oraciones respondidas"
     }
   },
   "prayers": {
@@ -110,12 +166,19 @@
       "active": "Activas",
       "answered": "Respondidas"
     },
+    "newPrayer": "Nueva Oración",
     "addToJournal": "Agregar al Diario",
     "markAnswered": "Marcar Respondida",
     "empty": {
       "unanswered": "No hay oraciones sin responder",
       "active": "No hay oraciones activas",
-      "answered": "Aún no hay oraciones respondidas"
+      "answered": "Aún no hay oraciones respondidas",
+      "keepPraying": "¡Sigue orando! Dios responde en Su tiempo.",
+      "tapToAdd": "Toca + para agregar una nueva oración"
+    },
+    "delete": {
+      "title": "¿Eliminar Oración?",
+      "confirm": "¿Estás seguro de que quieres eliminar \"{title}\"?"
     },
     "form": {
       "title": "Título",
@@ -125,14 +188,33 @@
       "date": "Fecha",
       "tags": "Etiquetas",
       "save": "Guardar Oración",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "titleRequired": "Por favor ingresa un título",
+      "descriptionRequired": "Por favor ingresa una descripción"
+    },
+    "edit": {
+      "title": "Editar Oración"
+    },
+    "categories": {
+      "family": "Familia",
+      "health": "Salud",
+      "finances": "Finanzas",
+      "work": "Trabajo/Carrera",
+      "spiritual": "Crecimiento Espiritual",
+      "friends": "Amigos",
+      "missions": "Misiones",
+      "other": "Otro"
     },
     "share": {
       "selectAll": "Seleccionar Todo",
       "selected": "seleccionado(s)",
+      "selectedCount": "({count})",
       "exportFormat": "Formato de Exportación",
       "copy": "Copiar",
-      "share": "Compartir"
+      "share": "Compartir",
+      "text": "Texto",
+      "json": "JSON",
+      "csv": "CSV"
     }
   },
   "journal": {
@@ -141,12 +223,32 @@
     "categories": {
       "title": "Categorías",
       "uncategorized": "Sin Categoría",
-      "addNew": "Nueva Categoría"
+      "addNew": "Nueva Categoría",
+      "defaultCategory": "Categoría Predeterminada",
+      "answeredPrayers": "Oraciones Respondidas",
+      "dailyDevotion": "Devoción Diaria",
+      "health": "Salud",
+      "missions": "Misiones",
+      "family": "Familia",
+      "spiritualGrowth": "Crecimiento Espiritual",
+      "other": "Otro",
+      "work": "Trabajo/Carrera",
+      "organizeTitle": "Organizar Categorías",
+      "organizeSubtitle": "Arrastra para reordenar categorías. Toca para editar o eliminar.",
+      "entriesCount": "{count} entradas",
+      "categoryNameLabel": "Nombre de Categoría",
+      "categoryNameHint": "Ingresa nombre de categoría",
+      "deleteConfirm": "¿Estás seguro de que quieres eliminar \"{name}\"?\n\nLas entradas en esta categoría se moverán a \"{fallback}\"."
     },
     "form": {
       "title": "Título",
+      "titleHint": "Dale un título a tu entrada...",
+      "titleRequired": "Por favor ingresa un título",
       "content": "Contenido",
+      "contentHint": "Escribe sobre tu experiencia de oración, pensamientos u oraciones respondidas...",
+      "contentRequired": "Por favor ingresa algún contenido",
       "relatedPrayer": "Oración Relacionada (Opcional)",
+      "relatedPrayerHint": "Selecciona una oración relacionada con esta entrada",
       "category": "Categoría",
       "date": "Fecha",
       "mood": "¿Cómo te sientes?",
@@ -175,6 +277,35 @@
     "confirm": "Confirmar",
     "yes": "Sí",
     "no": "No",
-    "tip": "Consejo"
+    "tip": "Consejo",
+    "none": "Ninguno",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "daysAgo": "Hace {count} días",
+    "weeksAgo": "Hace {count} semanas",
+    "monthsAgo": "Hace {count} meses",
+    "yearsAgo": "Hace {count} años",
+    "deleteConfirmTitle": "¿Eliminar?",
+    "clearConfirmTitle": "¿Borrar Todos los Datos?",
+    "dataCleared": "Todos los datos borrados"
+  },
+  "hints": {
+    "prayerTip": "¡Puedes cambiar el estado a \"Respondida\" en cualquier momento para ver cómo Dios actúa!",
+    "journalTip": "Escribir en el diario te ayuda a reflexionar sobre tu viaje espiritual y ver cómo Dios está trabajando en tu vida.",
+    "reorder": "Mantén presionado y arrastra el control para reordenar",
+    "reorderCategories": "Mantén presionado y arrastra el control para reordenar las categorías"
+  },
+  "moods": {
+    "grateful": "Agradecido",
+    "peaceful": "Pacífico",
+    "hopeful": "Esperanzado",
+    "excited": "Emocionado",
+    "anxious": "Ansioso",
+    "sad": "Triste"
+  },
+  "status": {
+    "unanswered": "Sin Responder",
+    "active": "Activa",
+    "answered": "Respondida"
   }
 }

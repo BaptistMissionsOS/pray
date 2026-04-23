@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../app/i18n/strings.g.dart';
 import '../../core/db/db_provider.dart';
-import '../../core/db/database.dart' show JournalEntry, Prayer;
+import '../../core/db/database.dart' show JournalEntry;
 import 'journal.add.dart';
 import 'journal.edit.dart';
 
@@ -100,7 +100,7 @@ class _JournalState extends State<Journal> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No journal entries yet',
+                        t.journal.empty,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
@@ -129,7 +129,7 @@ class _JournalState extends State<Journal> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _navigateToAdd,
         icon: const Icon(Icons.add),
-        label: const Text('New Entry'),
+        label: Text(t.journal.newEntry),
       ),
     );
   }
@@ -173,17 +173,17 @@ class _JournalState extends State<Journal> {
                         final confirmed = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Delete Entry?'),
-                            content: Text('Delete "${entry.title}"?'),
+                            title: Text(t.common.deleteConfirmTitle),
+                            content: Text('${t.journal.actions.delete} "${entry.title}"?'),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context, false),
-                                child: const Text('Cancel'),
+                                child: Text(t.common.cancel),
                               ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context, true),
                                 style: TextButton.styleFrom(foregroundColor: Colors.red),
-                                child: const Text('Delete'),
+                                child: Text(t.common.delete),
                               ),
                             ],
                           ),

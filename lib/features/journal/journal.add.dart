@@ -20,17 +20,6 @@ class _JournalAddState extends State<JournalAdd> {
   int? _selectedPrayerId;
   String? _selectedMood;
   List<Prayer> _prayers = [];
-  bool _isLoading = true;
-
-  final List<String> _categories = [
-    'Answered Prayers',
-    'Daily Devotion',
-    'Health',
-    'Missions',
-    'Family',
-    'Spiritual Growth',
-    'Other',
-  ];
 
   @override
   void initState() {
@@ -44,18 +33,26 @@ class _JournalAddState extends State<JournalAdd> {
     final prayers = await db.getAllPrayers();
     setState(() {
       _prayers = prayers;
-      _isLoading = false;
     });
   }
 
-  final List<Map<String, dynamic>> _moods = [
-    {'name': 'Grateful', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},
-    {'name': 'Peaceful', 'icon': Icons.spa, 'color': Colors.blue},
-    {'name': 'Hopeful', 'icon': Icons.wb_sunny, 'color': Colors.orange},
-    {'name': 'Excited', 'icon': Icons.celebration, 'color': Colors.purple},
-    {'name': 'Anxious', 'icon': Icons.cloud, 'color': Colors.grey},
-    {'name': 'Sad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.indigo},
-  ];
+  Widget _buildMoodChip(IconData icon, Color color, String translatedLabel, String value) {
+    final isSelected = _selectedMood == value;
+    return ChoiceChip(
+      avatar: Icon(
+        icon,
+        color: color,
+        size: 18,
+      ),
+      label: Text(translatedLabel),
+      selected: isSelected,
+      onSelected: (selected) {
+        setState(() {
+          _selectedMood = selected ? value : null;
+        });
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -93,7 +90,7 @@ class _JournalAddState extends State<JournalAdd> {
         actions: [
           TextButton(
             onPressed: _saveEntry,
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -104,11 +101,11 @@ class _JournalAddState extends State<JournalAdd> {
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                hintText: 'Give your entry a title...',
-                prefixIcon: Icon(Icons.title),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.title,
+                hintText: t.journal.form.titleHint,
+                prefixIcon: const Icon(Icons.title),
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -120,11 +117,11 @@ class _JournalAddState extends State<JournalAdd> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _contentController,
-              decoration: const InputDecoration(
-                labelText: 'Content',
-                hintText: 'Write about your prayer experience, thoughts, or answered prayers...',
-                prefixIcon: Icon(Icons.notes),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.content,
+                hintText: t.journal.form.contentHint,
+                prefixIcon: const Icon(Icons.notes),
+                border: const OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
               maxLines: 8,
@@ -138,17 +135,20 @@ class _JournalAddState extends State<JournalAdd> {
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: _selectedCategory,
-              decoration: const InputDecoration(
-                labelText: 'Category',
-                prefixIcon: Icon(Icons.folder),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.category,
+                prefixIcon: const Icon(Icons.folder),
+                border: const OutlineInputBorder(),
               ),
-              items: _categories.map((category) {
-                return DropdownMenuItem(
-                  value: category,
-                  child: Text(category),
-                );
-              }).toList(),
+              items: [
+                DropdownMenuItem(value: 'Answered Prayers', child: Text(t.journal.categories.answeredPrayers)),
+                DropdownMenuItem(value: 'Daily Devotion', child: Text(t.journal.categories.dailyDevotion)),
+                DropdownMenuItem(value: 'Health', child: Text(t.journal.categories.health)),
+                DropdownMenuItem(value: 'Missions', child: Text(t.journal.categories.missions)),
+                DropdownMenuItem(value: 'Family', child: Text(t.journal.categories.family)),
+                DropdownMenuItem(value: 'Spiritual Growth', child: Text(t.journal.categories.spiritualGrowth)),
+                DropdownMenuItem(value: 'Other', child: Text(t.journal.categories.other)),
+              ],
               onChanged: (value) {
                 if (value != null) {
                   setState(() {
@@ -160,16 +160,16 @@ class _JournalAddState extends State<JournalAdd> {
             const SizedBox(height: 16),
             DropdownButtonFormField<int?>(
               value: _selectedPrayerId,
-              decoration: const InputDecoration(
-                labelText: 'Related Prayer (Optional)',
-                prefixIcon: Icon(Icons.link),
-                border: OutlineInputBorder(),
-                hintText: 'Select a prayer this entry relates to',
+              decoration: InputDecoration(
+                labelText: t.journal.form.relatedPrayer,
+                prefixIcon: const Icon(Icons.link),
+                border: const OutlineInputBorder(),
+                hintText: t.journal.form.relatedPrayerHint,
               ),
               items: [
-                const DropdownMenuItem(
+                DropdownMenuItem(
                   value: null,
-                  child: Text('None'),
+                  child: Text(t.common.none),
                 ),
                 ..._prayers.map((prayer) {
                   return DropdownMenuItem(
@@ -187,15 +187,15 @@ class _JournalAddState extends State<JournalAdd> {
             const SizedBox(height: 16),
             ListTile(
               leading: const Icon(Icons.calendar_today),
-              title: const Text('Date'),
-              subtitle: const Text('Today'),
+              title: Text(t.journal.form.date),
+              subtitle: Text(t.common.today),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {},
             ),
             const Divider(),
             const SizedBox(height: 8),
             Text(
-              'How are you feeling?',
+              t.journal.form.mood,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -204,37 +204,26 @@ class _JournalAddState extends State<JournalAdd> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: _moods.map((mood) {
-                final isSelected = _selectedMood == mood['name'];
-                return ChoiceChip(
-                  avatar: Icon(
-                    mood['icon'] as IconData,
-                    color: mood['color'] as Color,
-                    size: 18,
-                  ),
-                  label: Text(mood['name'] as String),
-                  selected: isSelected,
-                  onSelected: (selected) {
-                    setState(() {
-                      _selectedMood = selected ? mood['name'] as String : null;
-                    });
-                  },
-                );
-              }).toList(),
+              children: [
+                _buildMoodChip(Icons.sentiment_very_satisfied, Colors.green, t.moods.grateful, 'Grateful'),
+                _buildMoodChip(Icons.spa, Colors.blue, t.moods.peaceful, 'Peaceful'),
+                _buildMoodChip(Icons.wb_sunny, Colors.orange, t.moods.hopeful, 'Hopeful'),
+                _buildMoodChip(Icons.celebration, Colors.purple, t.moods.excited, 'Excited'),
+                _buildMoodChip(Icons.cloud, Colors.grey, t.moods.anxious, 'Anxious'),
+                _buildMoodChip(Icons.sentiment_dissatisfied, Colors.indigo, t.moods.sad, 'Sad'),
+              ],
             ),
             const SizedBox(height: 24),
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: const Padding(
-                padding: EdgeInsets.all(16),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Icon(Icons.lightbulb_outline),
-                    SizedBox(width: 8),
+                    const Icon(Icons.lightbulb_outline),
+                    const SizedBox(width: 8),
                     Expanded(
-                      child: Text(
-                        'Journaling helps you reflect on your spiritual journey and see how God is working in your life.',
-                      ),
+                      child: Text(t.hints.journalTip),
                     ),
                   ],
                 ),

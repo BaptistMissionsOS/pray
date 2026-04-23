@@ -34,11 +34,11 @@ class _PrayersState extends State<Prayers> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(t.drawer.categories.prayers),
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(text: 'Unanswered', icon: Icon(Icons.pending)),
-              Tab(text: 'Active', icon: Icon(Icons.favorite)),
-              Tab(text: 'Answered', icon: Icon(Icons.check_circle)),
+              Tab(text: t.prayers.tabs.unanswered, icon: const Icon(Icons.pending)),
+              Tab(text: t.prayers.tabs.active, icon: const Icon(Icons.favorite)),
+              Tab(text: t.prayers.tabs.answered, icon: const Icon(Icons.check_circle)),
             ],
           ),
         ),
@@ -52,7 +52,7 @@ class _PrayersState extends State<Prayers> {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: _navigateToAdd,
           icon: const Icon(Icons.add),
-          label: const Text('New Prayer'),
+          label: Text(t.prayers.newPrayer),
         ),
       ),
     );
@@ -106,20 +106,21 @@ class _PrayerListState extends State<_PrayerList> {
   }
 
   Future<void> _deletePrayer(Prayer prayer) async {
+    final t = Translations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Prayer?'),
-        content: Text('Are you sure you want to delete "${prayer.title}"?'),
+        title: Text(t.prayers.delete.title),
+        content: Text(t.prayers.delete.confirm(title: prayer.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(t.common.delete),
           ),
         ],
       ),
@@ -144,12 +145,13 @@ class _PrayerListState extends State<_PrayerList> {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final diff = now.difference(date);
-    if (diff.inDays == 0) return 'Today';
-    if (diff.inDays == 1) return 'Yesterday';
-    if (diff.inDays < 7) return '${diff.inDays} days ago';
-    if (diff.inDays < 30) return '${diff.inDays ~/ 7} weeks ago';
-    if (diff.inDays < 365) return '${diff.inDays ~/ 30} months ago';
-    return '${diff.inDays ~/ 365} years ago';
+    final t = Translations.of(context);
+    if (diff.inDays == 0) return t.common.today;
+    if (diff.inDays == 1) return t.common.yesterday;
+    if (diff.inDays < 7) return t.common.daysAgo(count: diff.inDays);
+    if (diff.inDays < 30) return t.common.weeksAgo(count: diff.inDays ~/ 7);
+    if (diff.inDays < 365) return t.common.monthsAgo(count: diff.inDays ~/ 30);
+    return t.common.yearsAgo(count: diff.inDays ~/ 365);
   }
 
   @override
@@ -171,10 +173,10 @@ class _PrayerListState extends State<_PrayerList> {
             const SizedBox(height: 16),
             Text(
               widget.tab == 'unanswered'
-                  ? 'No unanswered prayers'
+                  ? t.prayers.empty.unanswered
                   : widget.tab == 'active'
-                      ? 'No active prayers'
-                      : 'No answered prayers yet',
+                      ? t.prayers.empty.active
+                      : t.prayers.empty.answered,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -182,8 +184,8 @@ class _PrayerListState extends State<_PrayerList> {
             const SizedBox(height: 8),
             Text(
               widget.tab == 'answered'
-                  ? 'Keep praying! God answers in His time.'
-                  : 'Tap + to add a new prayer',
+                  ? t.prayers.empty.keepPraying
+                  : t.prayers.empty.tapToAdd,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
                   ),
@@ -250,13 +252,13 @@ class _PrayerListState extends State<_PrayerList> {
                     IconButton(
                       icon: const Icon(Symbols.folded_hands),
                       onPressed: () => _markAsAnswered(prayer),
-                      tooltip: 'Mark Answered',
+                      tooltip: t.prayers.markAnswered,
                     ),
                   if (widget.tab != 'answered')
                     IconButton(
                       icon: const Icon(Icons.bookmark_border),
                       onPressed: () => _addToJournal(prayer),
-                      tooltip: 'Add to Journal',
+                      tooltip: t.prayers.addToJournal,
                     ),
                   PopupMenuButton<String>(
                     onSelected: (value) {
@@ -273,24 +275,24 @@ class _PrayerListState extends State<_PrayerList> {
                       }
                     },
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'edit',
                         child: Row(
                           children: [
-                            Icon(Icons.edit, size: 20),
-                            SizedBox(width: 8),
-                            Text('Edit'),
+                            const Icon(Icons.edit, size: 20),
+                            const SizedBox(width: 8),
+                            Text(t.common.edit),
                           ],
                         ),
                       ),
                       if (widget.tab != 'answered')
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: 'mark',
                           child: Row(
                             children: [
-                              Icon(Icons.check_circle, size: 20, color: Colors.green),
-                              SizedBox(width: 8),
-                              Text('Mark Answered'),
+                              const Icon(Icons.check_circle, size: 20, color: Colors.green),
+                              const SizedBox(width: 8),
+                              Text(t.prayers.markAnswered),
                             ],
                           ),
                         ),
@@ -298,9 +300,9 @@ class _PrayerListState extends State<_PrayerList> {
                         value: 'delete',
                         child: Row(
                           children: [
-                            Icon(Icons.delete, size: 20, color: Colors.red),
+                            const Icon(Icons.delete, size: 20, color: Colors.red),
                             const SizedBox(width: 8),
-                            Text('Delete', style: TextStyle(color: Colors.red)),
+                            Text(t.common.delete, style: const TextStyle(color: Colors.red)),
                           ],
                         ),
                       ),

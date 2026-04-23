@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart' as drift;
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show DashboardBlocksCompanion;
 
 class DashboardAdd extends StatelessWidget {
   const DashboardAdd({super.key});
 
   final List<Map<String, dynamic>> blockTypes = const [
     {
-      'name': 'Counter Block',
-      'description': 'Display a simple count of prayers',
+      'nameKey': 'counter',
       'icon': Icons.format_list_numbered,
     },
     {
-      'name': 'Streak Block',
-      'description': 'Show your prayer streak',
+      'nameKey': 'streak',
       'icon': Icons.local_fire_department,
     },
     {
-      'name': 'Chart Block',
-      'description': 'Visual chart of prayer statistics',
+      'nameKey': 'chart',
       'icon': Icons.pie_chart,
     },
     {
-      'name': 'Recent List',
-      'description': 'List of recent prayers',
+      'nameKey': 'list',
       'icon': Icons.list,
     },
     {
-      'name': 'Category Breakdown',
-      'description': 'Prayers grouped by category',
+      'nameKey': 'category',
       'icon': Icons.category,
     },
     {
-      'name': 'Answered Rate',
-      'description': 'Percentage of answered prayers',
+      'nameKey': 'rate',
       'icon': Icons.percent,
     },
   ];
@@ -48,14 +45,14 @@ class DashboardAdd extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Select Block Type',
+            t.dashboard.add.selectBlockType,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Choose a statistics block to add to your dashboard',
+            t.dashboard.add.selectBlockTypeSubtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -76,32 +73,44 @@ class DashboardAdd extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  title: Text(type['name'] as String),
-                  subtitle: Text(type['description'] as String),
+                  title: Text(_getBlockName(t, type['nameKey'] as String)),
+                  subtitle: Text(_getBlockDesc(t, type['nameKey'] as String)),
                   trailing: const Icon(Icons.add_circle_outline),
-                  onTap: () {},
+                  onTap: () async {
+                    final db = DatabaseProvider.instance;
+                    final existingBlocks = await db.getAllDashboardBlocks();
+                    await db.insertDashboardBlock(
+                      DashboardBlocksCompanion(
+                        type: drift.Value(type['nameKey'] as String),
+                        position: drift.Value(existingBlocks.length),
+                      ),
+                    );
+                    if (context.mounted) {
+                      Navigator.pop(context, true);
+                    }
+                  },
                 ),
               )),
           const SizedBox(height: 24),
           Card(
             color: Theme.of(context).colorScheme.primaryContainer,
-            child: const Padding(
-              padding: EdgeInsets.all(16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.lightbulb_outline),
-                      SizedBox(width: 8),
+                      const Icon(Icons.lightbulb_outline),
+                      const SizedBox(width: 8),
                       Text(
-                        'Tip',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        t.common.tip,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
-                  Text('You can rearrange blocks later using the Layout option in the menu.'),
+                  const SizedBox(height: 8),
+                  Text(t.dashboard.add.tipRearrange),
                 ],
               ),
             ),
@@ -109,5 +118,29 @@ class DashboardAdd extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getBlockName(Translations t, String key) {
+    switch (key) {
+      case 'counter': return t.dashboard.blockTypes.counter;
+      case 'streak': return t.dashboard.blockTypes.streak;
+      case 'chart': return t.dashboard.blockTypes.chart;
+      case 'list': return t.dashboard.blockTypes.list;
+      case 'category': return t.dashboard.blockTypes.category;
+      case 'rate': return t.dashboard.blockTypes.rate;
+      default: return key;
+    }
+  }
+
+  String _getBlockDesc(Translations t, String key) {
+    switch (key) {
+      case 'counter': return t.dashboard.blockTypes.counterDesc;
+      case 'streak': return t.dashboard.blockTypes.streakDesc;
+      case 'chart': return t.dashboard.blockTypes.chartDesc;
+      case 'list': return t.dashboard.blockTypes.listDesc;
+      case 'category': return t.dashboard.blockTypes.categoryDesc;
+      case 'rate': return t.dashboard.blockTypes.rateDesc;
+      default: return key;
+    }
   }
 }

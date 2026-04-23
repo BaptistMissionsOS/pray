@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show DashboardBlock;
 
 class DashboardLayout extends StatefulWidget {
   const DashboardLayout({super.key});
@@ -9,24 +11,53 @@ class DashboardLayout extends StatefulWidget {
 }
 
 class _DashboardLayoutState extends State<DashboardLayout> {
-  final List<Map<String, dynamic>> blocks = [
-    {'name': 'Total Prayers', 'type': 'Counter', 'icon': Icons.format_list_numbered},
-    {'name': 'Answered', 'type': 'Counter', 'icon': Icons.check_circle},
-    {'name': 'Unanswered', 'type': 'Counter', 'icon': Icons.pending},
-    {'name': 'Streak', 'type': 'Streak', 'icon': Icons.local_fire_department},
-    {'name': 'Weekly', 'type': 'Chart', 'icon': Icons.pie_chart},
-  ];
+  final db = DatabaseProvider.instance;
+  List<DashboardBlock> _blocks = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBlocks();
+  }
+
+  Future<void> _loadBlocks() async {
+    final blocks = await db.getAllDashboardBlocks();
+    if (mounted) {
+      setState(() {
+        _blocks = blocks;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _saveOrder() async {
+    await db.reorderDashboardBlocks(_blocks);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.dashboard.layout.orderSaved)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text(t.titles.dashboardLayout)),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(t.titles.dashboardLayout),
         actions: [
           TextButton(
-            onPressed: () {},
-            child: const Text('Save'),
+            onPressed: _saveOrder,
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -36,14 +67,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Arrange Blocks',
+              t.dashboard.layout.title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Drag and drop to reorder your dashboard blocks',
+              t.dashboard.layout.subtitle,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -51,16 +82,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             const SizedBox(height: 16),
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: const Padding(
-                padding: EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.info_outline, size: 20),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Long press and drag the handle to reorder',
-                        style: TextStyle(fontSize: 13),
+                        t.hints.reorder,
+                        style: const TextStyle(fontSize: 13),
                       ),
                     ),
                   ],
@@ -75,12 +106,12 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             if (newIndex > oldIndex) {
               newIndex--;
             }
-            final block = blocks.removeAt(oldIndex);
-            blocks.insert(newIndex, block);
+            final block = _blocks.removeAt(oldIndex);
+            _blocks.insert(newIndex, block);
           });
         },
-        children: blocks.map((block) => Card(
-              key: ValueKey(block['name']),
+        children: _blocks.map((block) => Card(
+              key: ValueKey(block.id),
               margin: const EdgeInsets.only(bottom: 8),
               child: ListTile(
                 leading: Container(
@@ -90,18 +121,43 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                     color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(
-                    block['icon'] as IconData,
-                    size: 20,
-                    color: Theme.of(context).colorScheme.primary,
+                  child: Center(
+                    child: Text(
+                      _getBlockIcon(block.type),
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
-                title: Text(block['name'] as String),
-                subtitle: Text(block['type'] as String),
+                title: Text(_getBlockName(t, block.type)),
+                subtitle: Text(block.type),
                 trailing: const Icon(Icons.drag_handle),
               ),
             )).toList(),
       ),
     );
+  }
+
+  String _getBlockIcon(String type) {
+    switch (type) {
+      case 'counter': return '#';
+      case 'streak': return '🔥';
+      case 'chart': return '📊';
+      case 'list': return '📋';
+      case 'category': return '🏷️';
+      case 'rate': return '%';
+      default: return type.substring(0, 1).toUpperCase();
+    }
+  }
+
+  String _getBlockName(Translations t, String type) {
+    switch (type) {
+      case 'counter': return t.dashboard.blockTypes.counter;
+      case 'streak': return t.dashboard.blockTypes.streak;
+      case 'chart': return t.dashboard.blockTypes.chart;
+      case 'list': return t.dashboard.blockTypes.list;
+      case 'category': return t.dashboard.blockTypes.category;
+      case 'rate': return t.dashboard.blockTypes.rate;
+      default: return type;
+    }
   }
 }

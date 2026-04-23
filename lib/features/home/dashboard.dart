@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../../app/i18n/strings.g.dart';
 import '../../core/db/db_provider.dart';
-import '../../core/db/database.dart' show PrayerActivityData;
+import '../../core/db/database.dart' show PrayerActivityData, DashboardBlock;
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -16,6 +16,7 @@ class _DashboardState extends State<Dashboard> {
   Map<String, int> _stats = {'total': 0, 'answered': 0, 'unanswered': 0, 'active': 0};
   int _streak = 0;
   List<PrayerActivityData> _weekActivity = [];
+  List<DashboardBlock> _blocks = [];
   bool _isLoading = true;
 
   @override
@@ -27,6 +28,7 @@ class _DashboardState extends State<Dashboard> {
   Future<void> _loadData() async {
     final stats = await db.getPrayerStats();
     final streak = await db.getCurrentStreak();
+    final blocks = await db.getAllDashboardBlocks();
     final now = DateTime.now();
     final weekStart = now.subtract(Duration(days: now.weekday - 1));
     final weekEnd = weekStart.add(const Duration(days: 6));
@@ -36,6 +38,7 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
         _stats = stats;
         _streak = streak;
+        _blocks = blocks;
         _weekActivity = activity;
         _isLoading = false;
       });
@@ -89,36 +92,36 @@ class _DashboardState extends State<Dashboard> {
               _buildStatBlock(
                 context,
                 icon: Symbols.folded_hands,
-                title: 'Total Prayers',
+                title: t.dashboard.stats.totalPrayers,
                 value: _stats['total'].toString(),
-                subtitle: 'All time prayers',
+                subtitle: t.dashboard.stats.allTimePrayers,
                 color: colorScheme.primary,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.check_circle,
-                title: 'Answered',
+                title: t.dashboard.stats.answered,
                 value: _stats['answered'].toString(),
-                subtitle: 'Prayers answered',
+                subtitle: t.dashboard.stats.prayersAnswered,
                 color: Colors.green,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.pending,
-                title: 'Unanswered',
+                title: t.dashboard.stats.unanswered,
                 value: _stats['unanswered'].toString(),
-                subtitle: 'Still praying',
+                subtitle: t.dashboard.stats.stillPraying,
                 color: Colors.orange,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.local_fire_department,
-                title: 'Streak',
+                title: t.dashboard.stats.streak,
                 value: _streak.toString(),
-                subtitle: 'Day prayer streak',
+                subtitle: t.dashboard.stats.dayPrayerStreak,
                 color: Colors.red,
               ),
               const SizedBox(height: 24),
@@ -129,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'This Week',
+                        t.dashboard.stats.thisWeek,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -153,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Quick Actions',
+                        t.dashboard.quickActions,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -165,7 +168,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildQuickAction(
                             context,
                             icon: Symbols.folded_hands,
-                            label: 'I Prayed Today',
+                            label: t.dashboard.iPrayedToday,
                             onTap: () async {
                               await db.recordPrayerActivity(DateTime.now(), prayed: true);
                               _loadData();
@@ -177,6 +180,18 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
+              if (_blocks.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                ..._blocks.asMap().entries.map((entry) {
+                  final block = entry.value;
+                  return Column(
+                    children: [
+                      _buildBlock(context, block),
+                      const SizedBox(height: 12),
+                    ],
+                  );
+                }),
+              ],
             ],
           ),
         ),
@@ -297,6 +312,66 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildBlock(BuildContext context, DashboardBlock block) {
+    final t = Translations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    IconData icon;
+    String title;
+    String value;
+    Color color;
+
+    switch (block.type) {
+      case 'counter':
+        icon = Icons.format_list_numbered;
+        title = t.dashboard.edit.blockNames.totalPrayers;
+        value = _stats['total'].toString();
+        color = colorScheme.primary;
+      case 'streak':
+        icon = Icons.local_fire_department;
+        title = t.dashboard.edit.blockNames.prayerStreak;
+        value = _streak.toString();
+        color = Colors.red;
+      case 'chart':
+        icon = Icons.pie_chart;
+        title = t.dashboard.edit.blockNames.weeklyActivity;
+        value = _weekActivity.where((a) => a.prayed).length.toString();
+        color = Colors.blue;
+      case 'list':
+        icon = Icons.list;
+        title = t.dashboard.blockTypes.list;
+        value = _stats['active'].toString();
+        color = Colors.purple;
+      case 'category':
+        icon = Icons.category;
+        title = t.dashboard.blockTypes.category;
+        value = _stats['answered'].toString();
+        color = Colors.green;
+      case 'rate':
+        icon = Icons.percent;
+        final rate = _stats['total']! > 0
+            ? ((_stats['answered']! / _stats['total']!) * 100).round()
+            : 0;
+        title = t.dashboard.blockTypes.rate;
+        value = '$rate%';
+        color = Colors.orange;
+      default:
+        icon = Icons.dashboard;
+        title = block.type;
+        value = '';
+        color = colorScheme.primary;
+    }
+
+    return _buildStatBlock(
+      context,
+      icon: icon,
+      title: title,
+      value: value,
+      subtitle: t.dashboard.edit.blockTypes.counter,
+      color: color,
     );
   }
 }

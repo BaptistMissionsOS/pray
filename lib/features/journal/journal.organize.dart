@@ -9,44 +9,7 @@ class JournalOrganize extends StatefulWidget {
 }
 
 class _JournalOrganizeState extends State<JournalOrganize> {
-  final List<Map<String, dynamic>> categories = [
-    {
-      'name': 'Answered Prayers',
-      'count': 5,
-      'color': Colors.green,
-      'icon': Icons.check_circle,
-    },
-    {
-      'name': 'Daily Devotion',
-      'count': 12,
-      'color': Colors.blue,
-      'icon': Icons.book,
-    },
-    {
-      'name': 'Health',
-      'count': 3,
-      'color': Colors.red,
-      'icon': Icons.favorite,
-    },
-    {
-      'name': 'Missions',
-      'count': 2,
-      'color': Colors.purple,
-      'icon': Icons.public,
-    },
-    {
-      'name': 'Family',
-      'count': 8,
-      'color': Colors.orange,
-      'icon': Icons.family_restroom,
-    },
-    {
-      'name': 'Uncategorized',
-      'count': 4,
-      'color': Colors.grey,
-      'icon': Icons.folder_open,
-    },
-  ];
+  final List<Map<String, dynamic>> categories = [];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +20,7 @@ class _JournalOrganizeState extends State<JournalOrganize> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -67,14 +30,14 @@ class _JournalOrganizeState extends State<JournalOrganize> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Organize Categories',
+              t.journal.categories.organizeTitle,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Drag to reorder categories. Tap to edit or delete.',
+              t.journal.categories.organizeSubtitle,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -82,16 +45,16 @@ class _JournalOrganizeState extends State<JournalOrganize> {
             const SizedBox(height: 16),
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: const Padding(
-                padding: EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.info_outline, size: 20),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Long press and drag the handle to reorder categories',
-                        style: TextStyle(fontSize: 13),
+                        t.hints.reorderCategories,
+                        style: const TextStyle(fontSize: 13),
                       ),
                     ),
                   ],
@@ -127,8 +90,8 @@ class _JournalOrganizeState extends State<JournalOrganize> {
                     size: 20,
                   ),
                 ),
-                title: Text(category['name'] as String),
-                subtitle: Text('${category['count']} entries'),
+                title: Text(_getCategoryLabel(t, category['name'] as String)),
+                subtitle: Text(t.journal.categories.entriesCount(count: category['count'])),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -136,7 +99,7 @@ class _JournalOrganizeState extends State<JournalOrganize> {
                       icon: const Icon(Icons.edit, size: 20),
                       onPressed: () => _showEditCategoryDialog(context, category),
                     ),
-                    if (category['name'] != 'Uncategorized')
+                    if (category['name'] != t.journal.categories.uncategorized)
                       IconButton(
                         icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
                         onPressed: () => _showDeleteCategoryDialog(context, category),
@@ -150,45 +113,45 @@ class _JournalOrganizeState extends State<JournalOrganize> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddCategoryDialog(context),
         icon: const Icon(Icons.add),
-        label: const Text('New Category'),
+        label: Text(t.journal.categories.addNew),
       ),
     );
   }
 
   void _showAddCategoryDialog(BuildContext context) {
     final textController = TextEditingController();
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add New Category'),
+        title: Text(t.journal.categories.addNew),
         content: TextField(
           controller: textController,
-          decoration: const InputDecoration(
-            labelText: 'Category Name',
-            border: OutlineInputBorder(),
-            hintText: 'e.g., Spiritual Growth',
+          decoration: InputDecoration(
+            labelText: t.journal.categories.categoryNameLabel,
+            hintText: t.journal.categories.categoryNameHint,
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           ElevatedButton(
             onPressed: () {
               if (textController.text.isNotEmpty) {
                 setState(() {
                   categories.add({
+                    'id': DateTime.now().millisecondsSinceEpoch.toString(),
                     'name': textController.text,
-                    'count': 0,
-                    'color': Colors.blue,
-                    'icon': Icons.folder,
+                    'order': categories.length,
                   });
                 });
               }
               Navigator.pop(context);
             },
-            child: const Text('Add'),
+            child: Text(t.common.add),
           ),
         ],
       ),
@@ -197,27 +160,28 @@ class _JournalOrganizeState extends State<JournalOrganize> {
 
   void _showEditCategoryDialog(BuildContext context, Map<String, dynamic> category) {
     final textController = TextEditingController(text: category['name'] as String);
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Edit Category'),
+        title: Text(t.journal.actions.edit),
         content: TextField(
           controller: textController,
-          decoration: const InputDecoration(
-            labelText: 'Category Name',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            labelText: t.journal.categories.categoryNameLabel,
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -225,17 +189,21 @@ class _JournalOrganizeState extends State<JournalOrganize> {
   }
 
   void _showDeleteCategoryDialog(BuildContext context, Map<String, dynamic> category) {
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Category?'),
+        title: Text(t.common.deleteConfirmTitle),
         content: Text(
-          'Are you sure you want to delete "${category['name']}"?\n\nEntries in this category will be moved to "Uncategorized".',
+          t.journal.categories.deleteConfirm(
+            name: category['name'],
+            fallback: t.journal.categories.uncategorized,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -245,10 +213,22 @@ class _JournalOrganizeState extends State<JournalOrganize> {
               Navigator.pop(context);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(t.common.delete),
           ),
         ],
       ),
     );
+  }
+
+  String _getCategoryLabel(Translations t, String name) {
+    switch (name) {
+      case 'Answered Prayers': return t.journal.categories.answeredPrayers;
+      case 'Daily Devotion': return t.journal.categories.dailyDevotion;
+      case 'Health': return t.journal.categories.health;
+      case 'Missions': return t.journal.categories.missions;
+      case 'Family': return t.journal.categories.family;
+      case 'Uncategorized': return t.journal.categories.uncategorized;
+      default: return name;
+    }
   }
 }

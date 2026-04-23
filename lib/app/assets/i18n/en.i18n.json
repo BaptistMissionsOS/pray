@@ -38,12 +38,21 @@
     },
     "options": {
       "theme": "Theme",
+      "themeSubtitle": "System default",
       "dailyReminder": "Daily Reminder",
+      "dailyReminderSubtitle": "Remind me to pray daily",
       "defaultView": "Default View",
+      "defaultViewSubtitle": "Show all statistics",
       "autoArchive": "Auto-archive Answered",
+      "autoArchiveSubtitle": "Move answered prayers to archive after 7 days",
+      "defaultFilter": "Default Filter",
+      "defaultFilterSubtitle": "Show active prayers",
       "privateMode": "Private Mode",
+      "privateModeSubtitle": "Require authentication to view journal",
       "backupRestore": "Backup & Restore",
-      "clearData": "Clear All Data"
+      "backupRestoreSubtitle": "Export or import your data",
+      "clearData": "Clear All Data",
+      "clearDataConfirm": "This will permanently delete all your prayers and journal entries. This action cannot be undone."
     }
   },
   "titles": {
@@ -88,20 +97,67 @@
   "dashboard": {
     "stats": {
       "totalPrayers": "Total Prayers",
+      "allTimePrayers": "All time prayers",
       "answered": "Answered",
+      "prayersAnswered": "Prayers answered",
       "unanswered": "Unanswered",
+      "stillPraying": "Still praying",
       "streak": "Day Streak",
+      "dayPrayerStreak": "Day prayer streak",
       "thisWeek": "This Week",
       "thisMonth": "This Month"
     },
     "empty": "No statistics yet. Add blocks to see your prayer stats.",
+    "quickActions": "Quick Actions",
+    "iPrayedToday": "I Prayed Today",
+    "add": {
+      "selectBlockType": "Select Block Type",
+      "selectBlockTypeSubtitle": "Choose a statistics block to add to your dashboard",
+      "tipRearrange": "You can rearrange blocks later using the Layout option in the menu."
+    },
+    "edit": {
+      "title": "Edit Dashboard Blocks",
+      "subtitle": "Tap a block to edit its settings or remove it",
+      "typeLabel": "Type",
+      "blockNames": {
+        "totalPrayers": "Total Prayers",
+        "answeredPrayers": "Answered Prayers",
+        "unanswered": "Unanswered",
+        "prayerStreak": "Prayer Streak",
+        "weeklyActivity": "Weekly Activity"
+      },
+      "blockTypes": {
+        "counter": "Counter",
+        "streak": "Streak",
+        "chart": "Chart"
+      }
+    },
+    "layout": {
+      "title": "Arrange Blocks",
+      "subtitle": "Drag and drop to reorder your dashboard blocks",
+      "empty": "No blocks yet. Add your first block!",
+      "orderSaved": "Order saved",
+      "blockNames": {
+        "totalPrayers": "Total Prayers",
+        "answered": "Answered",
+        "unanswered": "Unanswered",
+        "streak": "Streak",
+        "weekly": "Weekly"
+      }
+    },
     "blockTypes": {
       "counter": "Counter Block",
+      "counterDesc": "Display a simple count of prayers",
       "streak": "Streak Block",
+      "streakDesc": "Show your prayer streak",
       "chart": "Chart Block",
+      "chartDesc": "Visual chart of prayer statistics",
       "list": "Recent List",
+      "listDesc": "List of recent prayers",
       "category": "Category Breakdown",
-      "rate": "Answered Rate"
+      "categoryDesc": "Prayers grouped by category",
+      "rate": "Answered Rate",
+      "rateDesc": "Percentage of answered prayers"
     }
   },
   "prayers": {
@@ -110,12 +166,19 @@
       "active": "Active",
       "answered": "Answered"
     },
+    "newPrayer": "New Prayer",
     "addToJournal": "Add to Journal",
     "markAnswered": "Mark Answered",
     "empty": {
       "unanswered": "No unanswered prayers",
       "active": "No active prayers",
-      "answered": "No answered prayers yet"
+      "answered": "No answered prayers yet",
+      "keepPraying": "Keep praying! God answers in His time.",
+      "tapToAdd": "Tap + to add a new prayer"
+    },
+    "delete": {
+      "title": "Delete Prayer?",
+      "confirm": "Are you sure you want to delete \"{title}\"?"
     },
     "form": {
       "title": "Title",
@@ -125,14 +188,33 @@
       "date": "Date",
       "tags": "Tags",
       "save": "Save Prayer",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "titleRequired": "Please enter a title",
+      "descriptionRequired": "Please enter a description"
+    },
+    "edit": {
+      "title": "Edit Prayer"
+    },
+    "categories": {
+      "family": "Family",
+      "health": "Health",
+      "finances": "Finances",
+      "work": "Work/Career",
+      "spiritual": "Spiritual Growth",
+      "friends": "Friends",
+      "missions": "Missions",
+      "other": "Other"
     },
     "share": {
       "selectAll": "Select All",
       "selected": "selected",
+      "selectedCount": "({count})",
       "exportFormat": "Export Format",
       "copy": "Copy",
-      "share": "Share"
+      "share": "Share",
+      "text": "Text",
+      "json": "JSON",
+      "csv": "CSV"
     }
   },
   "journal": {
@@ -141,12 +223,32 @@
     "categories": {
       "title": "Categories",
       "uncategorized": "Uncategorized",
-      "addNew": "New Category"
+      "addNew": "New Category",
+      "defaultCategory": "Default Category",
+      "answeredPrayers": "Answered Prayers",
+      "dailyDevotion": "Daily Devotion",
+      "health": "Health",
+      "missions": "Missions",
+      "family": "Family",
+      "spiritualGrowth": "Spiritual Growth",
+      "other": "Other",
+      "work": "Work/Career",
+      "organizeTitle": "Organize Categories",
+      "organizeSubtitle": "Drag to reorder categories. Tap to edit or delete.",
+      "entriesCount": "{count} entries",
+      "categoryNameLabel": "Category Name",
+      "categoryNameHint": "Enter category name",
+      "deleteConfirm": "Are you sure you want to delete \"{name}\"?\n\nEntries in this category will be moved to \"{fallback}\"."
     },
     "form": {
       "title": "Title",
+      "titleHint": "Give your entry a title...",
+      "titleRequired": "Please enter a title",
       "content": "Content",
+      "contentHint": "Write about your prayer experience, thoughts, or answered prayers...",
+      "contentRequired": "Please enter some content",
       "relatedPrayer": "Related Prayer (Optional)",
+      "relatedPrayerHint": "Select a prayer this entry relates to",
       "category": "Category",
       "date": "Date",
       "mood": "How are you feeling?",
@@ -175,6 +277,35 @@
     "confirm": "Confirm",
     "yes": "Yes",
     "no": "No",
-    "tip": "Tip"
+    "tip": "Tip",
+    "none": "None",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "daysAgo": "{count} days ago",
+    "weeksAgo": "{count} weeks ago",
+    "monthsAgo": "{count} months ago",
+    "yearsAgo": "{count} years ago",
+    "deleteConfirmTitle": "Delete?",
+    "clearConfirmTitle": "Clear All Data?",
+    "dataCleared": "All data cleared"
+  },
+  "hints": {
+    "prayerTip": "You can change the status to \"Answered\" anytime to track how God moves!",
+    "journalTip": "Journaling helps you reflect on your spiritual journey and see how God is working in your life.",
+    "reorder": "Long press and drag the handle to reorder",
+    "reorderCategories": "Long press and drag the handle to reorder categories"
+  },
+  "moods": {
+    "grateful": "Grateful",
+    "peaceful": "Peaceful",
+    "hopeful": "Hopeful",
+    "excited": "Excited",
+    "anxious": "Anxious",
+    "sad": "Sad"
+  },
+  "status": {
+    "unanswered": "Unanswered",
+    "active": "Active",
+    "answered": "Answered"
   }
 }
