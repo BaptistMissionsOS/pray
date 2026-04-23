@@ -704,6 +704,12 @@ class TranslationsDashboardLayoutEn {
 	/// en: 'Drag and drop to reorder your dashboard blocks'
 	String get subtitle => 'Drag and drop to reorder your dashboard blocks';
 
+	/// en: 'No blocks yet. Add your first block!'
+	String get empty => 'No blocks yet. Add your first block!';
+
+	/// en: 'Order saved'
+	String get orderSaved => 'Order saved';
+
 	late final TranslationsDashboardLayoutBlockNamesEn blockNames = TranslationsDashboardLayoutBlockNamesEn.internal(_root);
 }
 
@@ -1230,6 +1236,8 @@ extension on Translations {
 			'dashboard.edit.blockTypes.chart' => 'Chart',
 			'dashboard.layout.title' => 'Arrange Blocks',
 			'dashboard.layout.subtitle' => 'Drag and drop to reorder your dashboard blocks',
+			'dashboard.layout.empty' => 'No blocks yet. Add your first block!',
+			'dashboard.layout.orderSaved' => 'Order saved',
 			'dashboard.layout.blockNames.totalPrayers' => 'Total Prayers',
 			'dashboard.layout.blockNames.answered' => 'Answered',
 			'dashboard.layout.blockNames.unanswered' => 'Unanswered',

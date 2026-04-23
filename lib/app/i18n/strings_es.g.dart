@@ -426,6 +426,8 @@ class _TranslationsDashboardLayoutEs extends TranslationsDashboardLayoutEn {
 	// Translations
 	@override String get title => 'Organizar Bloques';
 	@override String get subtitle => 'Arrastra y suelta para reordenar los bloques del panel';
+	@override String get empty => 'Aún no hay bloques. ¡Agrega tu primer bloque!';
+	@override String get orderSaved => 'Orden guardado';
 	@override late final _TranslationsDashboardLayoutBlockNamesEs blockNames = _TranslationsDashboardLayoutBlockNamesEs._(_root);
 }
 
@@ -758,6 +760,8 @@ extension on TranslationsEs {
 			'dashboard.edit.blockTypes.chart' => 'Gráfico',
 			'dashboard.layout.title' => 'Organizar Bloques',
 			'dashboard.layout.subtitle' => 'Arrastra y suelta para reordenar los bloques del panel',
+			'dashboard.layout.empty' => 'Aún no hay bloques. ¡Agrega tu primer bloque!',
+			'dashboard.layout.orderSaved' => 'Orden guardado',
 			'dashboard.layout.blockNames.totalPrayers' => 'Oraciones Totales',
 			'dashboard.layout.blockNames.answered' => 'Respondidas',
 			'dashboard.layout.blockNames.unanswered' => 'Sin Responder',

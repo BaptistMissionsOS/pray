@@ -135,6 +135,8 @@
     "layout": {
       "title": "Arrange Blocks",
       "subtitle": "Drag and drop to reorder your dashboard blocks",
+      "empty": "No blocks yet. Add your first block!",
+      "orderSaved": "Order saved",
       "blockNames": {
         "totalPrayers": "Total Prayers",
         "answered": "Answered",

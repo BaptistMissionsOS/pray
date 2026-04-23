@@ -46,12 +46,19 @@ class PrayerActivity extends Table {
   List<String> get customConstraints => ['UNIQUE(date)'];
 }
 
-@DriftDatabase(tables: [Preferences, Prayers, JournalEntries, PrayerActivity])
+class DashboardBlocks extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get type => text()(); // 'counter', 'streak', 'chart', 'list', 'category', 'rate'
+  IntColumn get position => integer().withDefault(const Constant(0))();
+  TextColumn get settings => text().nullable()(); // JSON-encoded settings for the block
+}
+
+@DriftDatabase(tables: [Preferences, Prayers, JournalEntries, PrayerActivity, DashboardBlocks])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -63,6 +70,9 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(prayers);
         await m.createTable(journalEntries);
         await m.createTable(prayerActivity);
+      }
+      if (from < 3) {
+        await m.createTable(dashboardBlocks);
       }
     },
   );
@@ -200,6 +210,32 @@ class AppDatabase extends _$AppDatabase {
     await delete(journalEntries).go();
     await delete(prayerActivity).go();
     await delete(preferences).go();
+    await delete(dashboardBlocks).go();
+  }
+
+  // Dashboard Blocks
+  Future<List<DashboardBlock>> getAllDashboardBlocks() =>
+      (select(dashboardBlocks)..orderBy([(b) => OrderingTerm(expression: b.position)])).get();
+
+  Future<int> insertDashboardBlock(DashboardBlocksCompanion block) =>
+      into(dashboardBlocks).insert(block);
+
+  Future<bool> updateDashboardBlock(DashboardBlock block) =>
+      update(dashboardBlocks).replace(block);
+
+  Future<int> deleteDashboardBlock(int id) =>
+      (delete(dashboardBlocks)..where((b) => b.id.equals(id))).go();
+
+  Future<void> reorderDashboardBlocks(List<DashboardBlock> blocks) async {
+    await batch((batch) {
+      for (var i = 0; i < blocks.length; i++) {
+        batch.update(
+          dashboardBlocks,
+          DashboardBlocksCompanion(position: Value(i)),
+          where: (b) => b.id.equals(blocks[i].id),
+        );
+      }
+    });
   }
 }
 

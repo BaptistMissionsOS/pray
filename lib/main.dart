@@ -99,12 +99,13 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
+  int _dashboardRefresh = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<Widget> _pages = const [
-    Dashboard(),
-    Prayers(),
-    Journal(),
+  List<Widget> get _pages => [
+    Dashboard(key: ValueKey(_dashboardRefresh)),
+    const Prayers(),
+    const Journal(),
   ];
 
   void _onTap(int index) {
@@ -193,12 +194,18 @@ class _MainNavigationState extends State<MainNavigation> {
                 ListTile(
                   leading: const Icon(Icons.add),
                   title: Text(t.drawer.actions.add),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    Navigator.push(
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const DashboardAdd()),
                     );
+                    if (result == true) {
+                      // Trigger rebuild to refresh dashboard
+                      setState(() {
+                        _dashboardRefresh++;
+                      });
+                    }
                   },
                 ),
                 ListTile(

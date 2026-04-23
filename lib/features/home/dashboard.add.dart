@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart' as drift;
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show DashboardBlocksCompanion;
 
 class DashboardAdd extends StatelessWidget {
   const DashboardAdd({super.key});
@@ -73,7 +76,19 @@ class DashboardAdd extends StatelessWidget {
                   title: Text(_getBlockName(t, type['nameKey'] as String)),
                   subtitle: Text(_getBlockDesc(t, type['nameKey'] as String)),
                   trailing: const Icon(Icons.add_circle_outline),
-                  onTap: () {},
+                  onTap: () async {
+                    final db = DatabaseProvider.instance;
+                    final existingBlocks = await db.getAllDashboardBlocks();
+                    await db.insertDashboardBlock(
+                      DashboardBlocksCompanion(
+                        type: drift.Value(type['nameKey'] as String),
+                        position: drift.Value(existingBlocks.length),
+                      ),
+                    );
+                    if (context.mounted) {
+                      Navigator.pop(context, true);
+                    }
+                  },
                 ),
               )),
           const SizedBox(height: 24),

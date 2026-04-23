@@ -135,6 +135,8 @@
     "layout": {
       "title": "Organizar Bloques",
       "subtitle": "Arrastra y suelta para reordenar los bloques del panel",
+      "empty": "Aún no hay bloques. ¡Agrega tu primer bloque!",
+      "orderSaved": "Orden guardado",
       "blockNames": {
         "totalPrayers": "Oraciones Totales",
         "answered": "Respondidas",
