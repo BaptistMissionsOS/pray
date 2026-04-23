@@ -148,8 +148,6 @@
     "blockTypes": {
       "counter": "Counter Block",
       "counterDesc": "Display a simple count of prayers",
-      "streak": "Streak Block",
-      "streakDesc": "Show your prayer streak",
       "chart": "Chart Block",
       "chartDesc": "Visual chart of prayer statistics",
       "list": "Recent List",
@@ -157,7 +155,11 @@
       "category": "Category Breakdown",
       "categoryDesc": "Prayers grouped by category",
       "rate": "Answered Rate",
-      "rateDesc": "Percentage of answered prayers"
+      "rateDesc": "Percentage of answered prayers",
+      "reminder": "Prayer Reminders",
+      "reminderDesc": "Active prayer reminders",
+      "goals": "Prayer Goals",
+      "goalsDesc": "Your prayer goals and targets"
     }
   },
   "prayers": {

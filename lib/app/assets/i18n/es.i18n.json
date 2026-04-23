@@ -148,8 +148,6 @@
     "blockTypes": {
       "counter": "Bloque Contador",
       "counterDesc": "Muestra un conteo simple de oraciones",
-      "streak": "Bloque Racha",
-      "streakDesc": "Muestra tu racha de oración",
       "chart": "Bloque Gráfico",
       "chartDesc": "Gráfico visual de estadísticas de oración",
       "list": "Lista Reciente",
@@ -157,7 +155,11 @@
       "category": "Desglose por Categoría",
       "categoryDesc": "Oraciones agrupadas por categoría",
       "rate": "Tasa de Respuestas",
-      "rateDesc": "Porcentaje de oraciones respondidas"
+      "rateDesc": "Porcentaje de oraciones respondidas",
+      "reminder": "Recordatorios de Oración",
+      "reminderDesc": "Recordatorios de oración activos",
+      "goals": "Metas de Oración",
+      "goalsDesc": "Tus metas y objetivos de oración"
     }
   },
   "prayers": {

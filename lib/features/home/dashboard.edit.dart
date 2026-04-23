@@ -146,11 +146,12 @@ class _DashboardEditState extends State<DashboardEdit> {
   String _getBlockTypeLabel(String type) {
     switch (type) {
       case 'counter': return '#'.toUpperCase();
-      case 'streak': return '🔥';
       case 'chart': return '📊';
-      case 'list': return '📋';
+      case 'list': return '�';
       case 'category': return '🏷️';
       case 'rate': return '%';
+      case 'reminder': return '🔔';
+      case 'goals': return '🎯';
       default: return type.substring(0, 1).toUpperCase();
     }
   }
@@ -158,11 +159,12 @@ class _DashboardEditState extends State<DashboardEdit> {
   String _getBlockName(Translations t, String type) {
     switch (type) {
       case 'counter': return t.dashboard.blockTypes.counter;
-      case 'streak': return t.dashboard.blockTypes.streak;
       case 'chart': return t.dashboard.blockTypes.chart;
       case 'list': return t.dashboard.blockTypes.list;
       case 'category': return t.dashboard.blockTypes.category;
       case 'rate': return t.dashboard.blockTypes.rate;
+      case 'reminder': return t.dashboard.blockTypes.reminder;
+      case 'goals': return t.dashboard.blockTypes.goals;
       default: return type;
     }
   }
@@ -170,8 +172,12 @@ class _DashboardEditState extends State<DashboardEdit> {
   String _getBlockTypeName(Translations t, String type) {
     switch (type) {
       case 'counter': return t.dashboard.edit.blockTypes.counter;
-      case 'streak': return t.dashboard.edit.blockTypes.streak;
       case 'chart': return t.dashboard.edit.blockTypes.chart;
+      case 'list': return t.dashboard.edit.blockTypes.counter;
+      case 'category': return t.dashboard.edit.blockTypes.counter;
+      case 'rate': return t.dashboard.edit.blockTypes.counter;
+      case 'reminder': return t.dashboard.blockTypes.reminderDesc;
+      case 'goals': return t.dashboard.blockTypes.goalsDesc;
       default: return type;
     }
   }

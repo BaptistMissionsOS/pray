@@ -48,17 +48,55 @@ class PrayerActivity extends Table {
 
 class DashboardBlocks extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get type => text()(); // 'counter', 'streak', 'chart', 'list', 'category', 'rate'
+  TextColumn get type => text()(); // 'counter', 'streak', 'chart', 'list', 'category', 'rate', 'reminder', 'goals'
   IntColumn get position => integer().withDefault(const Constant(0))();
   TextColumn get settings => text().nullable()(); // JSON-encoded settings for the block
 }
 
-@DriftDatabase(tables: [Preferences, Prayers, JournalEntries, PrayerActivity, DashboardBlocks])
+class PrayerReminders extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get description => text().nullable()();
+  DateTimeColumn get scheduledTime => dateTime()();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+class PrayerGoals extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get description => text().nullable()();
+  IntColumn get targetCount => integer()(); // e.g., pray 100 times
+  IntColumn get currentCount => integer().withDefault(const Constant(0))();
+  DateTimeColumn get deadline => dateTime().nullable()();
+  BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+class PrayerTags extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get color => text().nullable()(); // hex color like "#FF5733"
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  List<String> get customConstraints => ['UNIQUE(name)'];
+}
+
+class PrayerTagRelations extends Table {
+  IntColumn get prayerId => integer().references(Prayers, #id, onDelete: KeyAction.cascade)();
+  IntColumn get tagId => integer().references(PrayerTags, #id, onDelete: KeyAction.cascade)();
+
+  @override
+  Set<Column> get primaryKey => {prayerId, tagId};
+}
+
+@DriftDatabase(tables: [Preferences, Prayers, JournalEntries, PrayerActivity, DashboardBlocks, PrayerReminders, PrayerGoals, PrayerTags, PrayerTagRelations])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -73,6 +111,14 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 3) {
         await m.createTable(dashboardBlocks);
+      }
+      if (from < 4) {
+        await m.createTable(prayerReminders);
+        await m.createTable(prayerGoals);
+      }
+      if (from < 5) {
+        await m.createTable(prayerTags);
+        await m.createTable(prayerTagRelations);
       }
     },
   );
@@ -211,6 +257,124 @@ class AppDatabase extends _$AppDatabase {
     await delete(prayerActivity).go();
     await delete(preferences).go();
     await delete(dashboardBlocks).go();
+    await delete(prayerReminders).go();
+    await delete(prayerGoals).go();
+    await delete(prayerTagRelations).go();
+    await delete(prayerTags).go();
+  }
+
+  // Prayer Tags
+  Future<List<PrayerTag>> getAllTags() => select(prayerTags).get();
+
+  Future<int> insertTag(PrayerTagsCompanion tag) => into(prayerTags).insert(tag);
+
+  Future<bool> updateTag(PrayerTag tag) => update(prayerTags).replace(tag);
+
+  Future<int> deleteTag(int id) =>
+      (delete(prayerTags)..where((t) => t.id.equals(id))).go();
+
+  // Prayer-Tag Relations
+  Future<List<PrayerTag>> getTagsForPrayer(int prayerId) async {
+    final query = select(prayerTags).join([
+      innerJoin(
+        prayerTagRelations,
+        prayerTagRelations.tagId.equalsExp(prayerTags.id),
+      ),
+    ])
+      ..where(prayerTagRelations.prayerId.equals(prayerId));
+
+    return query.map((row) => row.readTable(prayerTags)).get();
+  }
+
+  Future<List<Prayer>> getPrayersForTag(int tagId) async {
+    final query = select(prayers).join([
+      innerJoin(
+        prayerTagRelations,
+        prayerTagRelations.prayerId.equalsExp(prayers.id),
+      ),
+    ])
+      ..where(prayerTagRelations.tagId.equals(tagId));
+
+    return query.map((row) => row.readTable(prayers)).get();
+  }
+
+  Future<void> addTagToPrayer(int prayerId, int tagId) async {
+    await into(prayerTagRelations).insertOnConflictUpdate(
+      PrayerTagRelationsCompanion(
+        prayerId: Value(prayerId),
+        tagId: Value(tagId),
+      ),
+    );
+  }
+
+  Future<void> removeTagFromPrayer(int prayerId, int tagId) async {
+    await (delete(prayerTagRelations)
+          ..where((r) => r.prayerId.equals(prayerId) & r.tagId.equals(tagId)))
+        .go();
+  }
+
+  Future<void> setPrayerTags(int prayerId, List<int> tagIds) async {
+    // Remove existing tags
+    await (delete(prayerTagRelations)
+          ..where((r) => r.prayerId.equals(prayerId)))
+        .go();
+    // Add new tags
+    for (final tagId in tagIds) {
+      await into(prayerTagRelations).insert(
+        PrayerTagRelationsCompanion(
+          prayerId: Value(prayerId),
+          tagId: Value(tagId),
+        ),
+      );
+    }
+  }
+
+  // Prayer Reminders
+  Future<List<PrayerReminder>> getActiveReminders() =>
+      (select(prayerReminders)..where((r) => r.isActive.equals(true))).get();
+
+  Future<int> getActiveReminderCount() async {
+    final reminders = await getActiveReminders();
+    return reminders.length;
+  }
+
+  Future<int> insertPrayerReminder(PrayerRemindersCompanion reminder) =>
+      into(prayerReminders).insert(reminder);
+
+  Future<bool> updatePrayerReminder(PrayerReminder reminder) =>
+      update(prayerReminders).replace(reminder);
+
+  Future<int> deletePrayerReminder(int id) =>
+      (delete(prayerReminders)..where((r) => r.id.equals(id))).go();
+
+  // Prayer Goals
+  Future<List<PrayerGoal>> getActiveGoals() =>
+      (select(prayerGoals)..where((g) => g.isCompleted.equals(false))).get();
+
+  Future<int> getActiveGoalCount() async {
+    final goals = await getActiveGoals();
+    return goals.length;
+  }
+
+  Future<int> insertPrayerGoal(PrayerGoalsCompanion goal) =>
+      into(prayerGoals).insert(goal);
+
+  Future<bool> updatePrayerGoal(PrayerGoal goal) =>
+      update(prayerGoals).replace(goal);
+
+  Future<int> deletePrayerGoal(int id) =>
+      (delete(prayerGoals)..where((g) => g.id.equals(id))).go();
+
+  Future<void> incrementGoalProgress(int goalId) async {
+    final goal = await (select(prayerGoals)..where((g) => g.id.equals(goalId))).getSingle();
+    final newCount = goal.currentCount + 1;
+    final isCompleted = newCount >= goal.targetCount;
+    await update(prayerGoals).replace(
+      goal.copyWith(
+        currentCount: newCount,
+        isCompleted: isCompleted,
+      ),
+    );
   }
 
   // Dashboard Blocks

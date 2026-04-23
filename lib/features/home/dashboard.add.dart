@@ -13,10 +13,6 @@ class DashboardAdd extends StatelessWidget {
       'icon': Icons.format_list_numbered,
     },
     {
-      'nameKey': 'streak',
-      'icon': Icons.local_fire_department,
-    },
-    {
       'nameKey': 'chart',
       'icon': Icons.pie_chart,
     },
@@ -31,6 +27,14 @@ class DashboardAdd extends StatelessWidget {
     {
       'nameKey': 'rate',
       'icon': Icons.percent,
+    },
+    {
+      'nameKey': 'reminder',
+      'icon': Icons.notifications_active,
+    },
+    {
+      'nameKey': 'goals',
+      'icon': Icons.flag,
     },
   ];
 
@@ -123,11 +127,12 @@ class DashboardAdd extends StatelessWidget {
   String _getBlockName(Translations t, String key) {
     switch (key) {
       case 'counter': return t.dashboard.blockTypes.counter;
-      case 'streak': return t.dashboard.blockTypes.streak;
       case 'chart': return t.dashboard.blockTypes.chart;
       case 'list': return t.dashboard.blockTypes.list;
       case 'category': return t.dashboard.blockTypes.category;
       case 'rate': return t.dashboard.blockTypes.rate;
+      case 'reminder': return t.dashboard.blockTypes.reminder;
+      case 'goals': return t.dashboard.blockTypes.goals;
       default: return key;
     }
   }
@@ -135,11 +140,12 @@ class DashboardAdd extends StatelessWidget {
   String _getBlockDesc(Translations t, String key) {
     switch (key) {
       case 'counter': return t.dashboard.blockTypes.counterDesc;
-      case 'streak': return t.dashboard.blockTypes.streakDesc;
       case 'chart': return t.dashboard.blockTypes.chartDesc;
       case 'list': return t.dashboard.blockTypes.listDesc;
       case 'category': return t.dashboard.blockTypes.categoryDesc;
       case 'rate': return t.dashboard.blockTypes.rateDesc;
+      case 'reminder': return t.dashboard.blockTypes.reminderDesc;
+      case 'goals': return t.dashboard.blockTypes.goalsDesc;
       default: return key;
     }
   }
