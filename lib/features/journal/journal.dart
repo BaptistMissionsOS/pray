@@ -1,47 +1,73 @@
 import 'package:flutter/material.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show JournalEntry, Prayer;
+import 'journal.add.dart';
+import 'journal.edit.dart';
 
-class Journal extends StatelessWidget {
+class Journal extends StatefulWidget {
   const Journal({super.key});
 
-  final List<Map<String, dynamic>> journalEntries = const [
-    {
-      'id': 1,
-      'title': 'Answered Prayer - Job Offer!',
-      'content': 'Today I received the job offer I have been praying about for months. God is faithful! The position is exactly what I asked for, and the salary is even better than expected.',
-      'date': 'Today, 10:30 AM',
-      'category': 'Answered Prayers',
-      'relatedPrayer': 'Job Interview',
-      'mood': 'Grateful',
-    },
-    {
-      'id': 2,
-      'title': 'Morning Reflection',
-      'content': 'Spent time in prayer this morning. Feeling peaceful about the upcoming decisions. God reminded me of His promise in Philippians 4:6-7.',
-      'date': 'Yesterday, 8:00 AM',
-      'category': 'Daily Devotion',
-      'relatedPrayer': 'Daily Devotion',
-      'mood': 'Peaceful',
-    },
-    {
-      'id': 3,
-      'title': 'Praying for Mom\'s Healing',
-      'content': 'Visited mom at the hospital today. She is in good spirits despite the surgery. The doctors are optimistic about her recovery. Thank you, Lord, for your healing touch.',
-      'date': '3 days ago',
-      'category': 'Health',
-      'relatedPrayer': 'Healing for Mom',
-      'mood': 'Hopeful',
-    },
-    {
-      'id': 4,
-      'title': 'Mission Trip Preparation',
-      'content': 'Met with the team today to plan the summer mission trip. We have raised 70% of our goal! God is providing through the generosity of our church family.',
-      'date': '1 week ago',
-      'category': 'Missions',
-      'relatedPrayer': 'Mission Trip',
-      'mood': 'Excited',
-    },
-  ];
+  @override
+  State<Journal> createState() => _JournalState();
+}
+
+class _JournalState extends State<Journal> {
+  final db = DatabaseProvider.instance;
+  List<JournalEntry> _entries = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEntries();
+  }
+
+  Future<void> _loadEntries() async {
+    setState(() => _isLoading = true);
+    final entries = await db.getAllJournalEntries();
+    if (mounted) {
+      setState(() {
+        _entries = entries;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _navigateToAdd() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const JournalAdd()),
+    );
+    if (result == true) {
+      _loadEntries();
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final diff = now.difference(date);
+    if (diff.inDays == 0) {
+      return 'Today, ${_formatTime(date)}';
+    }
+    if (diff.inDays == 1) return 'Yesterday';
+    if (diff.inDays < 7) return '${diff.inDays} days ago';
+    if (diff.inDays < 30) return '${diff.inDays ~/ 7} weeks ago';
+    return '${date.month}/${date.day}/${date.year}';
+  }
+
+  String _formatTime(DateTime date) {
+    final hour = date.hour > 12 ? date.hour - 12 : (date.hour == 0 ? 12 : date.hour);
+    final minute = date.minute.toString().padLeft(2, '0');
+    final ampm = date.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $ampm';
+  }
+
+  Future<String?> _getPrayerTitle(int? prayerId) async {
+    if (prayerId == null) return null;
+    final prayer = await db.getPrayer(prayerId);
+    return prayer?.title;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,50 +86,55 @@ class Journal extends StatelessWidget {
           ),
         ],
       ),
-      body: journalEntries.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.book_outlined,
-                    size: 64,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _entries.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.book_outlined,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No journal entries yet',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Start journaling your prayers!',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
+                            ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No journal entries yet',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                )
+              : RefreshIndicator(
+                  onRefresh: _loadEntries,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _entries.length,
+                    itemBuilder: (context, index) {
+                      final entry = _entries[index];
+                      return _buildJournalCard(context, entry);
+                    },
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Start journaling your prayers!',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.7),
-                        ),
-                  ),
-                ],
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: journalEntries.length,
-              itemBuilder: (context, index) {
-                final entry = journalEntries[index];
-                return _buildJournalCard(context, entry);
-              },
-            ),
+                ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: _navigateToAdd,
         icon: const Icon(Icons.add),
         label: const Text('New Entry'),
       ),
     );
   }
 
-  Widget _buildJournalCard(BuildContext context, Map<String, dynamic> entry) {
+  Widget _buildJournalCard(BuildContext context, JournalEntry entry) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Card(
@@ -122,13 +153,47 @@ class Journal extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      entry['title'] as String,
+                      entry.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                     ),
                   ),
-                  PopupMenuButton(
+                  PopupMenuButton<String>(
+                    onSelected: (value) async {
+                      if (value == 'edit') {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JournalEdit(entry: entry),
+                          ),
+                        );
+                        if (result == true) _loadEntries();
+                      } else if (value == 'delete') {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Delete Entry?'),
+                            content: Text('Delete "${entry.title}"?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (confirmed == true) {
+                          await db.deleteJournalEntry(entry.id);
+                          _loadEntries();
+                        }
+                      }
+                    },
                     itemBuilder: (context) => [
                       const PopupMenuItem(
                         value: 'edit',
@@ -166,7 +231,7 @@ class Journal extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                entry['content'] as String,
+                entry.content,
                 style: Theme.of(context).textTheme.bodyMedium,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -183,24 +248,29 @@ class Journal extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    entry['date'] as String,
+                    _formatDate(entry.createdAt),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
                   ),
-                  const SizedBox(width: 16),
-                  if (entry['relatedPrayer'] != null) ...[
+                  if (entry.relatedPrayerId != null) ...[
+                    const SizedBox(width: 16),
                     Icon(
                       Icons.link,
                       size: 16,
                       color: colorScheme.primary,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      entry['relatedPrayer'] as String,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: colorScheme.primary,
-                          ),
+                    FutureBuilder<String?>(
+                      future: _getPrayerTitle(entry.relatedPrayerId),
+                      builder: (context, snapshot) {
+                        return Text(
+                          snapshot.data ?? 'Related Prayer',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: colorScheme.primary,
+                              ),
+                        );
+                      },
                     ),
                   ],
                 ],
@@ -211,7 +281,7 @@ class Journal extends StatelessWidget {
                 children: [
                   Chip(
                     label: Text(
-                      entry['category'] as String,
+                      entry.category,
                       style: const TextStyle(fontSize: 11),
                     ),
                     padding: EdgeInsets.zero,
@@ -219,10 +289,10 @@ class Journal extends StatelessWidget {
                     backgroundColor: colorScheme.primaryContainer,
                     side: BorderSide.none,
                   ),
-                  if (entry['mood'] != null)
+                  if (entry.mood != null)
                     Chip(
                       label: Text(
-                        entry['mood'] as String,
+                        entry.mood!,
                         style: const TextStyle(fontSize: 11),
                       ),
                       padding: EdgeInsets.zero,

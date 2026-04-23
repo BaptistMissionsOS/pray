@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show Prayer, JournalEntriesCompanion;
 
 class JournalAdd extends StatefulWidget {
-  const JournalAdd({super.key});
+  final int? relatedPrayerId;
+  const JournalAdd({super.key, this.relatedPrayerId});
 
   @override
   State<JournalAdd> createState() => _JournalAddState();
@@ -13,8 +17,10 @@ class _JournalAddState extends State<JournalAdd> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   String _selectedCategory = 'Answered Prayers';
-  String? _selectedPrayer;
+  int? _selectedPrayerId;
   String? _selectedMood;
+  List<Prayer> _prayers = [];
+  bool _isLoading = true;
 
   final List<String> _categories = [
     'Answered Prayers',
@@ -26,13 +32,21 @@ class _JournalAddState extends State<JournalAdd> {
     'Other',
   ];
 
-  final List<String> _prayers = [
-    'Family Salvation',
-    'Job Interview',
-    'Healing for Mom',
-    'Daily Devotion',
-    'Mission Trip',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _selectedPrayerId = widget.relatedPrayerId;
+    _loadPrayers();
+  }
+
+  Future<void> _loadPrayers() async {
+    final db = DatabaseProvider.instance;
+    final prayers = await db.getAllPrayers();
+    setState(() {
+      _prayers = prayers;
+      _isLoading = false;
+    });
+  }
 
   final List<Map<String, dynamic>> _moods = [
     {'name': 'Grateful', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},
@@ -50,6 +64,26 @@ class _JournalAddState extends State<JournalAdd> {
     super.dispose();
   }
 
+  Future<void> _saveEntry() async {
+    if (_formKey.currentState!.validate()) {
+      final db = DatabaseProvider.instance;
+      
+      await db.insertJournalEntry(
+        JournalEntriesCompanion(
+          title: Value(_titleController.text),
+          content: Value(_contentController.text),
+          category: Value(_selectedCategory),
+          mood: Value(_selectedMood),
+          relatedPrayerId: Value(_selectedPrayerId),
+        ),
+      );
+      
+      if (mounted) {
+        Navigator.pop(context, true);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
@@ -58,7 +92,7 @@ class _JournalAddState extends State<JournalAdd> {
         title: Text(t.titles.journalAdd),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: _saveEntry,
             child: const Text('Save'),
           ),
         ],
@@ -124,8 +158,8 @@ class _JournalAddState extends State<JournalAdd> {
               },
             ),
             const SizedBox(height: 16),
-            DropdownButtonFormField<String?>(
-              value: _selectedPrayer,
+            DropdownButtonFormField<int?>(
+              value: _selectedPrayerId,
               decoration: const InputDecoration(
                 labelText: 'Related Prayer (Optional)',
                 prefixIcon: Icon(Icons.link),
@@ -139,14 +173,14 @@ class _JournalAddState extends State<JournalAdd> {
                 ),
                 ..._prayers.map((prayer) {
                   return DropdownMenuItem(
-                    value: prayer,
-                    child: Text(prayer),
+                    value: prayer.id,
+                    child: Text(prayer.title),
                   );
                 }),
               ],
               onChanged: (value) {
                 setState(() {
-                  _selectedPrayer = value;
+                  _selectedPrayerId = value;
                 });
               },
             ),

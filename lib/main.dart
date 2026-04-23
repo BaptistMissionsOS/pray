@@ -14,7 +14,6 @@ import 'features/prayers/prayers.edit.dart';
 import 'features/prayers/prayers.share.dart';
 import 'features/journal/journal.dart';
 import 'features/journal/journal.add.dart';
-import 'features/journal/journal.edit.dart';
 import 'features/journal/journal.organize.dart';
 import 'about.dart';
 import 'settings.dart';
@@ -287,7 +286,7 @@ class _MainNavigationState extends State<MainNavigation> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const JournalEdit()),
+                      MaterialPageRoute(builder: (context) => const Journal()),
                     );
                   },
                 ),

@@ -1,40 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show Prayer, JournalEntry;
 
 class JournalEdit extends StatefulWidget {
-  const JournalEdit({super.key});
+  final JournalEntry entry;
+  const JournalEdit({super.key, required this.entry});
 
   @override
   State<JournalEdit> createState() => _JournalEditState();
 }
 
 class _JournalEditState extends State<JournalEdit> {
-  final List<Map<String, dynamic>> entries = [
-    {
-      'id': 1,
-      'title': 'Answered Prayer - Job Offer!',
-      'content': 'Today I received the job offer...',
-      'date': 'Today, 10:30 AM',
-      'category': 'Answered Prayers',
-      'mood': 'Grateful',
-    },
-    {
-      'id': 2,
-      'title': 'Morning Reflection',
-      'content': 'Spent time in prayer this morning...',
-      'date': 'Yesterday, 8:00 AM',
-      'category': 'Daily Devotion',
-      'mood': 'Peaceful',
-    },
-    {
-      'id': 3,
-      'title': 'Praying for Mom\'s Healing',
-      'content': 'Visited mom at the hospital today...',
-      'date': '3 days ago',
-      'category': 'Health',
-      'mood': 'Hopeful',
-    },
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _titleController;
+  late final TextEditingController _contentController;
+  late String _selectedCategory;
+  int? _selectedPrayerId;
+  String? _selectedMood;
+  List<Prayer> _prayers = [];
+
+  final List<String> _categories = [
+    'Answered Prayers',
+    'Daily Devotion',
+    'Health',
+    'Missions',
+    'Family',
+    'Spiritual Growth',
+    'Other',
   ];
+
+  final List<Map<String, dynamic>> _moods = [
+    {'name': 'Grateful', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.green},
+    {'name': 'Peaceful', 'icon': Icons.spa, 'color': Colors.blue},
+    {'name': 'Hopeful', 'icon': Icons.wb_sunny, 'color': Colors.orange},
+    {'name': 'Excited', 'icon': Icons.celebration, 'color': Colors.purple},
+    {'name': 'Anxious', 'icon': Icons.cloud, 'color': Colors.grey},
+    {'name': 'Sad', 'icon': Icons.sentiment_dissatisfied, 'color': Colors.indigo},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.entry.title);
+    _contentController = TextEditingController(text: widget.entry.content);
+    _selectedCategory = widget.entry.category;
+    _selectedPrayerId = widget.entry.relatedPrayerId;
+    _selectedMood = widget.entry.mood;
+    _loadPrayers();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadPrayers() async {
+    final db = DatabaseProvider.instance;
+    final prayers = await db.getAllPrayers();
+    setState(() {
+      _prayers = prayers;
+    });
+  }
+
+  Future<void> _saveEntry() async {
+    if (_formKey.currentState!.validate()) {
+      final db = DatabaseProvider.instance;
+      
+      final updatedEntry = widget.entry.copyWith(
+        title: _titleController.text,
+        content: _contentController.text,
+        category: _selectedCategory,
+        mood: Value(_selectedMood),
+        relatedPrayerId: Value(_selectedPrayerId),
+        updatedAt: DateTime.now(),
+      );
+      
+      await db.updateJournalEntry(updatedEntry);
+      
+      if (mounted) {
+        Navigator.pop(context, true);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,145 +95,131 @@ class _JournalEditState extends State<JournalEdit> {
         title: Text(t.titles.journalEdit),
         actions: [
           TextButton(
-            onPressed: () {},
-            child: const Text('Done'),
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: entries.length,
-        itemBuilder: (context, index) {
-          final entry = entries[index];
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              title: Text(
-                entry['title'] as String,
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 4),
-                  Text(
-                    entry['date'] as String,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Chip(
-                        label: Text(
-                          entry['category'] as String,
-                          style: const TextStyle(fontSize: 11),
-                        ),
-                        padding: EdgeInsets.zero,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      if (entry['mood'] != null) ...[
-                        const SizedBox(width: 8),
-                        Chip(
-                          label: Text(
-                            entry['mood'] as String,
-                            style: const TextStyle(fontSize: 11),
-                          ),
-                          padding: EdgeInsets.zero,
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                        ),
-                      ],
-                    ],
-                  ),
-                ],
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () => _showEditDialog(context, entry),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.red),
-                    onPressed: () => _showDeleteDialog(context, entry),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  void _showEditDialog(BuildContext context, Map<String, dynamic> entry) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit Journal Entry'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: TextEditingController(text: entry['title'] as String),
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: TextEditingController(text: entry['content'] as String),
-                decoration: const InputDecoration(
-                  labelText: 'Content',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 4,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: _saveEntry,
             child: const Text('Save'),
           ),
         ],
       ),
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, Map<String, dynamic> entry) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Entry?'),
-        content: Text('Are you sure you want to delete "${entry['title']}"? This cannot be undone.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            TextFormField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                hintText: 'Give your entry a title...',
+                prefixIcon: Icon(Icons.title),
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a title';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _contentController,
+              decoration: const InputDecoration(
+                labelText: 'Content',
+                hintText: 'Write about your prayer experience, thoughts, or answered prayers...',
+                prefixIcon: Icon(Icons.notes),
+                border: OutlineInputBorder(),
+                alignLabelWithHint: true,
+              ),
+              maxLines: 8,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some content';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              value: _selectedCategory,
+              decoration: const InputDecoration(
+                labelText: 'Category',
+                prefixIcon: Icon(Icons.folder),
+                border: OutlineInputBorder(),
+              ),
+              items: _categories.map((category) {
+                return DropdownMenuItem(
+                  value: category,
+                  child: Text(category),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<int?>(
+              value: _selectedPrayerId,
+              decoration: const InputDecoration(
+                labelText: 'Related Prayer (Optional)',
+                prefixIcon: Icon(Icons.link),
+                border: OutlineInputBorder(),
+                hintText: 'Select a prayer this entry relates to',
+              ),
+              items: [
+                const DropdownMenuItem(
+                  value: null,
+                  child: Text('None'),
+                ),
+                ..._prayers.map((prayer) {
+                  return DropdownMenuItem(
+                    value: prayer.id,
+                    child: Text(prayer.title),
+                  );
+                }),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  _selectedPrayerId = value;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text(
+              'How are you feeling?',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _moods.map((mood) {
+                final isSelected = _selectedMood == mood['name'];
+                return ChoiceChip(
+                  avatar: Icon(
+                    mood['icon'] as IconData,
+                    color: mood['color'] as Color,
+                    size: 18,
+                  ),
+                  label: Text(mood['name'] as String),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedMood = selected ? mood['name'] as String : null;
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
