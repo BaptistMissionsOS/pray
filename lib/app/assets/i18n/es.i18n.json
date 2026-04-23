@@ -84,7 +84,49 @@
       "month": "Mes",
       "week": "Semana",
       "schedule": "Agenda"
-    }
+    },
+    "filters": {
+      "both": "Ambos",
+      "prayersOnly": "Solo Oraciones",
+      "journalsOnly": "Solo Diarios"
+    },
+    "weekdays": {
+      "short": {
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb",
+        "sun": "Dom"
+      },
+      "full": {
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo"
+      }
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "items": "{count} elementos",
+    "noReminders": "Sin recordatorios",
+    "noRemindersForDay": "Sin recordatorios para este día"
   },
   "about": {
     "title": "Una App de Diario de Oración Flutter",

@@ -209,6 +209,18 @@ class TranslationsRemindersEn {
 	String get weekOf => 'Week of';
 
 	late final TranslationsRemindersViewsEn views = TranslationsRemindersViewsEn.internal(_root);
+	late final TranslationsRemindersFiltersEn filters = TranslationsRemindersFiltersEn.internal(_root);
+	late final TranslationsRemindersWeekdaysEn weekdays = TranslationsRemindersWeekdaysEn.internal(_root);
+	late final TranslationsRemindersMonthsEn months = TranslationsRemindersMonthsEn.internal(_root);
+
+	/// en: '{count} items'
+	String items({required Object count}) => '${count} items';
+
+	/// en: 'No reminders'
+	String get noReminders => 'No reminders';
+
+	/// en: 'No reminders for this day'
+	String get noRemindersForDay => 'No reminders for this day';
 }
 
 // Path: about
@@ -631,6 +643,80 @@ class TranslationsRemindersViewsEn {
 
 	/// en: 'Schedule'
 	String get schedule => 'Schedule';
+}
+
+// Path: reminders.filters
+class TranslationsRemindersFiltersEn {
+	TranslationsRemindersFiltersEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Both'
+	String get both => 'Both';
+
+	/// en: 'Prayers Only'
+	String get prayersOnly => 'Prayers Only';
+
+	/// en: 'Journals Only'
+	String get journalsOnly => 'Journals Only';
+}
+
+// Path: reminders.weekdays
+class TranslationsRemindersWeekdaysEn {
+	TranslationsRemindersWeekdaysEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsRemindersWeekdaysShortEn short = TranslationsRemindersWeekdaysShortEn.internal(_root);
+	late final TranslationsRemindersWeekdaysFullEn full = TranslationsRemindersWeekdaysFullEn.internal(_root);
+}
+
+// Path: reminders.months
+class TranslationsRemindersMonthsEn {
+	TranslationsRemindersMonthsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'January'
+	String get january => 'January';
+
+	/// en: 'February'
+	String get february => 'February';
+
+	/// en: 'March'
+	String get march => 'March';
+
+	/// en: 'April'
+	String get april => 'April';
+
+	/// en: 'May'
+	String get may => 'May';
+
+	/// en: 'June'
+	String get june => 'June';
+
+	/// en: 'July'
+	String get july => 'July';
+
+	/// en: 'August'
+	String get august => 'August';
+
+	/// en: 'September'
+	String get september => 'September';
+
+	/// en: 'October'
+	String get october => 'October';
+
+	/// en: 'November'
+	String get november => 'November';
+
+	/// en: 'December'
+	String get december => 'December';
 }
 
 // Path: support.channels
@@ -1121,6 +1207,66 @@ class TranslationsJournalActionsEn {
 	String get edit => 'Edit';
 }
 
+// Path: reminders.weekdays.short
+class TranslationsRemindersWeekdaysShortEn {
+	TranslationsRemindersWeekdaysShortEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Mon'
+	String get mon => 'Mon';
+
+	/// en: 'Tue'
+	String get tue => 'Tue';
+
+	/// en: 'Wed'
+	String get wed => 'Wed';
+
+	/// en: 'Thu'
+	String get thu => 'Thu';
+
+	/// en: 'Fri'
+	String get fri => 'Fri';
+
+	/// en: 'Sat'
+	String get sat => 'Sat';
+
+	/// en: 'Sun'
+	String get sun => 'Sun';
+}
+
+// Path: reminders.weekdays.full
+class TranslationsRemindersWeekdaysFullEn {
+	TranslationsRemindersWeekdaysFullEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Monday'
+	String get monday => 'Monday';
+
+	/// en: 'Tuesday'
+	String get tuesday => 'Tuesday';
+
+	/// en: 'Wednesday'
+	String get wednesday => 'Wednesday';
+
+	/// en: 'Thursday'
+	String get thursday => 'Thursday';
+
+	/// en: 'Friday'
+	String get friday => 'Friday';
+
+	/// en: 'Saturday'
+	String get saturday => 'Saturday';
+
+	/// en: 'Sunday'
+	String get sunday => 'Sunday';
+}
+
 // Path: dashboard.edit.blockNames
 class TranslationsDashboardEditBlockNamesEn {
 	TranslationsDashboardEditBlockNamesEn.internal(this._root);
@@ -1258,6 +1404,38 @@ extension on Translations {
 			'reminders.views.month' => 'Month',
 			'reminders.views.week' => 'Week',
 			'reminders.views.schedule' => 'Schedule',
+			'reminders.filters.both' => 'Both',
+			'reminders.filters.prayersOnly' => 'Prayers Only',
+			'reminders.filters.journalsOnly' => 'Journals Only',
+			'reminders.weekdays.short.mon' => 'Mon',
+			'reminders.weekdays.short.tue' => 'Tue',
+			'reminders.weekdays.short.wed' => 'Wed',
+			'reminders.weekdays.short.thu' => 'Thu',
+			'reminders.weekdays.short.fri' => 'Fri',
+			'reminders.weekdays.short.sat' => 'Sat',
+			'reminders.weekdays.short.sun' => 'Sun',
+			'reminders.weekdays.full.monday' => 'Monday',
+			'reminders.weekdays.full.tuesday' => 'Tuesday',
+			'reminders.weekdays.full.wednesday' => 'Wednesday',
+			'reminders.weekdays.full.thursday' => 'Thursday',
+			'reminders.weekdays.full.friday' => 'Friday',
+			'reminders.weekdays.full.saturday' => 'Saturday',
+			'reminders.weekdays.full.sunday' => 'Sunday',
+			'reminders.months.january' => 'January',
+			'reminders.months.february' => 'February',
+			'reminders.months.march' => 'March',
+			'reminders.months.april' => 'April',
+			'reminders.months.may' => 'May',
+			'reminders.months.june' => 'June',
+			'reminders.months.july' => 'July',
+			'reminders.months.august' => 'August',
+			'reminders.months.september' => 'September',
+			'reminders.months.october' => 'October',
+			'reminders.months.november' => 'November',
+			'reminders.months.december' => 'December',
+			'reminders.items' => ({required Object count}) => '${count} items',
+			'reminders.noReminders' => 'No reminders',
+			'reminders.noRemindersForDay' => 'No reminders for this day',
 			'about.title' => 'A Flutter Prayer Journal App',
 			'about.by' => 'by Baptist Missions OS',
 			'about.description' => 'A personal prayer journal to track your prayers, see answered prayers, and grow in your faith journey.',

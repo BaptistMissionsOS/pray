@@ -150,6 +150,12 @@ class _TranslationsRemindersEs extends TranslationsRemindersEn {
 	@override String get refresh => 'Actualizar';
 	@override String get weekOf => 'Semana de';
 	@override late final _TranslationsRemindersViewsEs views = _TranslationsRemindersViewsEs._(_root);
+	@override late final _TranslationsRemindersFiltersEs filters = _TranslationsRemindersFiltersEs._(_root);
+	@override late final _TranslationsRemindersWeekdaysEs weekdays = _TranslationsRemindersWeekdaysEs._(_root);
+	@override late final _TranslationsRemindersMonthsEs months = _TranslationsRemindersMonthsEs._(_root);
+	@override String items({required Object count}) => '${count} elementos';
+	@override String get noReminders => 'Sin recordatorios';
+	@override String get noRemindersForDay => 'Sin recordatorios para este día';
 }
 
 // Path: about
@@ -384,6 +390,50 @@ class _TranslationsRemindersViewsEs extends TranslationsRemindersViewsEn {
 	@override String get month => 'Mes';
 	@override String get week => 'Semana';
 	@override String get schedule => 'Agenda';
+}
+
+// Path: reminders.filters
+class _TranslationsRemindersFiltersEs extends TranslationsRemindersFiltersEn {
+	_TranslationsRemindersFiltersEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get both => 'Ambos';
+	@override String get prayersOnly => 'Solo Oraciones';
+	@override String get journalsOnly => 'Solo Diarios';
+}
+
+// Path: reminders.weekdays
+class _TranslationsRemindersWeekdaysEs extends TranslationsRemindersWeekdaysEn {
+	_TranslationsRemindersWeekdaysEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsRemindersWeekdaysShortEs short = _TranslationsRemindersWeekdaysShortEs._(_root);
+	@override late final _TranslationsRemindersWeekdaysFullEs full = _TranslationsRemindersWeekdaysFullEs._(_root);
+}
+
+// Path: reminders.months
+class _TranslationsRemindersMonthsEs extends TranslationsRemindersMonthsEn {
+	_TranslationsRemindersMonthsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get january => 'Enero';
+	@override String get february => 'Febrero';
+	@override String get march => 'Marzo';
+	@override String get april => 'Abril';
+	@override String get may => 'Mayo';
+	@override String get june => 'Junio';
+	@override String get july => 'Julio';
+	@override String get august => 'Agosto';
+	@override String get september => 'Septiembre';
+	@override String get october => 'Octubre';
+	@override String get november => 'Noviembre';
+	@override String get december => 'Diciembre';
 }
 
 // Path: support.channels
@@ -646,6 +696,38 @@ class _TranslationsJournalActionsEs extends TranslationsJournalActionsEn {
 	@override String get edit => 'Editar';
 }
 
+// Path: reminders.weekdays.short
+class _TranslationsRemindersWeekdaysShortEs extends TranslationsRemindersWeekdaysShortEn {
+	_TranslationsRemindersWeekdaysShortEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get mon => 'Lun';
+	@override String get tue => 'Mar';
+	@override String get wed => 'Mié';
+	@override String get thu => 'Jue';
+	@override String get fri => 'Vie';
+	@override String get sat => 'Sáb';
+	@override String get sun => 'Dom';
+}
+
+// Path: reminders.weekdays.full
+class _TranslationsRemindersWeekdaysFullEs extends TranslationsRemindersWeekdaysFullEn {
+	_TranslationsRemindersWeekdaysFullEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get monday => 'Lunes';
+	@override String get tuesday => 'Martes';
+	@override String get wednesday => 'Miércoles';
+	@override String get thursday => 'Jueves';
+	@override String get friday => 'Viernes';
+	@override String get saturday => 'Sábado';
+	@override String get sunday => 'Domingo';
+}
+
 // Path: dashboard.edit.blockNames
 class _TranslationsDashboardEditBlockNamesEs extends TranslationsDashboardEditBlockNamesEn {
 	_TranslationsDashboardEditBlockNamesEs._(TranslationsEs root) : this._root = root, super.internal(root);
@@ -757,6 +839,38 @@ extension on TranslationsEs {
 			'reminders.views.month' => 'Mes',
 			'reminders.views.week' => 'Semana',
 			'reminders.views.schedule' => 'Agenda',
+			'reminders.filters.both' => 'Ambos',
+			'reminders.filters.prayersOnly' => 'Solo Oraciones',
+			'reminders.filters.journalsOnly' => 'Solo Diarios',
+			'reminders.weekdays.short.mon' => 'Lun',
+			'reminders.weekdays.short.tue' => 'Mar',
+			'reminders.weekdays.short.wed' => 'Mié',
+			'reminders.weekdays.short.thu' => 'Jue',
+			'reminders.weekdays.short.fri' => 'Vie',
+			'reminders.weekdays.short.sat' => 'Sáb',
+			'reminders.weekdays.short.sun' => 'Dom',
+			'reminders.weekdays.full.monday' => 'Lunes',
+			'reminders.weekdays.full.tuesday' => 'Martes',
+			'reminders.weekdays.full.wednesday' => 'Miércoles',
+			'reminders.weekdays.full.thursday' => 'Jueves',
+			'reminders.weekdays.full.friday' => 'Viernes',
+			'reminders.weekdays.full.saturday' => 'Sábado',
+			'reminders.weekdays.full.sunday' => 'Domingo',
+			'reminders.months.january' => 'Enero',
+			'reminders.months.february' => 'Febrero',
+			'reminders.months.march' => 'Marzo',
+			'reminders.months.april' => 'Abril',
+			'reminders.months.may' => 'Mayo',
+			'reminders.months.june' => 'Junio',
+			'reminders.months.july' => 'Julio',
+			'reminders.months.august' => 'Agosto',
+			'reminders.months.september' => 'Septiembre',
+			'reminders.months.october' => 'Octubre',
+			'reminders.months.november' => 'Noviembre',
+			'reminders.months.december' => 'Diciembre',
+			'reminders.items' => ({required Object count}) => '${count} elementos',
+			'reminders.noReminders' => 'Sin recordatorios',
+			'reminders.noRemindersForDay' => 'Sin recordatorios para este día',
 			'about.title' => 'Una App de Diario de Oración Flutter',
 			'about.by' => 'por Baptist Missions OS',
 			'about.description' => 'Un diario de oración personal para registrar tus oraciones, ver las respuestas y crecer en tu camino de fe.',

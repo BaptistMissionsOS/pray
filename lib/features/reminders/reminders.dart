@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../../app/i18n/strings.g.dart';
 import '../../core/db/db_provider.dart';
 import '../../core/db/database.dart' show Prayer, JournalEntry;
@@ -12,6 +11,7 @@ class Reminders extends StatefulWidget {
 }
 
 enum CalendarView { month, week, schedule }
+enum ReminderFilterType { both, prayers, journals }
 
 class ReminderItem {
   final int id;
@@ -35,9 +35,10 @@ enum ReminderType { prayer, journal }
 
 class _RemindersState extends State<Reminders> {
   CalendarView _currentView = CalendarView.month;
+  ReminderFilterType _filterType = ReminderFilterType.both;
   DateTime _selectedDate = DateTime.now();
   DateTime _focusedMonth = DateTime.now();
-  List<ReminderItem> _reminders = [];
+  List<ReminderItem> _allReminders = [];
   bool _isLoading = true;
 
   @override
@@ -53,36 +54,45 @@ class _RemindersState extends State<Reminders> {
     final now = DateTime.now();
     final startOfToday = DateTime(now.year, now.month, now.day);
 
-    // Get prayers with future dates
-    final prayers = await db.getFuturePrayers(startOfToday);
-    final prayerReminders = prayers.map((p) => ReminderItem(
-      id: p.id,
-      title: p.title,
-      description: p.description,
-      date: p.createdAt,
-      type: ReminderType.prayer,
-      category: p.status,
-    )).toList();
+    List<ReminderItem> allReminders = [];
 
-    // Get journal entries with future dates
-    final journals = await db.getFutureJournalEntries(startOfToday);
-    final journalReminders = journals.map((j) => ReminderItem(
-      id: j.id,
-      title: j.title,
-      description: j.content,
-      date: j.createdAt,
-      type: ReminderType.journal,
-      category: j.category,
-    )).toList();
+    // Get prayers with future dates if filter allows
+    if (_filterType == ReminderFilterType.both || _filterType == ReminderFilterType.prayers) {
+      final prayers = await db.getFuturePrayers(startOfToday);
+      final prayerReminders = prayers.map((p) => ReminderItem(
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        date: p.createdAt,
+        type: ReminderType.prayer,
+        category: p.status,
+      )).toList();
+      allReminders.addAll(prayerReminders);
+    }
 
-    final allReminders = [...prayerReminders, ...journalReminders];
+    // Get journal entries with future dates if filter allows
+    if (_filterType == ReminderFilterType.both || _filterType == ReminderFilterType.journals) {
+      final journals = await db.getFutureJournalEntries(startOfToday);
+      final journalReminders = journals.map((j) => ReminderItem(
+        id: j.id,
+        title: j.title,
+        description: j.content,
+        date: j.createdAt,
+        type: ReminderType.journal,
+        category: j.category,
+      )).toList();
+      allReminders.addAll(journalReminders);
+    }
+
     allReminders.sort((a, b) => a.date.compareTo(b.date));
 
     setState(() {
-      _reminders = allReminders;
+      _allReminders = allReminders;
       _isLoading = false;
     });
   }
+
+  List<ReminderItem> get _reminders => _allReminders;
 
   void _previousPeriod() {
     setState(() {
@@ -127,13 +137,13 @@ class _RemindersState extends State<Reminders> {
     final t = Translations.of(context);
     switch (_currentView) {
       case CalendarView.month:
-        return DateFormat('MMMM yyyy').format(_focusedMonth);
+        return '${_getMonthName(_focusedMonth)} ${_focusedMonth.year}';
       case CalendarView.week:
         final startOfWeek = _selectedDate.subtract(Duration(days: _selectedDate.weekday - 1));
         final endOfWeek = startOfWeek.add(const Duration(days: 6));
-        return '${DateFormat('MMM d').format(startOfWeek)} - ${DateFormat('MMM d').format(endOfWeek)}';
+        return '${_getMonthName(startOfWeek).substring(0, 3)} ${startOfWeek.day} - ${_getMonthName(endOfWeek).substring(0, 3)} ${endOfWeek.day}';
       case CalendarView.schedule:
-        return DateFormat('EEEE, MMMM d').format(_selectedDate);
+        return '${_getFullWeekday(_selectedDate)}, ${_getMonthName(_selectedDate)} ${_selectedDate.day}';
     }
   }
 
@@ -154,6 +164,59 @@ class _RemindersState extends State<Reminders> {
             icon: const Icon(Icons.today),
             tooltip: t.reminders.today,
             onPressed: _goToToday,
+          ),
+          PopupMenuButton<ReminderFilterType>(
+            icon: Icon(
+              Icons.filter_list,
+              color: _filterType != ReminderFilterType.both ? colorScheme.primary : null,
+            ),
+            onSelected: (filter) {
+              setState(() {
+                _filterType = filter;
+              });
+              _loadReminders();
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: ReminderFilterType.both,
+                child: Row(
+                  children: [
+                    Icon(Icons.all_inclusive,
+                        color: _filterType == ReminderFilterType.both ? colorScheme.primary : null),
+                    const SizedBox(width: 8),
+                    Text(t.reminders.filters.both),
+                    if (_filterType == ReminderFilterType.both)
+                      const Icon(Icons.check, color: Colors.green, size: 18),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: ReminderFilterType.prayers,
+                child: Row(
+                  children: [
+                    Icon(Icons.favorite,
+                        color: _filterType == ReminderFilterType.prayers ? Colors.blue : null),
+                    const SizedBox(width: 8),
+                    Text(t.reminders.filters.prayersOnly),
+                    if (_filterType == ReminderFilterType.prayers)
+                      const Icon(Icons.check, color: Colors.green, size: 18),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: ReminderFilterType.journals,
+                child: Row(
+                  children: [
+                    Icon(Icons.book,
+                        color: _filterType == ReminderFilterType.journals ? Colors.green : null),
+                    const SizedBox(width: 8),
+                    Text(t.reminders.filters.journalsOnly),
+                    if (_filterType == ReminderFilterType.journals)
+                      const Icon(Icons.check, color: Colors.green, size: 18),
+                  ],
+                ),
+              ),
+            ],
           ),
           PopupMenuButton<CalendarView>(
             icon: const Icon(Icons.view_agenda),
@@ -249,11 +312,11 @@ class _RemindersState extends State<Reminders> {
   String _getNavLabel(Translations t) {
     switch (_currentView) {
       case CalendarView.month:
-        return DateFormat('MMMM yyyy').format(_focusedMonth);
+        return '${_getMonthName(_focusedMonth)} ${_focusedMonth.year}';
       case CalendarView.week:
         return t.reminders.weekOf;
       case CalendarView.schedule:
-        return DateFormat('EEEE').format(_selectedDate);
+        return _getFullWeekday(_selectedDate);
     }
   }
 
@@ -281,7 +344,15 @@ class _RemindersState extends State<Reminders> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            children: [
+              t.reminders.weekdays.short.mon,
+              t.reminders.weekdays.short.tue,
+              t.reminders.weekdays.short.wed,
+              t.reminders.weekdays.short.thu,
+              t.reminders.weekdays.short.fri,
+              t.reminders.weekdays.short.sat,
+              t.reminders.weekdays.short.sun,
+            ]
                 .map((day) => Expanded(
                       child: Center(
                         child: Text(
@@ -322,6 +393,7 @@ class _RemindersState extends State<Reminders> {
                   setState(() {
                     _selectedDate = date;
                   });
+                  _showDayPopup(date, dayReminders);
                 },
                 child: Container(
                   margin: const EdgeInsets.all(2),
@@ -389,6 +461,7 @@ class _RemindersState extends State<Reminders> {
   }
 
   Widget _buildWeekView() {
+    final t = Translations.of(context);
     final startOfWeek = _selectedDate.subtract(Duration(days: _selectedDate.weekday - 1));
 
     return ListView.builder(
@@ -417,17 +490,17 @@ class _RemindersState extends State<Reminders> {
               ),
             ),
             title: Text(
-              DateFormat('EEEE').format(date),
+              _getFullWeekday(date),
               style: TextStyle(
                 fontWeight: isToday ? FontWeight.bold : null,
               ),
             ),
-            subtitle: Text('${dayReminders.length} items'),
+            subtitle: Text(t.reminders.items(count: dayReminders.length)),
             children: dayReminders.isEmpty
                 ? [
                     ListTile(
                       title: Text(
-                        'No reminders',
+                        t.reminders.noReminders,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontStyle: FontStyle.italic,
@@ -443,6 +516,7 @@ class _RemindersState extends State<Reminders> {
   }
 
   Widget _buildScheduleView() {
+    final t = Translations.of(context);
     final dayReminders = _remindersForDate(_selectedDate);
 
     if (dayReminders.isEmpty) {
@@ -457,7 +531,7 @@ class _RemindersState extends State<Reminders> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No reminders for this day',
+              t.reminders.noRemindersForDay,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -514,7 +588,7 @@ class _RemindersState extends State<Reminders> {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  DateFormat('h:mm a').format(reminder.date),
+                  '${reminder.date.hour % 12 == 0 ? 12 : reminder.date.hour % 12}:${reminder.date.minute.toString().padLeft(2, '0')} ${reminder.date.hour >= 12 ? 'PM' : 'AM'}',
                   style: TextStyle(
                     fontSize: 12,
                     color: colorScheme.onSurfaceVariant,
@@ -553,5 +627,118 @@ class _RemindersState extends State<Reminders> {
   bool _isToday(DateTime date) {
     final now = DateTime.now();
     return _isSameDay(date, now);
+  }
+
+  String _getFullWeekday(DateTime date) {
+    final t = Translations.of(context);
+    switch (date.weekday) {
+      case DateTime.monday:
+        return t.reminders.weekdays.full.monday;
+      case DateTime.tuesday:
+        return t.reminders.weekdays.full.tuesday;
+      case DateTime.wednesday:
+        return t.reminders.weekdays.full.wednesday;
+      case DateTime.thursday:
+        return t.reminders.weekdays.full.thursday;
+      case DateTime.friday:
+        return t.reminders.weekdays.full.friday;
+      case DateTime.saturday:
+        return t.reminders.weekdays.full.saturday;
+      case DateTime.sunday:
+        return t.reminders.weekdays.full.sunday;
+      default:
+        return '';
+    }
+  }
+
+  String _getMonthName(DateTime date) {
+    final t = Translations.of(context);
+    switch (date.month) {
+      case DateTime.january:
+        return t.reminders.months.january;
+      case DateTime.february:
+        return t.reminders.months.february;
+      case DateTime.march:
+        return t.reminders.months.march;
+      case DateTime.april:
+        return t.reminders.months.april;
+      case DateTime.may:
+        return t.reminders.months.may;
+      case DateTime.june:
+        return t.reminders.months.june;
+      case DateTime.july:
+        return t.reminders.months.july;
+      case DateTime.august:
+        return t.reminders.months.august;
+      case DateTime.september:
+        return t.reminders.months.september;
+      case DateTime.october:
+        return t.reminders.months.october;
+      case DateTime.november:
+        return t.reminders.months.november;
+      case DateTime.december:
+        return t.reminders.months.december;
+      default:
+        return '';
+    }
+  }
+
+  void _showDayPopup(DateTime date, List<ReminderItem> dayReminders) {
+    final t = Translations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              Icons.calendar_today,
+              color: colorScheme.primary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${_getFullWeekday(date)}, ${_getMonthName(date).substring(0, 3)} ${date.day}, ${date.year}',
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: dayReminders.isEmpty
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.event_busy,
+                      size: 48,
+                      color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      t.reminders.noRemindersForDay,
+                      style: TextStyle(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: dayReminders.length,
+                  itemBuilder: (context, index) {
+                    final reminder = dayReminders[index];
+                    return _buildReminderTile(reminder);
+                  },
+                ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(t.common.close),
+          ),
+        ],
+      ),
+    );
   }
 }

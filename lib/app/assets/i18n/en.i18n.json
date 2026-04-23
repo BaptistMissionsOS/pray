@@ -84,7 +84,49 @@
       "month": "Month",
       "week": "Week",
       "schedule": "Schedule"
-    }
+    },
+    "filters": {
+      "both": "Both",
+      "prayersOnly": "Prayers Only",
+      "journalsOnly": "Journals Only"
+    },
+    "weekdays": {
+      "short": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "full": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "items": "{count} items",
+    "noReminders": "No reminders",
+    "noRemindersForDay": "No reminders for this day"
   },
   "about": {
     "title": "A Flutter Prayer Journal App",

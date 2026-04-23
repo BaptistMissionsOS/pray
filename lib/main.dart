@@ -280,18 +280,6 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
               ],
             ),
-            ListTile(
-              leading: const Icon(Icons.notifications_active),
-              title: Text(t.drawer.categories.reminders),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Reminders()),
-                );
-              },
-            ),
-            const Divider(),
             ExpansionTile(
               leading: const Icon(Icons.book),
               title: Text(t.drawer.categories.journal),
@@ -330,6 +318,18 @@ class _MainNavigationState extends State<MainNavigation> {
                   },
                 ),
               ],
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.notifications_active),
+              title: Text(t.drawer.categories.reminders),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Reminders()),
+                );
+              },
             ),
           ],
         ),
