@@ -1763,6 +1763,1451 @@ class DashboardBlocksCompanion extends UpdateCompanion<DashboardBlock> {
   }
 }
 
+class $PrayerRemindersTable extends PrayerReminders
+    with TableInfo<$PrayerRemindersTable, PrayerReminder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrayerRemindersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _scheduledTimeMeta = const VerificationMeta(
+    'scheduledTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> scheduledTime =
+      GeneratedColumn<DateTime>(
+        'scheduled_time',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    description,
+    scheduledTime,
+    isActive,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'prayer_reminders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PrayerReminder> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('scheduled_time')) {
+      context.handle(
+        _scheduledTimeMeta,
+        scheduledTime.isAcceptableOrUnknown(
+          data['scheduled_time']!,
+          _scheduledTimeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_scheduledTimeMeta);
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PrayerReminder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrayerReminder(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      scheduledTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}scheduled_time'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PrayerRemindersTable createAlias(String alias) {
+    return $PrayerRemindersTable(attachedDatabase, alias);
+  }
+}
+
+class PrayerReminder extends DataClass implements Insertable<PrayerReminder> {
+  final int id;
+  final String title;
+  final String? description;
+  final DateTime scheduledTime;
+  final bool isActive;
+  final DateTime createdAt;
+  const PrayerReminder({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.scheduledTime,
+    required this.isActive,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['scheduled_time'] = Variable<DateTime>(scheduledTime);
+    map['is_active'] = Variable<bool>(isActive);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  PrayerRemindersCompanion toCompanion(bool nullToAbsent) {
+    return PrayerRemindersCompanion(
+      id: Value(id),
+      title: Value(title),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      scheduledTime: Value(scheduledTime),
+      isActive: Value(isActive),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory PrayerReminder.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrayerReminder(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String?>(json['description']),
+      scheduledTime: serializer.fromJson<DateTime>(json['scheduledTime']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String?>(description),
+      'scheduledTime': serializer.toJson<DateTime>(scheduledTime),
+      'isActive': serializer.toJson<bool>(isActive),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  PrayerReminder copyWith({
+    int? id,
+    String? title,
+    Value<String?> description = const Value.absent(),
+    DateTime? scheduledTime,
+    bool? isActive,
+    DateTime? createdAt,
+  }) => PrayerReminder(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description.present ? description.value : this.description,
+    scheduledTime: scheduledTime ?? this.scheduledTime,
+    isActive: isActive ?? this.isActive,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  PrayerReminder copyWithCompanion(PrayerRemindersCompanion data) {
+    return PrayerReminder(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      scheduledTime: data.scheduledTime.present
+          ? data.scheduledTime.value
+          : this.scheduledTime,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerReminder(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('scheduledTime: $scheduledTime, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, title, description, scheduledTime, isActive, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrayerReminder &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.description == this.description &&
+          other.scheduledTime == this.scheduledTime &&
+          other.isActive == this.isActive &&
+          other.createdAt == this.createdAt);
+}
+
+class PrayerRemindersCompanion extends UpdateCompanion<PrayerReminder> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String?> description;
+  final Value<DateTime> scheduledTime;
+  final Value<bool> isActive;
+  final Value<DateTime> createdAt;
+  const PrayerRemindersCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.description = const Value.absent(),
+    this.scheduledTime = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  PrayerRemindersCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    this.description = const Value.absent(),
+    required DateTime scheduledTime,
+    this.isActive = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : title = Value(title),
+       scheduledTime = Value(scheduledTime);
+  static Insertable<PrayerReminder> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? description,
+    Expression<DateTime>? scheduledTime,
+    Expression<bool>? isActive,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (scheduledTime != null) 'scheduled_time': scheduledTime,
+      if (isActive != null) 'is_active': isActive,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  PrayerRemindersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String?>? description,
+    Value<DateTime>? scheduledTime,
+    Value<bool>? isActive,
+    Value<DateTime>? createdAt,
+  }) {
+    return PrayerRemindersCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      scheduledTime: scheduledTime ?? this.scheduledTime,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (scheduledTime.present) {
+      map['scheduled_time'] = Variable<DateTime>(scheduledTime.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerRemindersCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('scheduledTime: $scheduledTime, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PrayerGoalsTable extends PrayerGoals
+    with TableInfo<$PrayerGoalsTable, PrayerGoal> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrayerGoalsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetCountMeta = const VerificationMeta(
+    'targetCount',
+  );
+  @override
+  late final GeneratedColumn<int> targetCount = GeneratedColumn<int>(
+    'target_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _currentCountMeta = const VerificationMeta(
+    'currentCount',
+  );
+  @override
+  late final GeneratedColumn<int> currentCount = GeneratedColumn<int>(
+    'current_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _deadlineMeta = const VerificationMeta(
+    'deadline',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
+    'deadline',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    description,
+    targetCount,
+    currentCount,
+    deadline,
+    isCompleted,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'prayer_goals';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PrayerGoal> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_count')) {
+      context.handle(
+        _targetCountMeta,
+        targetCount.isAcceptableOrUnknown(
+          data['target_count']!,
+          _targetCountMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_targetCountMeta);
+    }
+    if (data.containsKey('current_count')) {
+      context.handle(
+        _currentCountMeta,
+        currentCount.isAcceptableOrUnknown(
+          data['current_count']!,
+          _currentCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('deadline')) {
+      context.handle(
+        _deadlineMeta,
+        deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta),
+      );
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PrayerGoal map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrayerGoal(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      targetCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_count'],
+      )!,
+      currentCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}current_count'],
+      )!,
+      deadline: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deadline'],
+      ),
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PrayerGoalsTable createAlias(String alias) {
+    return $PrayerGoalsTable(attachedDatabase, alias);
+  }
+}
+
+class PrayerGoal extends DataClass implements Insertable<PrayerGoal> {
+  final int id;
+  final String title;
+  final String? description;
+  final int targetCount;
+  final int currentCount;
+  final DateTime? deadline;
+  final bool isCompleted;
+  final DateTime createdAt;
+  const PrayerGoal({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.targetCount,
+    required this.currentCount,
+    this.deadline,
+    required this.isCompleted,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['target_count'] = Variable<int>(targetCount);
+    map['current_count'] = Variable<int>(currentCount);
+    if (!nullToAbsent || deadline != null) {
+      map['deadline'] = Variable<DateTime>(deadline);
+    }
+    map['is_completed'] = Variable<bool>(isCompleted);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  PrayerGoalsCompanion toCompanion(bool nullToAbsent) {
+    return PrayerGoalsCompanion(
+      id: Value(id),
+      title: Value(title),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      targetCount: Value(targetCount),
+      currentCount: Value(currentCount),
+      deadline: deadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deadline),
+      isCompleted: Value(isCompleted),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory PrayerGoal.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrayerGoal(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String?>(json['description']),
+      targetCount: serializer.fromJson<int>(json['targetCount']),
+      currentCount: serializer.fromJson<int>(json['currentCount']),
+      deadline: serializer.fromJson<DateTime?>(json['deadline']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String?>(description),
+      'targetCount': serializer.toJson<int>(targetCount),
+      'currentCount': serializer.toJson<int>(currentCount),
+      'deadline': serializer.toJson<DateTime?>(deadline),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  PrayerGoal copyWith({
+    int? id,
+    String? title,
+    Value<String?> description = const Value.absent(),
+    int? targetCount,
+    int? currentCount,
+    Value<DateTime?> deadline = const Value.absent(),
+    bool? isCompleted,
+    DateTime? createdAt,
+  }) => PrayerGoal(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description.present ? description.value : this.description,
+    targetCount: targetCount ?? this.targetCount,
+    currentCount: currentCount ?? this.currentCount,
+    deadline: deadline.present ? deadline.value : this.deadline,
+    isCompleted: isCompleted ?? this.isCompleted,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  PrayerGoal copyWithCompanion(PrayerGoalsCompanion data) {
+    return PrayerGoal(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      targetCount: data.targetCount.present
+          ? data.targetCount.value
+          : this.targetCount,
+      currentCount: data.currentCount.present
+          ? data.currentCount.value
+          : this.currentCount,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerGoal(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('targetCount: $targetCount, ')
+          ..write('currentCount: $currentCount, ')
+          ..write('deadline: $deadline, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    title,
+    description,
+    targetCount,
+    currentCount,
+    deadline,
+    isCompleted,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrayerGoal &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.description == this.description &&
+          other.targetCount == this.targetCount &&
+          other.currentCount == this.currentCount &&
+          other.deadline == this.deadline &&
+          other.isCompleted == this.isCompleted &&
+          other.createdAt == this.createdAt);
+}
+
+class PrayerGoalsCompanion extends UpdateCompanion<PrayerGoal> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String?> description;
+  final Value<int> targetCount;
+  final Value<int> currentCount;
+  final Value<DateTime?> deadline;
+  final Value<bool> isCompleted;
+  final Value<DateTime> createdAt;
+  const PrayerGoalsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.description = const Value.absent(),
+    this.targetCount = const Value.absent(),
+    this.currentCount = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  PrayerGoalsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    this.description = const Value.absent(),
+    required int targetCount,
+    this.currentCount = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : title = Value(title),
+       targetCount = Value(targetCount);
+  static Insertable<PrayerGoal> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? description,
+    Expression<int>? targetCount,
+    Expression<int>? currentCount,
+    Expression<DateTime>? deadline,
+    Expression<bool>? isCompleted,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (targetCount != null) 'target_count': targetCount,
+      if (currentCount != null) 'current_count': currentCount,
+      if (deadline != null) 'deadline': deadline,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  PrayerGoalsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String?>? description,
+    Value<int>? targetCount,
+    Value<int>? currentCount,
+    Value<DateTime?>? deadline,
+    Value<bool>? isCompleted,
+    Value<DateTime>? createdAt,
+  }) {
+    return PrayerGoalsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      targetCount: targetCount ?? this.targetCount,
+      currentCount: currentCount ?? this.currentCount,
+      deadline: deadline ?? this.deadline,
+      isCompleted: isCompleted ?? this.isCompleted,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (targetCount.present) {
+      map['target_count'] = Variable<int>(targetCount.value);
+    }
+    if (currentCount.present) {
+      map['current_count'] = Variable<int>(currentCount.value);
+    }
+    if (deadline.present) {
+      map['deadline'] = Variable<DateTime>(deadline.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerGoalsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('targetCount: $targetCount, ')
+          ..write('currentCount: $currentCount, ')
+          ..write('deadline: $deadline, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PrayerTagsTable extends PrayerTags
+    with TableInfo<$PrayerTagsTable, PrayerTag> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrayerTagsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+    'color',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, color, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'prayer_tags';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PrayerTag> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+        _colorMeta,
+        color.isAcceptableOrUnknown(data['color']!, _colorMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PrayerTag map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrayerTag(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      color: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}color'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $PrayerTagsTable createAlias(String alias) {
+    return $PrayerTagsTable(attachedDatabase, alias);
+  }
+}
+
+class PrayerTag extends DataClass implements Insertable<PrayerTag> {
+  final int id;
+  final String name;
+  final String? color;
+  final DateTime createdAt;
+  const PrayerTag({
+    required this.id,
+    required this.name,
+    this.color,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || color != null) {
+      map['color'] = Variable<String>(color);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  PrayerTagsCompanion toCompanion(bool nullToAbsent) {
+    return PrayerTagsCompanion(
+      id: Value(id),
+      name: Value(name),
+      color: color == null && nullToAbsent
+          ? const Value.absent()
+          : Value(color),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory PrayerTag.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrayerTag(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      color: serializer.fromJson<String?>(json['color']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'color': serializer.toJson<String?>(color),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  PrayerTag copyWith({
+    int? id,
+    String? name,
+    Value<String?> color = const Value.absent(),
+    DateTime? createdAt,
+  }) => PrayerTag(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    color: color.present ? color.value : this.color,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  PrayerTag copyWithCompanion(PrayerTagsCompanion data) {
+    return PrayerTag(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      color: data.color.present ? data.color.value : this.color,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerTag(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('color: $color, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, color, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrayerTag &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.color == this.color &&
+          other.createdAt == this.createdAt);
+}
+
+class PrayerTagsCompanion extends UpdateCompanion<PrayerTag> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> color;
+  final Value<DateTime> createdAt;
+  const PrayerTagsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.color = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  PrayerTagsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.color = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : name = Value(name);
+  static Insertable<PrayerTag> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? color,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (color != null) 'color': color,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  PrayerTagsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String?>? color,
+    Value<DateTime>? createdAt,
+  }) {
+    return PrayerTagsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      color: color ?? this.color,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<String>(color.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerTagsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('color: $color, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PrayerTagRelationsTable extends PrayerTagRelations
+    with TableInfo<$PrayerTagRelationsTable, PrayerTagRelation> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrayerTagRelationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _prayerIdMeta = const VerificationMeta(
+    'prayerId',
+  );
+  @override
+  late final GeneratedColumn<int> prayerId = GeneratedColumn<int>(
+    'prayer_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES prayers (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _tagIdMeta = const VerificationMeta('tagId');
+  @override
+  late final GeneratedColumn<int> tagId = GeneratedColumn<int>(
+    'tag_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES prayer_tags (id) ON DELETE CASCADE',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [prayerId, tagId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'prayer_tag_relations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<PrayerTagRelation> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('prayer_id')) {
+      context.handle(
+        _prayerIdMeta,
+        prayerId.isAcceptableOrUnknown(data['prayer_id']!, _prayerIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_prayerIdMeta);
+    }
+    if (data.containsKey('tag_id')) {
+      context.handle(
+        _tagIdMeta,
+        tagId.isAcceptableOrUnknown(data['tag_id']!, _tagIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tagIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {prayerId, tagId};
+  @override
+  PrayerTagRelation map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrayerTagRelation(
+      prayerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}prayer_id'],
+      )!,
+      tagId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tag_id'],
+      )!,
+    );
+  }
+
+  @override
+  $PrayerTagRelationsTable createAlias(String alias) {
+    return $PrayerTagRelationsTable(attachedDatabase, alias);
+  }
+}
+
+class PrayerTagRelation extends DataClass
+    implements Insertable<PrayerTagRelation> {
+  final int prayerId;
+  final int tagId;
+  const PrayerTagRelation({required this.prayerId, required this.tagId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['prayer_id'] = Variable<int>(prayerId);
+    map['tag_id'] = Variable<int>(tagId);
+    return map;
+  }
+
+  PrayerTagRelationsCompanion toCompanion(bool nullToAbsent) {
+    return PrayerTagRelationsCompanion(
+      prayerId: Value(prayerId),
+      tagId: Value(tagId),
+    );
+  }
+
+  factory PrayerTagRelation.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrayerTagRelation(
+      prayerId: serializer.fromJson<int>(json['prayerId']),
+      tagId: serializer.fromJson<int>(json['tagId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'prayerId': serializer.toJson<int>(prayerId),
+      'tagId': serializer.toJson<int>(tagId),
+    };
+  }
+
+  PrayerTagRelation copyWith({int? prayerId, int? tagId}) => PrayerTagRelation(
+    prayerId: prayerId ?? this.prayerId,
+    tagId: tagId ?? this.tagId,
+  );
+  PrayerTagRelation copyWithCompanion(PrayerTagRelationsCompanion data) {
+    return PrayerTagRelation(
+      prayerId: data.prayerId.present ? data.prayerId.value : this.prayerId,
+      tagId: data.tagId.present ? data.tagId.value : this.tagId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerTagRelation(')
+          ..write('prayerId: $prayerId, ')
+          ..write('tagId: $tagId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(prayerId, tagId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrayerTagRelation &&
+          other.prayerId == this.prayerId &&
+          other.tagId == this.tagId);
+}
+
+class PrayerTagRelationsCompanion extends UpdateCompanion<PrayerTagRelation> {
+  final Value<int> prayerId;
+  final Value<int> tagId;
+  final Value<int> rowid;
+  const PrayerTagRelationsCompanion({
+    this.prayerId = const Value.absent(),
+    this.tagId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PrayerTagRelationsCompanion.insert({
+    required int prayerId,
+    required int tagId,
+    this.rowid = const Value.absent(),
+  }) : prayerId = Value(prayerId),
+       tagId = Value(tagId);
+  static Insertable<PrayerTagRelation> custom({
+    Expression<int>? prayerId,
+    Expression<int>? tagId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (prayerId != null) 'prayer_id': prayerId,
+      if (tagId != null) 'tag_id': tagId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PrayerTagRelationsCompanion copyWith({
+    Value<int>? prayerId,
+    Value<int>? tagId,
+    Value<int>? rowid,
+  }) {
+    return PrayerTagRelationsCompanion(
+      prayerId: prayerId ?? this.prayerId,
+      tagId: tagId ?? this.tagId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (prayerId.present) {
+      map['prayer_id'] = Variable<int>(prayerId.value);
+    }
+    if (tagId.present) {
+      map['tag_id'] = Variable<int>(tagId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrayerTagRelationsCompanion(')
+          ..write('prayerId: $prayerId, ')
+          ..write('tagId: $tagId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1773,6 +3218,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $DashboardBlocksTable dashboardBlocks = $DashboardBlocksTable(
     this,
   );
+  late final $PrayerRemindersTable prayerReminders = $PrayerRemindersTable(
+    this,
+  );
+  late final $PrayerGoalsTable prayerGoals = $PrayerGoalsTable(this);
+  late final $PrayerTagsTable prayerTags = $PrayerTagsTable(this);
+  late final $PrayerTagRelationsTable prayerTagRelations =
+      $PrayerTagRelationsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1783,7 +3235,28 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     journalEntries,
     prayerActivity,
     dashboardBlocks,
+    prayerReminders,
+    prayerGoals,
+    prayerTags,
+    prayerTagRelations,
   ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'prayers',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('prayer_tag_relations', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'prayer_tags',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('prayer_tag_relations', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
 typedef $$PreferencesTableCreateCompanionBuilder =
@@ -1972,6 +3445,30 @@ final class $$PrayersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$PrayerTagRelationsTable, List<PrayerTagRelation>>
+  _prayerTagRelationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.prayerTagRelations,
+        aliasName: $_aliasNameGenerator(
+          db.prayers.id,
+          db.prayerTagRelations.prayerId,
+        ),
+      );
+
+  $$PrayerTagRelationsTableProcessedTableManager get prayerTagRelationsRefs {
+    final manager = $$PrayerTagRelationsTableTableManager(
+      $_db,
+      $_db.prayerTagRelations,
+    ).filter((f) => f.prayerId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _prayerTagRelationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$PrayersTableFilterComposer
@@ -2039,6 +3536,31 @@ class $$PrayersTableFilterComposer
           }) => $$JournalEntriesTableFilterComposer(
             $db: $db,
             $table: $db.journalEntries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> prayerTagRelationsRefs(
+    Expression<bool> Function($$PrayerTagRelationsTableFilterComposer f) f,
+  ) {
+    final $$PrayerTagRelationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.prayerTagRelations,
+      getReferencedColumn: (t) => t.prayerId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayerTagRelationsTableFilterComposer(
+            $db: $db,
+            $table: $db.prayerTagRelations,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -2160,6 +3682,32 @@ class $$PrayersTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> prayerTagRelationsRefs<T extends Object>(
+    Expression<T> Function($$PrayerTagRelationsTableAnnotationComposer a) f,
+  ) {
+    final $$PrayerTagRelationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.prayerTagRelations,
+          getReferencedColumn: (t) => t.prayerId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$PrayerTagRelationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.prayerTagRelations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$PrayersTableTableManager
@@ -2175,7 +3723,10 @@ class $$PrayersTableTableManager
           $$PrayersTableUpdateCompanionBuilder,
           (Prayer, $$PrayersTableReferences),
           Prayer,
-          PrefetchHooks Function({bool journalEntriesRefs})
+          PrefetchHooks Function({
+            bool journalEntriesRefs,
+            bool prayerTagRelationsRefs,
+          })
         > {
   $$PrayersTableTableManager(_$AppDatabase db, $PrayersTable table)
     : super(
@@ -2236,39 +3787,63 @@ class $$PrayersTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({journalEntriesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (journalEntriesRefs) db.journalEntries,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (journalEntriesRefs)
-                    await $_getPrefetchedData<
-                      Prayer,
-                      $PrayersTable,
-                      JournalEntry
-                    >(
-                      currentTable: table,
-                      referencedTable: $$PrayersTableReferences
-                          ._journalEntriesRefsTable(db),
-                      managerFromTypedResult: (p0) => $$PrayersTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).journalEntriesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.relatedPrayerId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({journalEntriesRefs = false, prayerTagRelationsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (journalEntriesRefs) db.journalEntries,
+                    if (prayerTagRelationsRefs) db.prayerTagRelations,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (journalEntriesRefs)
+                        await $_getPrefetchedData<
+                          Prayer,
+                          $PrayersTable,
+                          JournalEntry
+                        >(
+                          currentTable: table,
+                          referencedTable: $$PrayersTableReferences
+                              ._journalEntriesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$PrayersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).journalEntriesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.relatedPrayerId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (prayerTagRelationsRefs)
+                        await $_getPrefetchedData<
+                          Prayer,
+                          $PrayersTable,
+                          PrayerTagRelation
+                        >(
+                          currentTable: table,
+                          referencedTable: $$PrayersTableReferences
+                              ._prayerTagRelationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$PrayersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).prayerTagRelationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.prayerId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -2285,7 +3860,10 @@ typedef $$PrayersTableProcessedTableManager =
       $$PrayersTableUpdateCompanionBuilder,
       (Prayer, $$PrayersTableReferences),
       Prayer,
-      PrefetchHooks Function({bool journalEntriesRefs})
+      PrefetchHooks Function({
+        bool journalEntriesRefs,
+        bool prayerTagRelationsRefs,
+      })
     >;
 typedef $$JournalEntriesTableCreateCompanionBuilder =
     JournalEntriesCompanion Function({
@@ -3003,6 +4581,1141 @@ typedef $$DashboardBlocksTableProcessedTableManager =
       DashboardBlock,
       PrefetchHooks Function()
     >;
+typedef $$PrayerRemindersTableCreateCompanionBuilder =
+    PrayerRemindersCompanion Function({
+      Value<int> id,
+      required String title,
+      Value<String?> description,
+      required DateTime scheduledTime,
+      Value<bool> isActive,
+      Value<DateTime> createdAt,
+    });
+typedef $$PrayerRemindersTableUpdateCompanionBuilder =
+    PrayerRemindersCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String?> description,
+      Value<DateTime> scheduledTime,
+      Value<bool> isActive,
+      Value<DateTime> createdAt,
+    });
+
+class $$PrayerRemindersTableFilterComposer
+    extends Composer<_$AppDatabase, $PrayerRemindersTable> {
+  $$PrayerRemindersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get scheduledTime => $composableBuilder(
+    column: $table.scheduledTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PrayerRemindersTableOrderingComposer
+    extends Composer<_$AppDatabase, $PrayerRemindersTable> {
+  $$PrayerRemindersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get scheduledTime => $composableBuilder(
+    column: $table.scheduledTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PrayerRemindersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PrayerRemindersTable> {
+  $$PrayerRemindersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get scheduledTime => $composableBuilder(
+    column: $table.scheduledTime,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$PrayerRemindersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PrayerRemindersTable,
+          PrayerReminder,
+          $$PrayerRemindersTableFilterComposer,
+          $$PrayerRemindersTableOrderingComposer,
+          $$PrayerRemindersTableAnnotationComposer,
+          $$PrayerRemindersTableCreateCompanionBuilder,
+          $$PrayerRemindersTableUpdateCompanionBuilder,
+          (
+            PrayerReminder,
+            BaseReferences<
+              _$AppDatabase,
+              $PrayerRemindersTable,
+              PrayerReminder
+            >,
+          ),
+          PrayerReminder,
+          PrefetchHooks Function()
+        > {
+  $$PrayerRemindersTableTableManager(
+    _$AppDatabase db,
+    $PrayerRemindersTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrayerRemindersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrayerRemindersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrayerRemindersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> scheduledTime = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerRemindersCompanion(
+                id: id,
+                title: title,
+                description: description,
+                scheduledTime: scheduledTime,
+                isActive: isActive,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                Value<String?> description = const Value.absent(),
+                required DateTime scheduledTime,
+                Value<bool> isActive = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerRemindersCompanion.insert(
+                id: id,
+                title: title,
+                description: description,
+                scheduledTime: scheduledTime,
+                isActive: isActive,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PrayerRemindersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PrayerRemindersTable,
+      PrayerReminder,
+      $$PrayerRemindersTableFilterComposer,
+      $$PrayerRemindersTableOrderingComposer,
+      $$PrayerRemindersTableAnnotationComposer,
+      $$PrayerRemindersTableCreateCompanionBuilder,
+      $$PrayerRemindersTableUpdateCompanionBuilder,
+      (
+        PrayerReminder,
+        BaseReferences<_$AppDatabase, $PrayerRemindersTable, PrayerReminder>,
+      ),
+      PrayerReminder,
+      PrefetchHooks Function()
+    >;
+typedef $$PrayerGoalsTableCreateCompanionBuilder =
+    PrayerGoalsCompanion Function({
+      Value<int> id,
+      required String title,
+      Value<String?> description,
+      required int targetCount,
+      Value<int> currentCount,
+      Value<DateTime?> deadline,
+      Value<bool> isCompleted,
+      Value<DateTime> createdAt,
+    });
+typedef $$PrayerGoalsTableUpdateCompanionBuilder =
+    PrayerGoalsCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String?> description,
+      Value<int> targetCount,
+      Value<int> currentCount,
+      Value<DateTime?> deadline,
+      Value<bool> isCompleted,
+      Value<DateTime> createdAt,
+    });
+
+class $$PrayerGoalsTableFilterComposer
+    extends Composer<_$AppDatabase, $PrayerGoalsTable> {
+  $$PrayerGoalsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get targetCount => $composableBuilder(
+    column: $table.targetCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get currentCount => $composableBuilder(
+    column: $table.currentCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
+    column: $table.deadline,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$PrayerGoalsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PrayerGoalsTable> {
+  $$PrayerGoalsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get targetCount => $composableBuilder(
+    column: $table.targetCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get currentCount => $composableBuilder(
+    column: $table.currentCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
+    column: $table.deadline,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PrayerGoalsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PrayerGoalsTable> {
+  $$PrayerGoalsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get targetCount => $composableBuilder(
+    column: $table.targetCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get currentCount => $composableBuilder(
+    column: $table.currentCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$PrayerGoalsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PrayerGoalsTable,
+          PrayerGoal,
+          $$PrayerGoalsTableFilterComposer,
+          $$PrayerGoalsTableOrderingComposer,
+          $$PrayerGoalsTableAnnotationComposer,
+          $$PrayerGoalsTableCreateCompanionBuilder,
+          $$PrayerGoalsTableUpdateCompanionBuilder,
+          (
+            PrayerGoal,
+            BaseReferences<_$AppDatabase, $PrayerGoalsTable, PrayerGoal>,
+          ),
+          PrayerGoal,
+          PrefetchHooks Function()
+        > {
+  $$PrayerGoalsTableTableManager(_$AppDatabase db, $PrayerGoalsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrayerGoalsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrayerGoalsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrayerGoalsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<int> targetCount = const Value.absent(),
+                Value<int> currentCount = const Value.absent(),
+                Value<DateTime?> deadline = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerGoalsCompanion(
+                id: id,
+                title: title,
+                description: description,
+                targetCount: targetCount,
+                currentCount: currentCount,
+                deadline: deadline,
+                isCompleted: isCompleted,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                Value<String?> description = const Value.absent(),
+                required int targetCount,
+                Value<int> currentCount = const Value.absent(),
+                Value<DateTime?> deadline = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerGoalsCompanion.insert(
+                id: id,
+                title: title,
+                description: description,
+                targetCount: targetCount,
+                currentCount: currentCount,
+                deadline: deadline,
+                isCompleted: isCompleted,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$PrayerGoalsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PrayerGoalsTable,
+      PrayerGoal,
+      $$PrayerGoalsTableFilterComposer,
+      $$PrayerGoalsTableOrderingComposer,
+      $$PrayerGoalsTableAnnotationComposer,
+      $$PrayerGoalsTableCreateCompanionBuilder,
+      $$PrayerGoalsTableUpdateCompanionBuilder,
+      (
+        PrayerGoal,
+        BaseReferences<_$AppDatabase, $PrayerGoalsTable, PrayerGoal>,
+      ),
+      PrayerGoal,
+      PrefetchHooks Function()
+    >;
+typedef $$PrayerTagsTableCreateCompanionBuilder =
+    PrayerTagsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String?> color,
+      Value<DateTime> createdAt,
+    });
+typedef $$PrayerTagsTableUpdateCompanionBuilder =
+    PrayerTagsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String?> color,
+      Value<DateTime> createdAt,
+    });
+
+final class $$PrayerTagsTableReferences
+    extends BaseReferences<_$AppDatabase, $PrayerTagsTable, PrayerTag> {
+  $$PrayerTagsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$PrayerTagRelationsTable, List<PrayerTagRelation>>
+  _prayerTagRelationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.prayerTagRelations,
+        aliasName: $_aliasNameGenerator(
+          db.prayerTags.id,
+          db.prayerTagRelations.tagId,
+        ),
+      );
+
+  $$PrayerTagRelationsTableProcessedTableManager get prayerTagRelationsRefs {
+    final manager = $$PrayerTagRelationsTableTableManager(
+      $_db,
+      $_db.prayerTagRelations,
+    ).filter((f) => f.tagId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _prayerTagRelationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$PrayerTagsTableFilterComposer
+    extends Composer<_$AppDatabase, $PrayerTagsTable> {
+  $$PrayerTagsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> prayerTagRelationsRefs(
+    Expression<bool> Function($$PrayerTagRelationsTableFilterComposer f) f,
+  ) {
+    final $$PrayerTagRelationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.prayerTagRelations,
+      getReferencedColumn: (t) => t.tagId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayerTagRelationsTableFilterComposer(
+            $db: $db,
+            $table: $db.prayerTagRelations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$PrayerTagsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PrayerTagsTable> {
+  $$PrayerTagsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$PrayerTagsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PrayerTagsTable> {
+  $$PrayerTagsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> prayerTagRelationsRefs<T extends Object>(
+    Expression<T> Function($$PrayerTagRelationsTableAnnotationComposer a) f,
+  ) {
+    final $$PrayerTagRelationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.prayerTagRelations,
+          getReferencedColumn: (t) => t.tagId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$PrayerTagRelationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.prayerTagRelations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$PrayerTagsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PrayerTagsTable,
+          PrayerTag,
+          $$PrayerTagsTableFilterComposer,
+          $$PrayerTagsTableOrderingComposer,
+          $$PrayerTagsTableAnnotationComposer,
+          $$PrayerTagsTableCreateCompanionBuilder,
+          $$PrayerTagsTableUpdateCompanionBuilder,
+          (PrayerTag, $$PrayerTagsTableReferences),
+          PrayerTag,
+          PrefetchHooks Function({bool prayerTagRelationsRefs})
+        > {
+  $$PrayerTagsTableTableManager(_$AppDatabase db, $PrayerTagsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrayerTagsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrayerTagsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrayerTagsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> color = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerTagsCompanion(
+                id: id,
+                name: name,
+                color: color,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String?> color = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => PrayerTagsCompanion.insert(
+                id: id,
+                name: name,
+                color: color,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PrayerTagsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({prayerTagRelationsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (prayerTagRelationsRefs) db.prayerTagRelations,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (prayerTagRelationsRefs)
+                    await $_getPrefetchedData<
+                      PrayerTag,
+                      $PrayerTagsTable,
+                      PrayerTagRelation
+                    >(
+                      currentTable: table,
+                      referencedTable: $$PrayerTagsTableReferences
+                          ._prayerTagRelationsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$PrayerTagsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).prayerTagRelationsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.tagId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PrayerTagsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PrayerTagsTable,
+      PrayerTag,
+      $$PrayerTagsTableFilterComposer,
+      $$PrayerTagsTableOrderingComposer,
+      $$PrayerTagsTableAnnotationComposer,
+      $$PrayerTagsTableCreateCompanionBuilder,
+      $$PrayerTagsTableUpdateCompanionBuilder,
+      (PrayerTag, $$PrayerTagsTableReferences),
+      PrayerTag,
+      PrefetchHooks Function({bool prayerTagRelationsRefs})
+    >;
+typedef $$PrayerTagRelationsTableCreateCompanionBuilder =
+    PrayerTagRelationsCompanion Function({
+      required int prayerId,
+      required int tagId,
+      Value<int> rowid,
+    });
+typedef $$PrayerTagRelationsTableUpdateCompanionBuilder =
+    PrayerTagRelationsCompanion Function({
+      Value<int> prayerId,
+      Value<int> tagId,
+      Value<int> rowid,
+    });
+
+final class $$PrayerTagRelationsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $PrayerTagRelationsTable,
+          PrayerTagRelation
+        > {
+  $$PrayerTagRelationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $PrayersTable _prayerIdTable(_$AppDatabase db) =>
+      db.prayers.createAlias(
+        $_aliasNameGenerator(db.prayerTagRelations.prayerId, db.prayers.id),
+      );
+
+  $$PrayersTableProcessedTableManager get prayerId {
+    final $_column = $_itemColumn<int>('prayer_id')!;
+
+    final manager = $$PrayersTableTableManager(
+      $_db,
+      $_db.prayers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_prayerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $PrayerTagsTable _tagIdTable(_$AppDatabase db) =>
+      db.prayerTags.createAlias(
+        $_aliasNameGenerator(db.prayerTagRelations.tagId, db.prayerTags.id),
+      );
+
+  $$PrayerTagsTableProcessedTableManager get tagId {
+    final $_column = $_itemColumn<int>('tag_id')!;
+
+    final manager = $$PrayerTagsTableTableManager(
+      $_db,
+      $_db.prayerTags,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_tagIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$PrayerTagRelationsTableFilterComposer
+    extends Composer<_$AppDatabase, $PrayerTagRelationsTable> {
+  $$PrayerTagRelationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$PrayersTableFilterComposer get prayerId {
+    final $$PrayersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.prayerId,
+      referencedTable: $db.prayers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayersTableFilterComposer(
+            $db: $db,
+            $table: $db.prayers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PrayerTagsTableFilterComposer get tagId {
+    final $$PrayerTagsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tagId,
+      referencedTable: $db.prayerTags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayerTagsTableFilterComposer(
+            $db: $db,
+            $table: $db.prayerTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PrayerTagRelationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $PrayerTagRelationsTable> {
+  $$PrayerTagRelationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$PrayersTableOrderingComposer get prayerId {
+    final $$PrayersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.prayerId,
+      referencedTable: $db.prayers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayersTableOrderingComposer(
+            $db: $db,
+            $table: $db.prayers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PrayerTagsTableOrderingComposer get tagId {
+    final $$PrayerTagsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tagId,
+      referencedTable: $db.prayerTags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayerTagsTableOrderingComposer(
+            $db: $db,
+            $table: $db.prayerTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PrayerTagRelationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PrayerTagRelationsTable> {
+  $$PrayerTagRelationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$PrayersTableAnnotationComposer get prayerId {
+    final $$PrayersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.prayerId,
+      referencedTable: $db.prayers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.prayers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$PrayerTagsTableAnnotationComposer get tagId {
+    final $$PrayerTagsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.tagId,
+      referencedTable: $db.prayerTags,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PrayerTagsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.prayerTags,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$PrayerTagRelationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $PrayerTagRelationsTable,
+          PrayerTagRelation,
+          $$PrayerTagRelationsTableFilterComposer,
+          $$PrayerTagRelationsTableOrderingComposer,
+          $$PrayerTagRelationsTableAnnotationComposer,
+          $$PrayerTagRelationsTableCreateCompanionBuilder,
+          $$PrayerTagRelationsTableUpdateCompanionBuilder,
+          (PrayerTagRelation, $$PrayerTagRelationsTableReferences),
+          PrayerTagRelation,
+          PrefetchHooks Function({bool prayerId, bool tagId})
+        > {
+  $$PrayerTagRelationsTableTableManager(
+    _$AppDatabase db,
+    $PrayerTagRelationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrayerTagRelationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrayerTagRelationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrayerTagRelationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> prayerId = const Value.absent(),
+                Value<int> tagId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PrayerTagRelationsCompanion(
+                prayerId: prayerId,
+                tagId: tagId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int prayerId,
+                required int tagId,
+                Value<int> rowid = const Value.absent(),
+              }) => PrayerTagRelationsCompanion.insert(
+                prayerId: prayerId,
+                tagId: tagId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$PrayerTagRelationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({prayerId = false, tagId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (prayerId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.prayerId,
+                                referencedTable:
+                                    $$PrayerTagRelationsTableReferences
+                                        ._prayerIdTable(db),
+                                referencedColumn:
+                                    $$PrayerTagRelationsTableReferences
+                                        ._prayerIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (tagId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.tagId,
+                                referencedTable:
+                                    $$PrayerTagRelationsTableReferences
+                                        ._tagIdTable(db),
+                                referencedColumn:
+                                    $$PrayerTagRelationsTableReferences
+                                        ._tagIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$PrayerTagRelationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $PrayerTagRelationsTable,
+      PrayerTagRelation,
+      $$PrayerTagRelationsTableFilterComposer,
+      $$PrayerTagRelationsTableOrderingComposer,
+      $$PrayerTagRelationsTableAnnotationComposer,
+      $$PrayerTagRelationsTableCreateCompanionBuilder,
+      $$PrayerTagRelationsTableUpdateCompanionBuilder,
+      (PrayerTagRelation, $$PrayerTagRelationsTableReferences),
+      PrayerTagRelation,
+      PrefetchHooks Function({bool prayerId, bool tagId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3017,4 +5730,12 @@ class $AppDatabaseManager {
       $$PrayerActivityTableTableManager(_db, _db.prayerActivity);
   $$DashboardBlocksTableTableManager get dashboardBlocks =>
       $$DashboardBlocksTableTableManager(_db, _db.dashboardBlocks);
+  $$PrayerRemindersTableTableManager get prayerReminders =>
+      $$PrayerRemindersTableTableManager(_db, _db.prayerReminders);
+  $$PrayerGoalsTableTableManager get prayerGoals =>
+      $$PrayerGoalsTableTableManager(_db, _db.prayerGoals);
+  $$PrayerTagsTableTableManager get prayerTags =>
+      $$PrayerTagsTableTableManager(_db, _db.prayerTags);
+  $$PrayerTagRelationsTableTableManager get prayerTagRelations =>
+      $$PrayerTagRelationsTableTableManager(_db, _db.prayerTagRelations);
 }

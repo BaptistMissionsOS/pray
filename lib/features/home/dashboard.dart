@@ -15,6 +15,8 @@ class _DashboardState extends State<Dashboard> {
   final db = DatabaseProvider.instance;
   Map<String, int> _stats = {'total': 0, 'answered': 0, 'unanswered': 0, 'active': 0};
   int _streak = 0;
+  int _activeReminders = 0;
+  int _activeGoals = 0;
   List<PrayerActivityData> _weekActivity = [];
   List<DashboardBlock> _blocks = [];
   bool _isLoading = true;
@@ -29,6 +31,8 @@ class _DashboardState extends State<Dashboard> {
     final stats = await db.getPrayerStats();
     final streak = await db.getCurrentStreak();
     final blocks = await db.getAllDashboardBlocks();
+    final activeReminders = await db.getActiveReminderCount();
+    final activeGoals = await db.getActiveGoalCount();
     final now = DateTime.now();
     final weekStart = now.subtract(Duration(days: now.weekday - 1));
     final weekEnd = weekStart.add(const Duration(days: 6));
@@ -38,6 +42,8 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
         _stats = stats;
         _streak = streak;
+        _activeReminders = activeReminders;
+        _activeGoals = activeGoals;
         _blocks = blocks;
         _weekActivity = activity;
         _isLoading = false;
@@ -366,13 +372,13 @@ class _DashboardState extends State<Dashboard> {
       case 'reminder':
         icon = Icons.notifications_active;
         title = t.dashboard.blockTypes.reminder;
-        value = '3'; // Active reminders count - hardcoded for now
+        value = _activeReminders.toString();
         subtitle = t.dashboard.blockTypes.reminderDesc;
         color = Colors.teal;
       case 'goals':
         icon = Icons.flag;
         title = t.dashboard.blockTypes.goals;
-        value = '5'; // Goals set count - hardcoded for now
+        value = _activeGoals.toString();
         subtitle = t.dashboard.blockTypes.goalsDesc;
         color = Colors.indigo;
       default:
