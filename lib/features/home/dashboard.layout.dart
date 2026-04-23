@@ -9,13 +9,7 @@ class DashboardLayout extends StatefulWidget {
 }
 
 class _DashboardLayoutState extends State<DashboardLayout> {
-  final List<Map<String, dynamic>> blocks = [
-    {'nameKey': 'totalPrayers', 'type': 'Counter', 'icon': Icons.format_list_numbered},
-    {'nameKey': 'answered', 'type': 'Counter', 'icon': Icons.check_circle},
-    {'nameKey': 'unanswered', 'type': 'Counter', 'icon': Icons.pending},
-    {'nameKey': 'streak', 'type': 'Streak', 'icon': Icons.local_fire_department},
-    {'nameKey': 'weekly', 'type': 'Chart', 'icon': Icons.pie_chart},
-  ];
+  final List<Map<String, dynamic>> blocks = [];
 
   @override
   Widget build(BuildContext context) {

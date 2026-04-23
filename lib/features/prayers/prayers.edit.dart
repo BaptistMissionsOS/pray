@@ -9,32 +9,7 @@ class PrayersEdit extends StatefulWidget {
 }
 
 class _PrayersEditState extends State<PrayersEdit> {
-  final samplePrayers = [
-    {
-      'id': 1,
-      'title': 'Family Salvation',
-      'description': 'Praying for my brother to come to know Christ.',
-      'category': 'Family',
-      'status': 'unanswered',
-      'date': '2024-01-15',
-    },
-    {
-      'id': 2,
-      'title': 'Job Interview',
-      'description': 'Upcoming interview next week.',
-      'category': 'Work',
-      'status': 'unanswered',
-      'date': '2024-01-10',
-    },
-    {
-      'id': 3,
-      'title': 'Healing for Mom',
-      'description': 'Recovering from surgery.',
-      'category': 'Health',
-      'status': 'active',
-      'date': '2024-01-05',
-    },
-  ];
+  final samplePrayers = [];
 
   @override
   Widget build(BuildContext context) {

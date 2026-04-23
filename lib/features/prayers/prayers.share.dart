@@ -9,13 +9,7 @@ class PrayersShare extends StatefulWidget {
 }
 
 class _PrayersShareState extends State<PrayersShare> {
-  final List<Map<String, dynamic>> prayers = [
-    {'id': 1, 'title': 'Family Salvation', 'selected': true},
-    {'id': 2, 'title': 'Job Interview', 'selected': true},
-    {'id': 3, 'title': 'Healing for Mom', 'selected': false},
-    {'id': 4, 'title': 'Daily Devotion', 'selected': false},
-    {'id': 5, 'title': 'Mission Trip', 'selected': false},
-  ];
+  final List<Map<String, dynamic>> prayers = [];
 
   String _selectedFormat = 'text';
 

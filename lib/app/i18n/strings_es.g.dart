@@ -415,7 +415,6 @@ class _TranslationsDashboardEditEs extends TranslationsDashboardEditEn {
 	@override String get typeLabel => 'Tipo';
 	@override late final _TranslationsDashboardEditBlockNamesEs blockNames = _TranslationsDashboardEditBlockNamesEs._(_root);
 	@override late final _TranslationsDashboardEditBlockTypesEs blockTypes = _TranslationsDashboardEditBlockTypesEs._(_root);
-	@override late final _TranslationsDashboardEditBlockValuesEs blockValues = _TranslationsDashboardEditBlockValuesEs._(_root);
 }
 
 // Path: dashboard.layout
@@ -639,17 +638,6 @@ class _TranslationsDashboardEditBlockTypesEs extends TranslationsDashboardEditBl
 	@override String get chart => 'Gráfico';
 }
 
-// Path: dashboard.edit.blockValues
-class _TranslationsDashboardEditBlockValuesEs extends TranslationsDashboardEditBlockValuesEn {
-	_TranslationsDashboardEditBlockValuesEs._(TranslationsEs root) : this._root = root, super.internal(root);
-
-	final TranslationsEs _root; // ignore: unused_field
-
-	// Translations
-	@override String days({required Object count}) => '${count} días';
-	@override String get chartView => 'Vista de gráfico';
-}
-
 // Path: dashboard.layout.blockNames
 class _TranslationsDashboardLayoutBlockNamesEs extends TranslationsDashboardLayoutBlockNamesEn {
 	_TranslationsDashboardLayoutBlockNamesEs._(TranslationsEs root) : this._root = root, super.internal(root);
@@ -768,8 +756,6 @@ extension on TranslationsEs {
 			'dashboard.edit.blockTypes.counter' => 'Contador',
 			'dashboard.edit.blockTypes.streak' => 'Racha',
 			'dashboard.edit.blockTypes.chart' => 'Gráfico',
-			'dashboard.edit.blockValues.days' => ({required Object count}) => '${count} días',
-			'dashboard.edit.blockValues.chartView' => 'Vista de gráfico',
 			'dashboard.layout.title' => 'Organizar Bloques',
 			'dashboard.layout.subtitle' => 'Arrastra y suelta para reordenar los bloques del panel',
 			'dashboard.layout.blockNames.totalPrayers' => 'Oraciones Totales',

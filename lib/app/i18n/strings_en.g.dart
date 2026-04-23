@@ -688,7 +688,6 @@ class TranslationsDashboardEditEn {
 
 	late final TranslationsDashboardEditBlockNamesEn blockNames = TranslationsDashboardEditBlockNamesEn.internal(_root);
 	late final TranslationsDashboardEditBlockTypesEn blockTypes = TranslationsDashboardEditBlockTypesEn.internal(_root);
-	late final TranslationsDashboardEditBlockValuesEn blockValues = TranslationsDashboardEditBlockValuesEn.internal(_root);
 }
 
 // Path: dashboard.layout
@@ -1101,21 +1100,6 @@ class TranslationsDashboardEditBlockTypesEn {
 	String get chart => 'Chart';
 }
 
-// Path: dashboard.edit.blockValues
-class TranslationsDashboardEditBlockValuesEn {
-	TranslationsDashboardEditBlockValuesEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: '{count} days'
-	String days({required Object count}) => '${count} days';
-
-	/// en: 'Chart view'
-	String get chartView => 'Chart view';
-}
-
 // Path: dashboard.layout.blockNames
 class TranslationsDashboardLayoutBlockNamesEn {
 	TranslationsDashboardLayoutBlockNamesEn.internal(this._root);
@@ -1244,8 +1228,6 @@ extension on Translations {
 			'dashboard.edit.blockTypes.counter' => 'Counter',
 			'dashboard.edit.blockTypes.streak' => 'Streak',
 			'dashboard.edit.blockTypes.chart' => 'Chart',
-			'dashboard.edit.blockValues.days' => ({required Object count}) => '${count} days',
-			'dashboard.edit.blockValues.chartView' => 'Chart view',
 			'dashboard.layout.title' => 'Arrange Blocks',
 			'dashboard.layout.subtitle' => 'Drag and drop to reorder your dashboard blocks',
 			'dashboard.layout.blockNames.totalPrayers' => 'Total Prayers',

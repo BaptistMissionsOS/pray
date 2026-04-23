@@ -4,34 +4,7 @@ import '../../app/i18n/strings.g.dart';
 class DashboardEdit extends StatelessWidget {
   const DashboardEdit({super.key});
 
-  final List<Map<String, dynamic>> existingBlocks = const [
-    {
-      'nameKey': 'totalPrayers',
-      'typeKey': 'counter',
-      'value': '24',
-    },
-    {
-      'nameKey': 'answeredPrayers',
-      'typeKey': 'counter',
-      'value': '8',
-    },
-    {
-      'nameKey': 'unanswered',
-      'typeKey': 'counter',
-      'value': '12',
-    },
-    {
-      'nameKey': 'prayerStreak',
-      'typeKey': 'streak',
-      'value': '5',
-      'valueKey': 'days',
-    },
-    {
-      'nameKey': 'weeklyActivity',
-      'typeKey': 'chart',
-      'valueKey': 'chartView',
-    },
-  ];
+  final List<Map<String, dynamic>> existingBlocks = const [];
 
   @override
   Widget build(BuildContext context) {
@@ -129,15 +102,6 @@ class DashboardEdit extends StatelessWidget {
       case 'streak': return t.dashboard.edit.blockTypes.streak;
       case 'chart': return t.dashboard.edit.blockTypes.chart;
       default: return key;
-    }
-  }
-
-  String _getBlockValue(Translations t, String value, String? valueKey) {
-    if (valueKey == null) return value;
-    switch (valueKey) {
-      case 'days': return t.dashboard.edit.blockValues.days(count: value);
-      case 'chartView': return t.dashboard.edit.blockValues.chartView;
-      default: return value;
     }
   }
 }

@@ -9,44 +9,7 @@ class JournalOrganize extends StatefulWidget {
 }
 
 class _JournalOrganizeState extends State<JournalOrganize> {
-  final List<Map<String, dynamic>> categories = [
-    {
-      'name': 'Answered Prayers',
-      'count': 5,
-      'color': Colors.green,
-      'icon': Icons.check_circle,
-    },
-    {
-      'name': 'Daily Devotion',
-      'count': 12,
-      'color': Colors.blue,
-      'icon': Icons.book,
-    },
-    {
-      'name': 'Health',
-      'count': 3,
-      'color': Colors.red,
-      'icon': Icons.favorite,
-    },
-    {
-      'name': 'Missions',
-      'count': 2,
-      'color': Colors.purple,
-      'icon': Icons.public,
-    },
-    {
-      'name': 'Family',
-      'count': 8,
-      'color': Colors.orange,
-      'icon': Icons.family_restroom,
-    },
-    {
-      'name': 'Uncategorized',
-      'count': 4,
-      'color': Colors.grey,
-      'icon': Icons.folder_open,
-    },
-  ];
+  final List<Map<String, dynamic>> categories = [];
 
   @override
   Widget build(BuildContext context) {

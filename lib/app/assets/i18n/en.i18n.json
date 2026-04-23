@@ -130,10 +130,6 @@
         "counter": "Counter",
         "streak": "Streak",
         "chart": "Chart"
-      },
-      "blockValues": {
-        "days": "{count} days",
-        "chartView": "Chart view"
       }
     },
     "layout": {
