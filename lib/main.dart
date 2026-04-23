@@ -211,23 +211,31 @@ class _MainNavigationState extends State<MainNavigation> {
                 ListTile(
                   leading: const Icon(Icons.edit),
                   title: Text(t.drawer.actions.edit),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const DashboardEdit()),
                     );
+                    // Refresh dashboard when returning
+                    setState(() {
+                      _dashboardRefresh++;
+                    });
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.grid_view),
                   title: Text(t.drawer.actions.layout),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const DashboardLayout()),
                     );
+                    // Refresh dashboard when returning
+                    setState(() {
+                      _dashboardRefresh++;
+                    });
                   },
                 ),
               ],

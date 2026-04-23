@@ -727,12 +727,6 @@ class TranslationsDashboardBlockTypesEn {
 	/// en: 'Display a simple count of prayers'
 	String get counterDesc => 'Display a simple count of prayers';
 
-	/// en: 'Streak Block'
-	String get streak => 'Streak Block';
-
-	/// en: 'Show your prayer streak'
-	String get streakDesc => 'Show your prayer streak';
-
 	/// en: 'Chart Block'
 	String get chart => 'Chart Block';
 
@@ -756,6 +750,18 @@ class TranslationsDashboardBlockTypesEn {
 
 	/// en: 'Percentage of answered prayers'
 	String get rateDesc => 'Percentage of answered prayers';
+
+	/// en: 'Prayer Reminders'
+	String get reminder => 'Prayer Reminders';
+
+	/// en: 'Active prayer reminders'
+	String get reminderDesc => 'Active prayer reminders';
+
+	/// en: 'Prayer Goals'
+	String get goals => 'Prayer Goals';
+
+	/// en: 'Your prayer goals and targets'
+	String get goalsDesc => 'Your prayer goals and targets';
 }
 
 // Path: prayers.tabs
@@ -1245,8 +1251,6 @@ extension on Translations {
 			'dashboard.layout.blockNames.weekly' => 'Weekly',
 			'dashboard.blockTypes.counter' => 'Counter Block',
 			'dashboard.blockTypes.counterDesc' => 'Display a simple count of prayers',
-			'dashboard.blockTypes.streak' => 'Streak Block',
-			'dashboard.blockTypes.streakDesc' => 'Show your prayer streak',
 			'dashboard.blockTypes.chart' => 'Chart Block',
 			'dashboard.blockTypes.chartDesc' => 'Visual chart of prayer statistics',
 			'dashboard.blockTypes.list' => 'Recent List',
@@ -1255,6 +1259,10 @@ extension on Translations {
 			'dashboard.blockTypes.categoryDesc' => 'Prayers grouped by category',
 			'dashboard.blockTypes.rate' => 'Answered Rate',
 			'dashboard.blockTypes.rateDesc' => 'Percentage of answered prayers',
+			'dashboard.blockTypes.reminder' => 'Prayer Reminders',
+			'dashboard.blockTypes.reminderDesc' => 'Active prayer reminders',
+			'dashboard.blockTypes.goals' => 'Prayer Goals',
+			'dashboard.blockTypes.goalsDesc' => 'Your prayer goals and targets',
 			'prayers.tabs.unanswered' => 'Unanswered',
 			'prayers.tabs.active' => 'Active',
 			'prayers.tabs.answered' => 'Answered',

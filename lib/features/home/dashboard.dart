@@ -89,6 +89,18 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // User Created Blocks (First)
+              if (_blocks.isNotEmpty) ...[
+                ..._blocks.map((block) => Column(
+                  children: [
+                    _buildBlock(context, block),
+                    const SizedBox(height: 12),
+                  ],
+                )),
+                const Divider(height: 32, thickness: 1),
+              ],
+
+              // Default Blocks (Second)
               _buildStatBlock(
                 context,
                 icon: Symbols.folded_hands,
@@ -115,7 +127,9 @@ class _DashboardState extends State<Dashboard> {
                 subtitle: t.dashboard.stats.stillPraying,
                 color: Colors.orange,
               ),
-              const SizedBox(height: 12),
+              const Divider(height: 32, thickness: 1),
+
+              // Milestones (Third)
               _buildStatBlock(
                 context,
                 icon: Icons.local_fire_department,
@@ -124,7 +138,7 @@ class _DashboardState extends State<Dashboard> {
                 subtitle: t.dashboard.stats.dayPrayerStreak,
                 color: Colors.red,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -140,7 +154,7 @@ class _DashboardState extends State<Dashboard> {
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: weekDays.map((day) => 
+                        children: weekDays.map((day) =>
                           _buildDayIndicator(context, day.$1, _isDayPrayed(day.$2))
                         ).toList(),
                       ),
@@ -149,6 +163,8 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               const SizedBox(height: 24),
+
+              // Quick Actions (Last)
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -180,18 +196,6 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
-              if (_blocks.isNotEmpty) ...[
-                const SizedBox(height: 24),
-                ..._blocks.asMap().entries.map((entry) {
-                  final block = entry.value;
-                  return Column(
-                    children: [
-                      _buildBlock(context, block),
-                      const SizedBox(height: 12),
-                    ],
-                  );
-                }),
-              ],
             ],
           ),
         ),
@@ -322,6 +326,7 @@ class _DashboardState extends State<Dashboard> {
     IconData icon;
     String title;
     String value;
+    String subtitle;
     Color color;
 
     switch (block.type) {
@@ -329,26 +334,25 @@ class _DashboardState extends State<Dashboard> {
         icon = Icons.format_list_numbered;
         title = t.dashboard.edit.blockNames.totalPrayers;
         value = _stats['total'].toString();
+        subtitle = t.dashboard.edit.blockTypes.counter;
         color = colorScheme.primary;
-      case 'streak':
-        icon = Icons.local_fire_department;
-        title = t.dashboard.edit.blockNames.prayerStreak;
-        value = _streak.toString();
-        color = Colors.red;
       case 'chart':
         icon = Icons.pie_chart;
         title = t.dashboard.edit.blockNames.weeklyActivity;
         value = _weekActivity.where((a) => a.prayed).length.toString();
+        subtitle = t.dashboard.edit.blockTypes.chart;
         color = Colors.blue;
       case 'list':
         icon = Icons.list;
         title = t.dashboard.blockTypes.list;
         value = _stats['active'].toString();
+        subtitle = t.dashboard.edit.blockTypes.counter;
         color = Colors.purple;
       case 'category':
         icon = Icons.category;
         title = t.dashboard.blockTypes.category;
         value = _stats['answered'].toString();
+        subtitle = t.dashboard.edit.blockTypes.counter;
         color = Colors.green;
       case 'rate':
         icon = Icons.percent;
@@ -357,11 +361,25 @@ class _DashboardState extends State<Dashboard> {
             : 0;
         title = t.dashboard.blockTypes.rate;
         value = '$rate%';
+        subtitle = t.dashboard.edit.blockTypes.counter;
         color = Colors.orange;
+      case 'reminder':
+        icon = Icons.notifications_active;
+        title = t.dashboard.blockTypes.reminder;
+        value = '3'; // Active reminders count - hardcoded for now
+        subtitle = t.dashboard.blockTypes.reminderDesc;
+        color = Colors.teal;
+      case 'goals':
+        icon = Icons.flag;
+        title = t.dashboard.blockTypes.goals;
+        value = '5'; // Goals set count - hardcoded for now
+        subtitle = t.dashboard.blockTypes.goalsDesc;
+        color = Colors.indigo;
       default:
         icon = Icons.dashboard;
         title = block.type;
         value = '';
+        subtitle = '';
         color = colorScheme.primary;
     }
 
@@ -370,7 +388,7 @@ class _DashboardState extends State<Dashboard> {
       icon: icon,
       title: title,
       value: value,
-      subtitle: t.dashboard.edit.blockTypes.counter,
+      subtitle: subtitle,
       color: color,
     );
   }

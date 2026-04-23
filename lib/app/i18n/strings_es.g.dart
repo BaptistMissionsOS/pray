@@ -440,8 +440,6 @@ class _TranslationsDashboardBlockTypesEs extends TranslationsDashboardBlockTypes
 	// Translations
 	@override String get counter => 'Bloque Contador';
 	@override String get counterDesc => 'Muestra un conteo simple de oraciones';
-	@override String get streak => 'Bloque Racha';
-	@override String get streakDesc => 'Muestra tu racha de oración';
 	@override String get chart => 'Bloque Gráfico';
 	@override String get chartDesc => 'Gráfico visual de estadísticas de oración';
 	@override String get list => 'Lista Reciente';
@@ -450,6 +448,10 @@ class _TranslationsDashboardBlockTypesEs extends TranslationsDashboardBlockTypes
 	@override String get categoryDesc => 'Oraciones agrupadas por categoría';
 	@override String get rate => 'Tasa de Respuestas';
 	@override String get rateDesc => 'Porcentaje de oraciones respondidas';
+	@override String get reminder => 'Recordatorios de Oración';
+	@override String get reminderDesc => 'Recordatorios de oración activos';
+	@override String get goals => 'Metas de Oración';
+	@override String get goalsDesc => 'Tus metas y objetivos de oración';
 }
 
 // Path: prayers.tabs
@@ -769,8 +771,6 @@ extension on TranslationsEs {
 			'dashboard.layout.blockNames.weekly' => 'Semanal',
 			'dashboard.blockTypes.counter' => 'Bloque Contador',
 			'dashboard.blockTypes.counterDesc' => 'Muestra un conteo simple de oraciones',
-			'dashboard.blockTypes.streak' => 'Bloque Racha',
-			'dashboard.blockTypes.streakDesc' => 'Muestra tu racha de oración',
 			'dashboard.blockTypes.chart' => 'Bloque Gráfico',
 			'dashboard.blockTypes.chartDesc' => 'Gráfico visual de estadísticas de oración',
 			'dashboard.blockTypes.list' => 'Lista Reciente',
@@ -779,6 +779,10 @@ extension on TranslationsEs {
 			'dashboard.blockTypes.categoryDesc' => 'Oraciones agrupadas por categoría',
 			'dashboard.blockTypes.rate' => 'Tasa de Respuestas',
 			'dashboard.blockTypes.rateDesc' => 'Porcentaje de oraciones respondidas',
+			'dashboard.blockTypes.reminder' => 'Recordatorios de Oración',
+			'dashboard.blockTypes.reminderDesc' => 'Recordatorios de oración activos',
+			'dashboard.blockTypes.goals' => 'Metas de Oración',
+			'dashboard.blockTypes.goalsDesc' => 'Tus metas y objetivos de oración',
 			'prayers.tabs.unanswered' => 'Sin Responder',
 			'prayers.tabs.active' => 'Activas',
 			'prayers.tabs.answered' => 'Respondidas',
