@@ -340,6 +340,9 @@ class _TranslationsSettingsOptionsEs extends TranslationsSettingsOptionsEn {
 	// Translations
 	@override String get theme => 'Tema';
 	@override String get themeSubtitle => 'Predeterminado del sistema';
+	@override String get themeLight => 'Claro';
+	@override String get themeDark => 'Oscuro';
+	@override String get themeSystem => 'Sistema';
 	@override String get dailyReminder => 'Recordatorio Diario';
 	@override String get dailyReminderSubtitle => 'Recordarme orar diariamente';
 	@override String get defaultView => 'Vista Predeterminada';
@@ -690,6 +693,9 @@ extension on TranslationsEs {
 			'settings.sections.data' => 'Datos',
 			'settings.options.theme' => 'Tema',
 			'settings.options.themeSubtitle' => 'Predeterminado del sistema',
+			'settings.options.themeLight' => 'Claro',
+			'settings.options.themeDark' => 'Oscuro',
+			'settings.options.themeSystem' => 'Sistema',
 			'settings.options.dailyReminder' => 'Recordatorio Diario',
 			'settings.options.dailyReminderSubtitle' => 'Recordarme orar diariamente',
 			'settings.options.defaultView' => 'Vista Predeterminada',

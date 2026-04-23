@@ -539,6 +539,15 @@ class TranslationsSettingsOptionsEn {
 	/// en: 'System default'
 	String get themeSubtitle => 'System default';
 
+	/// en: 'Light'
+	String get themeLight => 'Light';
+
+	/// en: 'Dark'
+	String get themeDark => 'Dark';
+
+	/// en: 'System'
+	String get themeSystem => 'System';
+
 	/// en: 'Daily Reminder'
 	String get dailyReminder => 'Daily Reminder';
 
@@ -1170,6 +1179,9 @@ extension on Translations {
 			'settings.sections.data' => 'Data',
 			'settings.options.theme' => 'Theme',
 			'settings.options.themeSubtitle' => 'System default',
+			'settings.options.themeLight' => 'Light',
+			'settings.options.themeDark' => 'Dark',
+			'settings.options.themeSystem' => 'System',
 			'settings.options.dailyReminder' => 'Daily Reminder',
 			'settings.options.dailyReminderSubtitle' => 'Remind me to pray daily',
 			'settings.options.defaultView' => 'Default View',

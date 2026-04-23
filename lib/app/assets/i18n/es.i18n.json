@@ -39,6 +39,9 @@
     "options": {
       "theme": "Tema",
       "themeSubtitle": "Predeterminado del sistema",
+      "themeLight": "Claro",
+      "themeDark": "Oscuro",
+      "themeSystem": "Sistema",
       "dailyReminder": "Recordatorio Diario",
       "dailyReminderSubtitle": "Recordarme orar diariamente",
       "defaultView": "Vista Predeterminada",
