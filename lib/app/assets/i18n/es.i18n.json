@@ -10,7 +10,8 @@
     "categories": {
       "dashboard": "Panel",
       "prayers": "Oraciones",
-      "journal": "Diario"
+      "journal": "Diario",
+      "reminders": "Recordatorios"
     },
     "actions": {
       "add": "Agregar",
@@ -74,6 +75,16 @@
     "dashboard": "Panel",
     "prayers": "Oraciones",
     "journal": "Diario"
+  },
+  "reminders": {
+    "today": "Hoy",
+    "refresh": "Actualizar",
+    "weekOf": "Semana de",
+    "views": {
+      "month": "Mes",
+      "week": "Semana",
+      "schedule": "Agenda"
+    }
   },
   "about": {
     "title": "Una App de Diario de Oración Flutter",

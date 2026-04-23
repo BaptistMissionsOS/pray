@@ -15,6 +15,7 @@ import 'features/prayers/prayers.share.dart';
 import 'features/journal/journal.dart';
 import 'features/journal/journal.add.dart';
 import 'features/journal/journal.organize.dart';
+import 'features/reminders/reminders.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'support.dart';
@@ -279,6 +280,18 @@ class _MainNavigationState extends State<MainNavigation> {
                 ),
               ],
             ),
+            ListTile(
+              leading: const Icon(Icons.notifications_active),
+              title: Text(t.drawer.categories.reminders),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Reminders()),
+                );
+              },
+            ),
+            const Divider(),
             ExpansionTile(
               leading: const Icon(Icons.book),
               title: Text(t.drawer.categories.journal),

@@ -46,6 +46,7 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSettingsEs settings = _TranslationsSettingsEs._(_root);
 	@override late final _TranslationsTitlesEs titles = _TranslationsTitlesEs._(_root);
 	@override late final _TranslationsContentEs content = _TranslationsContentEs._(_root);
+	@override late final _TranslationsRemindersEs reminders = _TranslationsRemindersEs._(_root);
 	@override late final _TranslationsAboutEs about = _TranslationsAboutEs._(_root);
 	@override late final _TranslationsSupportEs support = _TranslationsSupportEs._(_root);
 	@override late final _TranslationsDashboardEs dashboard = _TranslationsDashboardEs._(_root);
@@ -136,6 +137,19 @@ class _TranslationsContentEs extends TranslationsContentEn {
 	@override String get dashboard => 'Panel';
 	@override String get prayers => 'Oraciones';
 	@override String get journal => 'Diario';
+}
+
+// Path: reminders
+class _TranslationsRemindersEs extends TranslationsRemindersEn {
+	_TranslationsRemindersEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get today => 'Hoy';
+	@override String get refresh => 'Actualizar';
+	@override String get weekOf => 'Semana de';
+	@override late final _TranslationsRemindersViewsEs views = _TranslationsRemindersViewsEs._(_root);
 }
 
 // Path: about
@@ -301,6 +315,7 @@ class _TranslationsDrawerCategoriesEs extends TranslationsDrawerCategoriesEn {
 	@override String get dashboard => 'Panel';
 	@override String get prayers => 'Oraciones';
 	@override String get journal => 'Diario';
+	@override String get reminders => 'Recordatorios';
 }
 
 // Path: drawer.actions
@@ -357,6 +372,18 @@ class _TranslationsSettingsOptionsEs extends TranslationsSettingsOptionsEn {
 	@override String get backupRestoreSubtitle => 'Exportar o importar tus datos';
 	@override String get clearData => 'Borrar Todos los Datos';
 	@override String get clearDataConfirm => 'Esto eliminará permanentemente todas tus oraciones y entradas del diario. Esta acción no se puede deshacer.';
+}
+
+// Path: reminders.views
+class _TranslationsRemindersViewsEs extends TranslationsRemindersViewsEn {
+	_TranslationsRemindersViewsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get month => 'Mes';
+	@override String get week => 'Semana';
+	@override String get schedule => 'Agenda';
 }
 
 // Path: support.channels
@@ -675,6 +702,7 @@ extension on TranslationsEs {
 			'drawer.categories.dashboard' => 'Panel',
 			'drawer.categories.prayers' => 'Oraciones',
 			'drawer.categories.journal' => 'Diario',
+			'drawer.categories.reminders' => 'Recordatorios',
 			'drawer.actions.add' => 'Agregar',
 			'drawer.actions.edit' => 'Editar',
 			'drawer.actions.layout' => 'Diseño',
@@ -723,6 +751,12 @@ extension on TranslationsEs {
 			'content.dashboard' => 'Panel',
 			'content.prayers' => 'Oraciones',
 			'content.journal' => 'Diario',
+			'reminders.today' => 'Hoy',
+			'reminders.refresh' => 'Actualizar',
+			'reminders.weekOf' => 'Semana de',
+			'reminders.views.month' => 'Mes',
+			'reminders.views.week' => 'Semana',
+			'reminders.views.schedule' => 'Agenda',
 			'about.title' => 'Una App de Diario de Oración Flutter',
 			'about.by' => 'por Baptist Missions OS',
 			'about.description' => 'Un diario de oración personal para registrar tus oraciones, ver las respuestas y crecer en tu camino de fe.',

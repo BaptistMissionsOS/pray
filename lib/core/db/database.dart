@@ -163,6 +163,13 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deletePrayer(int id) =>
       (delete(prayers)..where((p) => p.id.equals(id))).go();
 
+  Future<List<Prayer>> getFuturePrayers(DateTime fromDate) async {
+    final fromDateOnly = DateTime(fromDate.year, fromDate.month, fromDate.day);
+    return (select(prayers)
+          ..where((p) => p.createdAt.isBiggerOrEqualValue(fromDateOnly)))
+        .get();
+  }
+
   Future<int> markPrayerAnswered(int id) async {
     final prayer = await getPrayer(id);
     if (prayer == null) return 0;
@@ -201,6 +208,13 @@ class AppDatabase extends _$AppDatabase {
 
   Future<int> deleteJournalEntry(int id) =>
       (delete(journalEntries)..where((e) => e.id.equals(id))).go();
+
+  Future<List<JournalEntry>> getFutureJournalEntries(DateTime fromDate) async {
+    final fromDateOnly = DateTime(fromDate.year, fromDate.month, fromDate.day);
+    return (select(journalEntries)
+          ..where((e) => e.createdAt.isBiggerOrEqualValue(fromDateOnly)))
+        .get();
+  }
 
   // Prayer Activity (for streak tracking)
   Future<List<PrayerActivityData>> getPrayerActivityForRange(DateTime start, DateTime end) async {

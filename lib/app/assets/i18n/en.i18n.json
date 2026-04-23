@@ -10,7 +10,8 @@
     "categories": {
       "dashboard": "Dashboard",
       "prayers": "Prayers",
-      "journal": "Journal"
+      "journal": "Journal",
+      "reminders": "Reminders"
     },
     "actions": {
       "add": "Add",
@@ -74,6 +75,16 @@
     "dashboard": "Dashboard",
     "prayers": "Prayers",
     "journal": "Journal"
+  },
+  "reminders": {
+    "today": "Today",
+    "refresh": "Refresh",
+    "weekOf": "Week of",
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "schedule": "Schedule"
+    }
   },
   "about": {
     "title": "A Flutter Prayer Journal App",

@@ -50,6 +50,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
 	late final TranslationsTitlesEn titles = TranslationsTitlesEn.internal(_root);
 	late final TranslationsContentEn content = TranslationsContentEn.internal(_root);
+	late final TranslationsRemindersEn reminders = TranslationsRemindersEn.internal(_root);
 	late final TranslationsAboutEn about = TranslationsAboutEn.internal(_root);
 	late final TranslationsSupportEn support = TranslationsSupportEn.internal(_root);
 	late final TranslationsDashboardEn dashboard = TranslationsDashboardEn.internal(_root);
@@ -188,6 +189,26 @@ class TranslationsContentEn {
 
 	/// en: 'Journal'
 	String get journal => 'Journal';
+}
+
+// Path: reminders
+class TranslationsRemindersEn {
+	TranslationsRemindersEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Today'
+	String get today => 'Today';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	/// en: 'Week of'
+	String get weekOf => 'Week of';
+
+	late final TranslationsRemindersViewsEn views = TranslationsRemindersViewsEn.internal(_root);
 }
 
 // Path: about
@@ -475,6 +496,9 @@ class TranslationsDrawerCategoriesEn {
 
 	/// en: 'Journal'
 	String get journal => 'Journal';
+
+	/// en: 'Reminders'
+	String get reminders => 'Reminders';
 }
 
 // Path: drawer.actions
@@ -589,6 +613,24 @@ class TranslationsSettingsOptionsEn {
 
 	/// en: 'This will permanently delete all your prayers and journal entries. This action cannot be undone.'
 	String get clearDataConfirm => 'This will permanently delete all your prayers and journal entries. This action cannot be undone.';
+}
+
+// Path: reminders.views
+class TranslationsRemindersViewsEn {
+	TranslationsRemindersViewsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Month'
+	String get month => 'Month';
+
+	/// en: 'Week'
+	String get week => 'Week';
+
+	/// en: 'Schedule'
+	String get schedule => 'Schedule';
 }
 
 // Path: support.channels
@@ -1161,6 +1203,7 @@ extension on Translations {
 			'drawer.categories.dashboard' => 'Dashboard',
 			'drawer.categories.prayers' => 'Prayers',
 			'drawer.categories.journal' => 'Journal',
+			'drawer.categories.reminders' => 'Reminders',
 			'drawer.actions.add' => 'Add',
 			'drawer.actions.edit' => 'Edit',
 			'drawer.actions.layout' => 'Layout',
@@ -1209,6 +1252,12 @@ extension on Translations {
 			'content.dashboard' => 'Dashboard',
 			'content.prayers' => 'Prayers',
 			'content.journal' => 'Journal',
+			'reminders.today' => 'Today',
+			'reminders.refresh' => 'Refresh',
+			'reminders.weekOf' => 'Week of',
+			'reminders.views.month' => 'Month',
+			'reminders.views.week' => 'Week',
+			'reminders.views.schedule' => 'Schedule',
 			'about.title' => 'A Flutter Prayer Journal App',
 			'about.by' => 'by Baptist Missions OS',
 			'about.description' => 'A personal prayer journal to track your prayers, see answered prayers, and grow in your faith journey.',
