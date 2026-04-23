@@ -10,7 +10,9 @@
     "categories": {
       "dashboard": "Dashboard",
       "prayers": "Prayers",
-      "journal": "Journal"
+      "journal": "Journal",
+      "reminders": "Reminders",
+      "rewards": "Rewards"
     },
     "actions": {
       "add": "Add",
@@ -39,6 +41,9 @@
     "options": {
       "theme": "Theme",
       "themeSubtitle": "System default",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "System",
       "dailyReminder": "Daily Reminder",
       "dailyReminderSubtitle": "Remind me to pray daily",
       "defaultView": "Default View",
@@ -71,6 +76,91 @@
     "dashboard": "Dashboard",
     "prayers": "Prayers",
     "journal": "Journal"
+  },
+  "reminders": {
+    "today": "Today",
+    "refresh": "Refresh",
+    "weekOf": "Week of",
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "schedule": "Schedule"
+    },
+    "filters": {
+      "both": "Both",
+      "prayersOnly": "Prayers Only",
+      "journalsOnly": "Journals Only"
+    },
+    "weekdays": {
+      "short": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "full": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "items": "{count} items",
+    "noReminders": "No reminders",
+    "noRemindersForDay": "No reminders for this day"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "refresh": "Refresh",
+    "levels": {
+      "seeker": "Seeker",
+      "seekerDesc": "Beginning your prayer journey",
+      "disciple": "Disciple",
+      "discipleDesc": "Committed to daily prayer",
+      "watchman": "Watchman",
+      "watchmanDesc": "Vigilant in prayer for a month",
+      "intercessor": "Intercessor",
+      "intercessorDesc": "A faithful prayer warrior",
+      "warrior": "Warrior",
+      "warriorDesc": "Three months of unwavering prayer devotion"
+    },
+    "statsTitle": "Streak Stats",
+    "currentStreak": "Current",
+    "longestStreak": "Longest",
+    "totalDays": "Total Days",
+    "days": "days",
+    "nextLevel": "Next: {level}",
+    "daysToNextLevel": "{days} days to next level",
+    "recentActivity": "Recent Activity (30 Days)",
+    "prayed": "Prayed",
+    "missed": "Missed",
+    "allLevels": "All Levels"
+  },
+  "prayerCheck": {
+    "title": "Daily Prayer Check",
+    "message": "Have you prayed today? Keep your streak going!",
+    "yes": "Yes, I Prayed",
+    "later": "Later"
   },
   "about": {
     "title": "A Flutter Prayer Journal App",

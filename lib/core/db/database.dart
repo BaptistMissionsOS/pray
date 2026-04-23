@@ -163,6 +163,13 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deletePrayer(int id) =>
       (delete(prayers)..where((p) => p.id.equals(id))).go();
 
+  Future<List<Prayer>> getFuturePrayers(DateTime fromDate) async {
+    final fromDateOnly = DateTime(fromDate.year, fromDate.month, fromDate.day);
+    return (select(prayers)
+          ..where((p) => p.createdAt.isBiggerOrEqualValue(fromDateOnly)))
+        .get();
+  }
+
   Future<int> markPrayerAnswered(int id) async {
     final prayer = await getPrayer(id);
     if (prayer == null) return 0;
@@ -201,6 +208,13 @@ class AppDatabase extends _$AppDatabase {
 
   Future<int> deleteJournalEntry(int id) =>
       (delete(journalEntries)..where((e) => e.id.equals(id))).go();
+
+  Future<List<JournalEntry>> getFutureJournalEntries(DateTime fromDate) async {
+    final fromDateOnly = DateTime(fromDate.year, fromDate.month, fromDate.day);
+    return (select(journalEntries)
+          ..where((e) => e.createdAt.isBiggerOrEqualValue(fromDateOnly)))
+        .get();
+  }
 
   // Prayer Activity (for streak tracking)
   Future<List<PrayerActivityData>> getPrayerActivityForRange(DateTime start, DateTime end) async {
@@ -248,6 +262,40 @@ class AppDatabase extends _$AppDatabase {
     }
 
     return streak;
+  }
+
+  Future<int> getLongestStreak() async {
+    final allActivity = await select(prayerActivity).get();
+    if (allActivity.isEmpty) return 0;
+
+    // Sort by date
+    allActivity.sort((a, b) => a.date.compareTo(b.date));
+
+    int longestStreak = 0;
+    int currentStreak = 0;
+    DateTime? lastDate;
+
+    for (final activity in allActivity) {
+      if (activity.prayed) {
+        if (lastDate == null || activity.date.difference(lastDate).inDays == 1) {
+          currentStreak++;
+        } else if (activity.date.difference(lastDate).inDays > 1) {
+          currentStreak = 1;
+        }
+        longestStreak = currentStreak > longestStreak ? currentStreak : longestStreak;
+        lastDate = activity.date;
+      } else {
+        currentStreak = 0;
+        lastDate = activity.date;
+      }
+    }
+
+    return longestStreak;
+  }
+
+  Future<int> getTotalPrayerDays() async {
+    final allActivity = await select(prayerActivity).get();
+    return allActivity.where((a) => a.prayed).length;
   }
 
   // Clear all data

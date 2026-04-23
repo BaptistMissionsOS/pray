@@ -46,6 +46,9 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSettingsEs settings = _TranslationsSettingsEs._(_root);
 	@override late final _TranslationsTitlesEs titles = _TranslationsTitlesEs._(_root);
 	@override late final _TranslationsContentEs content = _TranslationsContentEs._(_root);
+	@override late final _TranslationsRemindersEs reminders = _TranslationsRemindersEs._(_root);
+	@override late final _TranslationsRewardsEs rewards = _TranslationsRewardsEs._(_root);
+	@override late final _TranslationsPrayerCheckEs prayerCheck = _TranslationsPrayerCheckEs._(_root);
 	@override late final _TranslationsAboutEs about = _TranslationsAboutEs._(_root);
 	@override late final _TranslationsSupportEs support = _TranslationsSupportEs._(_root);
 	@override late final _TranslationsDashboardEs dashboard = _TranslationsDashboardEs._(_root);
@@ -136,6 +139,61 @@ class _TranslationsContentEs extends TranslationsContentEn {
 	@override String get dashboard => 'Panel';
 	@override String get prayers => 'Oraciones';
 	@override String get journal => 'Diario';
+}
+
+// Path: reminders
+class _TranslationsRemindersEs extends TranslationsRemindersEn {
+	_TranslationsRemindersEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get today => 'Hoy';
+	@override String get refresh => 'Actualizar';
+	@override String get weekOf => 'Semana de';
+	@override late final _TranslationsRemindersViewsEs views = _TranslationsRemindersViewsEs._(_root);
+	@override late final _TranslationsRemindersFiltersEs filters = _TranslationsRemindersFiltersEs._(_root);
+	@override late final _TranslationsRemindersWeekdaysEs weekdays = _TranslationsRemindersWeekdaysEs._(_root);
+	@override late final _TranslationsRemindersMonthsEs months = _TranslationsRemindersMonthsEs._(_root);
+	@override String items({required Object count}) => '${count} elementos';
+	@override String get noReminders => 'Sin recordatorios';
+	@override String get noRemindersForDay => 'Sin recordatorios para este día';
+}
+
+// Path: rewards
+class _TranslationsRewardsEs extends TranslationsRewardsEn {
+	_TranslationsRewardsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Recompensas';
+	@override String get refresh => 'Actualizar';
+	@override late final _TranslationsRewardsLevelsEs levels = _TranslationsRewardsLevelsEs._(_root);
+	@override String get statsTitle => 'Estadísticas de Racha';
+	@override String get currentStreak => 'Actual';
+	@override String get longestStreak => 'Más Larga';
+	@override String get totalDays => 'Días Totales';
+	@override String get days => 'días';
+	@override String nextLevel({required Object level}) => 'Siguiente: ${level}';
+	@override String daysToNextLevel({required Object days}) => '${days} días para el siguiente nivel';
+	@override String get recentActivity => 'Actividad Reciente (30 Días)';
+	@override String get prayed => 'Oró';
+	@override String get missed => 'No Oró';
+	@override String get allLevels => 'Todos los Niveles';
+}
+
+// Path: prayerCheck
+class _TranslationsPrayerCheckEs extends TranslationsPrayerCheckEn {
+	_TranslationsPrayerCheckEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Verificación Diaria de Oración';
+	@override String get message => '¿Has orado hoy? ¡Mantén tu racha activa!';
+	@override String get yes => 'Sí, Oré';
+	@override String get later => 'Más Tarde';
 }
 
 // Path: about
@@ -301,6 +359,8 @@ class _TranslationsDrawerCategoriesEs extends TranslationsDrawerCategoriesEn {
 	@override String get dashboard => 'Panel';
 	@override String get prayers => 'Oraciones';
 	@override String get journal => 'Diario';
+	@override String get reminders => 'Recordatorios';
+	@override String get rewards => 'Recompensas';
 }
 
 // Path: drawer.actions
@@ -340,6 +400,9 @@ class _TranslationsSettingsOptionsEs extends TranslationsSettingsOptionsEn {
 	// Translations
 	@override String get theme => 'Tema';
 	@override String get themeSubtitle => 'Predeterminado del sistema';
+	@override String get themeLight => 'Claro';
+	@override String get themeDark => 'Oscuro';
+	@override String get themeSystem => 'Sistema';
 	@override String get dailyReminder => 'Recordatorio Diario';
 	@override String get dailyReminderSubtitle => 'Recordarme orar diariamente';
 	@override String get defaultView => 'Vista Predeterminada';
@@ -354,6 +417,81 @@ class _TranslationsSettingsOptionsEs extends TranslationsSettingsOptionsEn {
 	@override String get backupRestoreSubtitle => 'Exportar o importar tus datos';
 	@override String get clearData => 'Borrar Todos los Datos';
 	@override String get clearDataConfirm => 'Esto eliminará permanentemente todas tus oraciones y entradas del diario. Esta acción no se puede deshacer.';
+}
+
+// Path: reminders.views
+class _TranslationsRemindersViewsEs extends TranslationsRemindersViewsEn {
+	_TranslationsRemindersViewsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get month => 'Mes';
+	@override String get week => 'Semana';
+	@override String get schedule => 'Agenda';
+}
+
+// Path: reminders.filters
+class _TranslationsRemindersFiltersEs extends TranslationsRemindersFiltersEn {
+	_TranslationsRemindersFiltersEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get both => 'Ambos';
+	@override String get prayersOnly => 'Solo Oraciones';
+	@override String get journalsOnly => 'Solo Diarios';
+}
+
+// Path: reminders.weekdays
+class _TranslationsRemindersWeekdaysEs extends TranslationsRemindersWeekdaysEn {
+	_TranslationsRemindersWeekdaysEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override late final _TranslationsRemindersWeekdaysShortEs short = _TranslationsRemindersWeekdaysShortEs._(_root);
+	@override late final _TranslationsRemindersWeekdaysFullEs full = _TranslationsRemindersWeekdaysFullEs._(_root);
+}
+
+// Path: reminders.months
+class _TranslationsRemindersMonthsEs extends TranslationsRemindersMonthsEn {
+	_TranslationsRemindersMonthsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get january => 'Enero';
+	@override String get february => 'Febrero';
+	@override String get march => 'Marzo';
+	@override String get april => 'Abril';
+	@override String get may => 'Mayo';
+	@override String get june => 'Junio';
+	@override String get july => 'Julio';
+	@override String get august => 'Agosto';
+	@override String get september => 'Septiembre';
+	@override String get october => 'Octubre';
+	@override String get november => 'Noviembre';
+	@override String get december => 'Diciembre';
+}
+
+// Path: rewards.levels
+class _TranslationsRewardsLevelsEs extends TranslationsRewardsLevelsEn {
+	_TranslationsRewardsLevelsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get seeker => 'Buscador';
+	@override String get seekerDesc => 'Comenzando tu viaje de oración';
+	@override String get disciple => 'Discípulo';
+	@override String get discipleDesc => 'Comprometido con la oración diaria';
+	@override String get watchman => 'Vigía';
+	@override String get watchmanDesc => 'Vigilante en oración por un mes';
+	@override String get intercessor => 'Intercesor';
+	@override String get intercessorDesc => 'Un guerrero de oración fiel';
+	@override String get warrior => 'Guerrero';
+	@override String get warriorDesc => 'Tres meses de devoción inquebrantable';
 }
 
 // Path: support.channels
@@ -616,6 +754,38 @@ class _TranslationsJournalActionsEs extends TranslationsJournalActionsEn {
 	@override String get edit => 'Editar';
 }
 
+// Path: reminders.weekdays.short
+class _TranslationsRemindersWeekdaysShortEs extends TranslationsRemindersWeekdaysShortEn {
+	_TranslationsRemindersWeekdaysShortEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get mon => 'Lun';
+	@override String get tue => 'Mar';
+	@override String get wed => 'Mié';
+	@override String get thu => 'Jue';
+	@override String get fri => 'Vie';
+	@override String get sat => 'Sáb';
+	@override String get sun => 'Dom';
+}
+
+// Path: reminders.weekdays.full
+class _TranslationsRemindersWeekdaysFullEs extends TranslationsRemindersWeekdaysFullEn {
+	_TranslationsRemindersWeekdaysFullEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get monday => 'Lunes';
+	@override String get tuesday => 'Martes';
+	@override String get wednesday => 'Miércoles';
+	@override String get thursday => 'Jueves';
+	@override String get friday => 'Viernes';
+	@override String get saturday => 'Sábado';
+	@override String get sunday => 'Domingo';
+}
+
 // Path: dashboard.edit.blockNames
 class _TranslationsDashboardEditBlockNamesEs extends TranslationsDashboardEditBlockNamesEn {
 	_TranslationsDashboardEditBlockNamesEs._(TranslationsEs root) : this._root = root, super.internal(root);
@@ -672,6 +842,8 @@ extension on TranslationsEs {
 			'drawer.categories.dashboard' => 'Panel',
 			'drawer.categories.prayers' => 'Oraciones',
 			'drawer.categories.journal' => 'Diario',
+			'drawer.categories.reminders' => 'Recordatorios',
+			'drawer.categories.rewards' => 'Recompensas',
 			'drawer.actions.add' => 'Agregar',
 			'drawer.actions.edit' => 'Editar',
 			'drawer.actions.layout' => 'Diseño',
@@ -690,6 +862,9 @@ extension on TranslationsEs {
 			'settings.sections.data' => 'Datos',
 			'settings.options.theme' => 'Tema',
 			'settings.options.themeSubtitle' => 'Predeterminado del sistema',
+			'settings.options.themeLight' => 'Claro',
+			'settings.options.themeDark' => 'Oscuro',
+			'settings.options.themeSystem' => 'Sistema',
 			'settings.options.dailyReminder' => 'Recordatorio Diario',
 			'settings.options.dailyReminderSubtitle' => 'Recordarme orar diariamente',
 			'settings.options.defaultView' => 'Vista Predeterminada',
@@ -717,6 +892,71 @@ extension on TranslationsEs {
 			'content.dashboard' => 'Panel',
 			'content.prayers' => 'Oraciones',
 			'content.journal' => 'Diario',
+			'reminders.today' => 'Hoy',
+			'reminders.refresh' => 'Actualizar',
+			'reminders.weekOf' => 'Semana de',
+			'reminders.views.month' => 'Mes',
+			'reminders.views.week' => 'Semana',
+			'reminders.views.schedule' => 'Agenda',
+			'reminders.filters.both' => 'Ambos',
+			'reminders.filters.prayersOnly' => 'Solo Oraciones',
+			'reminders.filters.journalsOnly' => 'Solo Diarios',
+			'reminders.weekdays.short.mon' => 'Lun',
+			'reminders.weekdays.short.tue' => 'Mar',
+			'reminders.weekdays.short.wed' => 'Mié',
+			'reminders.weekdays.short.thu' => 'Jue',
+			'reminders.weekdays.short.fri' => 'Vie',
+			'reminders.weekdays.short.sat' => 'Sáb',
+			'reminders.weekdays.short.sun' => 'Dom',
+			'reminders.weekdays.full.monday' => 'Lunes',
+			'reminders.weekdays.full.tuesday' => 'Martes',
+			'reminders.weekdays.full.wednesday' => 'Miércoles',
+			'reminders.weekdays.full.thursday' => 'Jueves',
+			'reminders.weekdays.full.friday' => 'Viernes',
+			'reminders.weekdays.full.saturday' => 'Sábado',
+			'reminders.weekdays.full.sunday' => 'Domingo',
+			'reminders.months.january' => 'Enero',
+			'reminders.months.february' => 'Febrero',
+			'reminders.months.march' => 'Marzo',
+			'reminders.months.april' => 'Abril',
+			'reminders.months.may' => 'Mayo',
+			'reminders.months.june' => 'Junio',
+			'reminders.months.july' => 'Julio',
+			'reminders.months.august' => 'Agosto',
+			'reminders.months.september' => 'Septiembre',
+			'reminders.months.october' => 'Octubre',
+			'reminders.months.november' => 'Noviembre',
+			'reminders.months.december' => 'Diciembre',
+			'reminders.items' => ({required Object count}) => '${count} elementos',
+			'reminders.noReminders' => 'Sin recordatorios',
+			'reminders.noRemindersForDay' => 'Sin recordatorios para este día',
+			'rewards.title' => 'Recompensas',
+			'rewards.refresh' => 'Actualizar',
+			'rewards.levels.seeker' => 'Buscador',
+			'rewards.levels.seekerDesc' => 'Comenzando tu viaje de oración',
+			'rewards.levels.disciple' => 'Discípulo',
+			'rewards.levels.discipleDesc' => 'Comprometido con la oración diaria',
+			'rewards.levels.watchman' => 'Vigía',
+			'rewards.levels.watchmanDesc' => 'Vigilante en oración por un mes',
+			'rewards.levels.intercessor' => 'Intercesor',
+			'rewards.levels.intercessorDesc' => 'Un guerrero de oración fiel',
+			'rewards.levels.warrior' => 'Guerrero',
+			'rewards.levels.warriorDesc' => 'Tres meses de devoción inquebrantable',
+			'rewards.statsTitle' => 'Estadísticas de Racha',
+			'rewards.currentStreak' => 'Actual',
+			'rewards.longestStreak' => 'Más Larga',
+			'rewards.totalDays' => 'Días Totales',
+			'rewards.days' => 'días',
+			'rewards.nextLevel' => ({required Object level}) => 'Siguiente: ${level}',
+			'rewards.daysToNextLevel' => ({required Object days}) => '${days} días para el siguiente nivel',
+			'rewards.recentActivity' => 'Actividad Reciente (30 Días)',
+			'rewards.prayed' => 'Oró',
+			'rewards.missed' => 'No Oró',
+			'rewards.allLevels' => 'Todos los Niveles',
+			'prayerCheck.title' => 'Verificación Diaria de Oración',
+			'prayerCheck.message' => '¿Has orado hoy? ¡Mantén tu racha activa!',
+			'prayerCheck.yes' => 'Sí, Oré',
+			'prayerCheck.later' => 'Más Tarde',
 			'about.title' => 'Una App de Diario de Oración Flutter',
 			'about.by' => 'por Baptist Missions OS',
 			'about.description' => 'Un diario de oración personal para registrar tus oraciones, ver las respuestas y crecer en tu camino de fe.',

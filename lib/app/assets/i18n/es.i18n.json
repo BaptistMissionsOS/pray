@@ -10,7 +10,9 @@
     "categories": {
       "dashboard": "Panel",
       "prayers": "Oraciones",
-      "journal": "Diario"
+      "journal": "Diario",
+      "reminders": "Recordatorios",
+      "rewards": "Recompensas"
     },
     "actions": {
       "add": "Agregar",
@@ -39,6 +41,9 @@
     "options": {
       "theme": "Tema",
       "themeSubtitle": "Predeterminado del sistema",
+      "themeLight": "Claro",
+      "themeDark": "Oscuro",
+      "themeSystem": "Sistema",
       "dailyReminder": "Recordatorio Diario",
       "dailyReminderSubtitle": "Recordarme orar diariamente",
       "defaultView": "Vista Predeterminada",
@@ -71,6 +76,91 @@
     "dashboard": "Panel",
     "prayers": "Oraciones",
     "journal": "Diario"
+  },
+  "reminders": {
+    "today": "Hoy",
+    "refresh": "Actualizar",
+    "weekOf": "Semana de",
+    "views": {
+      "month": "Mes",
+      "week": "Semana",
+      "schedule": "Agenda"
+    },
+    "filters": {
+      "both": "Ambos",
+      "prayersOnly": "Solo Oraciones",
+      "journalsOnly": "Solo Diarios"
+    },
+    "weekdays": {
+      "short": {
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb",
+        "sun": "Dom"
+      },
+      "full": {
+        "monday": "Lunes",
+        "tuesday": "Martes",
+        "wednesday": "Miércoles",
+        "thursday": "Jueves",
+        "friday": "Viernes",
+        "saturday": "Sábado",
+        "sunday": "Domingo"
+      }
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "items": "{count} elementos",
+    "noReminders": "Sin recordatorios",
+    "noRemindersForDay": "Sin recordatorios para este día"
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "refresh": "Actualizar",
+    "levels": {
+      "seeker": "Buscador",
+      "seekerDesc": "Comenzando tu viaje de oración",
+      "disciple": "Discípulo",
+      "discipleDesc": "Comprometido con la oración diaria",
+      "watchman": "Vigía",
+      "watchmanDesc": "Vigilante en oración por un mes",
+      "intercessor": "Intercesor",
+      "intercessorDesc": "Un guerrero de oración fiel",
+      "warrior": "Guerrero",
+      "warriorDesc": "Tres meses de devoción inquebrantable"
+    },
+    "statsTitle": "Estadísticas de Racha",
+    "currentStreak": "Actual",
+    "longestStreak": "Más Larga",
+    "totalDays": "Días Totales",
+    "days": "días",
+    "nextLevel": "Siguiente: {level}",
+    "daysToNextLevel": "{days} días para el siguiente nivel",
+    "recentActivity": "Actividad Reciente (30 Días)",
+    "prayed": "Oró",
+    "missed": "No Oró",
+    "allLevels": "Todos los Niveles"
+  },
+  "prayerCheck": {
+    "title": "Verificación Diaria de Oración",
+    "message": "¿Has orado hoy? ¡Mantén tu racha activa!",
+    "yes": "Sí, Oré",
+    "later": "Más Tarde"
   },
   "about": {
     "title": "Una App de Diario de Oración Flutter",

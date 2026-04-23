@@ -15,6 +15,8 @@ import 'features/prayers/prayers.share.dart';
 import 'features/journal/journal.dart';
 import 'features/journal/journal.add.dart';
 import 'features/journal/journal.organize.dart';
+import 'features/reminders/reminders.dart';
+import 'features/rewards/rewards.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'support.dart';
@@ -101,12 +103,77 @@ class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   int _dashboardRefresh = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final db = DatabaseProvider.instance;
 
   List<Widget> get _pages => [
     Dashboard(key: ValueKey(_dashboardRefresh)),
     const Prayers(),
     const Journal(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkPrayerActivity();
+    });
+  }
+
+  Future<void> _checkPrayerActivity() async {
+    final today = DateTime.now();
+    final todayDate = DateTime(today.year, today.month, today.day);
+
+    // Check if user already recorded prayer activity for today
+    final todayActivity = await db.getPrayerActivityForDate(todayDate);
+
+    if (todayActivity != null && todayActivity.prayed) {
+      // Already prayed today, don't show dialog
+      return;
+    }
+
+    // Show dialog after a short delay to let the app fully load
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!mounted) return;
+
+    final t = Translations.of(context);
+
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            const Icon(Icons.favorite, color: Colors.deepPurple),
+            const SizedBox(width: 8),
+            Text(t.prayerCheck.title),
+          ],
+        ),
+        content: Text(t.prayerCheck.message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(t.prayerCheck.later),
+          ),
+          FilledButton(
+            onPressed: () async {
+              await db.recordPrayerActivity(todayDate, prayed: true);
+              if (mounted) {
+                Navigator.pop(context);
+                // Refresh dashboard to show updated streak
+                setState(() {
+                  _dashboardRefresh++;
+                });
+              }
+            },
+            child: Text(t.prayerCheck.yes),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _onTap(int index) {
     setState(() {
@@ -317,6 +384,29 @@ class _MainNavigationState extends State<MainNavigation> {
                   },
                 ),
               ],
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.notifications_active),
+              title: Text(t.drawer.categories.reminders),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Reminders()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.emoji_events),
+              title: Text(t.drawer.categories.rewards),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Rewards()),
+                );
+              },
             ),
           ],
         ),

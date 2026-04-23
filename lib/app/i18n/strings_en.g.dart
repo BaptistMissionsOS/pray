@@ -50,6 +50,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
 	late final TranslationsTitlesEn titles = TranslationsTitlesEn.internal(_root);
 	late final TranslationsContentEn content = TranslationsContentEn.internal(_root);
+	late final TranslationsRemindersEn reminders = TranslationsRemindersEn.internal(_root);
+	late final TranslationsRewardsEn rewards = TranslationsRewardsEn.internal(_root);
+	late final TranslationsPrayerCheckEn prayerCheck = TranslationsPrayerCheckEn.internal(_root);
 	late final TranslationsAboutEn about = TranslationsAboutEn.internal(_root);
 	late final TranslationsSupportEn support = TranslationsSupportEn.internal(_root);
 	late final TranslationsDashboardEn dashboard = TranslationsDashboardEn.internal(_root);
@@ -188,6 +191,109 @@ class TranslationsContentEn {
 
 	/// en: 'Journal'
 	String get journal => 'Journal';
+}
+
+// Path: reminders
+class TranslationsRemindersEn {
+	TranslationsRemindersEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Today'
+	String get today => 'Today';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	/// en: 'Week of'
+	String get weekOf => 'Week of';
+
+	late final TranslationsRemindersViewsEn views = TranslationsRemindersViewsEn.internal(_root);
+	late final TranslationsRemindersFiltersEn filters = TranslationsRemindersFiltersEn.internal(_root);
+	late final TranslationsRemindersWeekdaysEn weekdays = TranslationsRemindersWeekdaysEn.internal(_root);
+	late final TranslationsRemindersMonthsEn months = TranslationsRemindersMonthsEn.internal(_root);
+
+	/// en: '{count} items'
+	String items({required Object count}) => '${count} items';
+
+	/// en: 'No reminders'
+	String get noReminders => 'No reminders';
+
+	/// en: 'No reminders for this day'
+	String get noRemindersForDay => 'No reminders for this day';
+}
+
+// Path: rewards
+class TranslationsRewardsEn {
+	TranslationsRewardsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Rewards'
+	String get title => 'Rewards';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	late final TranslationsRewardsLevelsEn levels = TranslationsRewardsLevelsEn.internal(_root);
+
+	/// en: 'Streak Stats'
+	String get statsTitle => 'Streak Stats';
+
+	/// en: 'Current'
+	String get currentStreak => 'Current';
+
+	/// en: 'Longest'
+	String get longestStreak => 'Longest';
+
+	/// en: 'Total Days'
+	String get totalDays => 'Total Days';
+
+	/// en: 'days'
+	String get days => 'days';
+
+	/// en: 'Next: {level}'
+	String nextLevel({required Object level}) => 'Next: ${level}';
+
+	/// en: '{days} days to next level'
+	String daysToNextLevel({required Object days}) => '${days} days to next level';
+
+	/// en: 'Recent Activity (30 Days)'
+	String get recentActivity => 'Recent Activity (30 Days)';
+
+	/// en: 'Prayed'
+	String get prayed => 'Prayed';
+
+	/// en: 'Missed'
+	String get missed => 'Missed';
+
+	/// en: 'All Levels'
+	String get allLevels => 'All Levels';
+}
+
+// Path: prayerCheck
+class TranslationsPrayerCheckEn {
+	TranslationsPrayerCheckEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Daily Prayer Check'
+	String get title => 'Daily Prayer Check';
+
+	/// en: 'Have you prayed today? Keep your streak going!'
+	String get message => 'Have you prayed today? Keep your streak going!';
+
+	/// en: 'Yes, I Prayed'
+	String get yes => 'Yes, I Prayed';
+
+	/// en: 'Later'
+	String get later => 'Later';
 }
 
 // Path: about
@@ -475,6 +581,12 @@ class TranslationsDrawerCategoriesEn {
 
 	/// en: 'Journal'
 	String get journal => 'Journal';
+
+	/// en: 'Reminders'
+	String get reminders => 'Reminders';
+
+	/// en: 'Rewards'
+	String get rewards => 'Rewards';
 }
 
 // Path: drawer.actions
@@ -539,6 +651,15 @@ class TranslationsSettingsOptionsEn {
 	/// en: 'System default'
 	String get themeSubtitle => 'System default';
 
+	/// en: 'Light'
+	String get themeLight => 'Light';
+
+	/// en: 'Dark'
+	String get themeDark => 'Dark';
+
+	/// en: 'System'
+	String get themeSystem => 'System';
+
 	/// en: 'Daily Reminder'
 	String get dailyReminder => 'Daily Reminder';
 
@@ -580,6 +701,137 @@ class TranslationsSettingsOptionsEn {
 
 	/// en: 'This will permanently delete all your prayers and journal entries. This action cannot be undone.'
 	String get clearDataConfirm => 'This will permanently delete all your prayers and journal entries. This action cannot be undone.';
+}
+
+// Path: reminders.views
+class TranslationsRemindersViewsEn {
+	TranslationsRemindersViewsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Month'
+	String get month => 'Month';
+
+	/// en: 'Week'
+	String get week => 'Week';
+
+	/// en: 'Schedule'
+	String get schedule => 'Schedule';
+}
+
+// Path: reminders.filters
+class TranslationsRemindersFiltersEn {
+	TranslationsRemindersFiltersEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Both'
+	String get both => 'Both';
+
+	/// en: 'Prayers Only'
+	String get prayersOnly => 'Prayers Only';
+
+	/// en: 'Journals Only'
+	String get journalsOnly => 'Journals Only';
+}
+
+// Path: reminders.weekdays
+class TranslationsRemindersWeekdaysEn {
+	TranslationsRemindersWeekdaysEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final TranslationsRemindersWeekdaysShortEn short = TranslationsRemindersWeekdaysShortEn.internal(_root);
+	late final TranslationsRemindersWeekdaysFullEn full = TranslationsRemindersWeekdaysFullEn.internal(_root);
+}
+
+// Path: reminders.months
+class TranslationsRemindersMonthsEn {
+	TranslationsRemindersMonthsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'January'
+	String get january => 'January';
+
+	/// en: 'February'
+	String get february => 'February';
+
+	/// en: 'March'
+	String get march => 'March';
+
+	/// en: 'April'
+	String get april => 'April';
+
+	/// en: 'May'
+	String get may => 'May';
+
+	/// en: 'June'
+	String get june => 'June';
+
+	/// en: 'July'
+	String get july => 'July';
+
+	/// en: 'August'
+	String get august => 'August';
+
+	/// en: 'September'
+	String get september => 'September';
+
+	/// en: 'October'
+	String get october => 'October';
+
+	/// en: 'November'
+	String get november => 'November';
+
+	/// en: 'December'
+	String get december => 'December';
+}
+
+// Path: rewards.levels
+class TranslationsRewardsLevelsEn {
+	TranslationsRewardsLevelsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Seeker'
+	String get seeker => 'Seeker';
+
+	/// en: 'Beginning your prayer journey'
+	String get seekerDesc => 'Beginning your prayer journey';
+
+	/// en: 'Disciple'
+	String get disciple => 'Disciple';
+
+	/// en: 'Committed to daily prayer'
+	String get discipleDesc => 'Committed to daily prayer';
+
+	/// en: 'Watchman'
+	String get watchman => 'Watchman';
+
+	/// en: 'Vigilant in prayer for a month'
+	String get watchmanDesc => 'Vigilant in prayer for a month';
+
+	/// en: 'Intercessor'
+	String get intercessor => 'Intercessor';
+
+	/// en: 'A faithful prayer warrior'
+	String get intercessorDesc => 'A faithful prayer warrior';
+
+	/// en: 'Warrior'
+	String get warrior => 'Warrior';
+
+	/// en: 'Three months of unwavering prayer devotion'
+	String get warriorDesc => 'Three months of unwavering prayer devotion';
 }
 
 // Path: support.channels
@@ -1070,6 +1322,66 @@ class TranslationsJournalActionsEn {
 	String get edit => 'Edit';
 }
 
+// Path: reminders.weekdays.short
+class TranslationsRemindersWeekdaysShortEn {
+	TranslationsRemindersWeekdaysShortEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Mon'
+	String get mon => 'Mon';
+
+	/// en: 'Tue'
+	String get tue => 'Tue';
+
+	/// en: 'Wed'
+	String get wed => 'Wed';
+
+	/// en: 'Thu'
+	String get thu => 'Thu';
+
+	/// en: 'Fri'
+	String get fri => 'Fri';
+
+	/// en: 'Sat'
+	String get sat => 'Sat';
+
+	/// en: 'Sun'
+	String get sun => 'Sun';
+}
+
+// Path: reminders.weekdays.full
+class TranslationsRemindersWeekdaysFullEn {
+	TranslationsRemindersWeekdaysFullEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Monday'
+	String get monday => 'Monday';
+
+	/// en: 'Tuesday'
+	String get tuesday => 'Tuesday';
+
+	/// en: 'Wednesday'
+	String get wednesday => 'Wednesday';
+
+	/// en: 'Thursday'
+	String get thursday => 'Thursday';
+
+	/// en: 'Friday'
+	String get friday => 'Friday';
+
+	/// en: 'Saturday'
+	String get saturday => 'Saturday';
+
+	/// en: 'Sunday'
+	String get sunday => 'Sunday';
+}
+
 // Path: dashboard.edit.blockNames
 class TranslationsDashboardEditBlockNamesEn {
 	TranslationsDashboardEditBlockNamesEn.internal(this._root);
@@ -1152,6 +1464,8 @@ extension on Translations {
 			'drawer.categories.dashboard' => 'Dashboard',
 			'drawer.categories.prayers' => 'Prayers',
 			'drawer.categories.journal' => 'Journal',
+			'drawer.categories.reminders' => 'Reminders',
+			'drawer.categories.rewards' => 'Rewards',
 			'drawer.actions.add' => 'Add',
 			'drawer.actions.edit' => 'Edit',
 			'drawer.actions.layout' => 'Layout',
@@ -1170,6 +1484,9 @@ extension on Translations {
 			'settings.sections.data' => 'Data',
 			'settings.options.theme' => 'Theme',
 			'settings.options.themeSubtitle' => 'System default',
+			'settings.options.themeLight' => 'Light',
+			'settings.options.themeDark' => 'Dark',
+			'settings.options.themeSystem' => 'System',
 			'settings.options.dailyReminder' => 'Daily Reminder',
 			'settings.options.dailyReminderSubtitle' => 'Remind me to pray daily',
 			'settings.options.defaultView' => 'Default View',
@@ -1197,6 +1514,71 @@ extension on Translations {
 			'content.dashboard' => 'Dashboard',
 			'content.prayers' => 'Prayers',
 			'content.journal' => 'Journal',
+			'reminders.today' => 'Today',
+			'reminders.refresh' => 'Refresh',
+			'reminders.weekOf' => 'Week of',
+			'reminders.views.month' => 'Month',
+			'reminders.views.week' => 'Week',
+			'reminders.views.schedule' => 'Schedule',
+			'reminders.filters.both' => 'Both',
+			'reminders.filters.prayersOnly' => 'Prayers Only',
+			'reminders.filters.journalsOnly' => 'Journals Only',
+			'reminders.weekdays.short.mon' => 'Mon',
+			'reminders.weekdays.short.tue' => 'Tue',
+			'reminders.weekdays.short.wed' => 'Wed',
+			'reminders.weekdays.short.thu' => 'Thu',
+			'reminders.weekdays.short.fri' => 'Fri',
+			'reminders.weekdays.short.sat' => 'Sat',
+			'reminders.weekdays.short.sun' => 'Sun',
+			'reminders.weekdays.full.monday' => 'Monday',
+			'reminders.weekdays.full.tuesday' => 'Tuesday',
+			'reminders.weekdays.full.wednesday' => 'Wednesday',
+			'reminders.weekdays.full.thursday' => 'Thursday',
+			'reminders.weekdays.full.friday' => 'Friday',
+			'reminders.weekdays.full.saturday' => 'Saturday',
+			'reminders.weekdays.full.sunday' => 'Sunday',
+			'reminders.months.january' => 'January',
+			'reminders.months.february' => 'February',
+			'reminders.months.march' => 'March',
+			'reminders.months.april' => 'April',
+			'reminders.months.may' => 'May',
+			'reminders.months.june' => 'June',
+			'reminders.months.july' => 'July',
+			'reminders.months.august' => 'August',
+			'reminders.months.september' => 'September',
+			'reminders.months.october' => 'October',
+			'reminders.months.november' => 'November',
+			'reminders.months.december' => 'December',
+			'reminders.items' => ({required Object count}) => '${count} items',
+			'reminders.noReminders' => 'No reminders',
+			'reminders.noRemindersForDay' => 'No reminders for this day',
+			'rewards.title' => 'Rewards',
+			'rewards.refresh' => 'Refresh',
+			'rewards.levels.seeker' => 'Seeker',
+			'rewards.levels.seekerDesc' => 'Beginning your prayer journey',
+			'rewards.levels.disciple' => 'Disciple',
+			'rewards.levels.discipleDesc' => 'Committed to daily prayer',
+			'rewards.levels.watchman' => 'Watchman',
+			'rewards.levels.watchmanDesc' => 'Vigilant in prayer for a month',
+			'rewards.levels.intercessor' => 'Intercessor',
+			'rewards.levels.intercessorDesc' => 'A faithful prayer warrior',
+			'rewards.levels.warrior' => 'Warrior',
+			'rewards.levels.warriorDesc' => 'Three months of unwavering prayer devotion',
+			'rewards.statsTitle' => 'Streak Stats',
+			'rewards.currentStreak' => 'Current',
+			'rewards.longestStreak' => 'Longest',
+			'rewards.totalDays' => 'Total Days',
+			'rewards.days' => 'days',
+			'rewards.nextLevel' => ({required Object level}) => 'Next: ${level}',
+			'rewards.daysToNextLevel' => ({required Object days}) => '${days} days to next level',
+			'rewards.recentActivity' => 'Recent Activity (30 Days)',
+			'rewards.prayed' => 'Prayed',
+			'rewards.missed' => 'Missed',
+			'rewards.allLevels' => 'All Levels',
+			'prayerCheck.title' => 'Daily Prayer Check',
+			'prayerCheck.message' => 'Have you prayed today? Keep your streak going!',
+			'prayerCheck.yes' => 'Yes, I Prayed',
+			'prayerCheck.later' => 'Later',
 			'about.title' => 'A Flutter Prayer Journal App',
 			'about.by' => 'by Baptist Missions OS',
 			'about.description' => 'A personal prayer journal to track your prayers, see answered prayers, and grow in your faith journey.',
