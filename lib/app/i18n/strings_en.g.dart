@@ -51,6 +51,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsTitlesEn titles = TranslationsTitlesEn.internal(_root);
 	late final TranslationsContentEn content = TranslationsContentEn.internal(_root);
 	late final TranslationsRemindersEn reminders = TranslationsRemindersEn.internal(_root);
+	late final TranslationsRewardsEn rewards = TranslationsRewardsEn.internal(_root);
+	late final TranslationsPrayerCheckEn prayerCheck = TranslationsPrayerCheckEn.internal(_root);
 	late final TranslationsAboutEn about = TranslationsAboutEn.internal(_root);
 	late final TranslationsSupportEn support = TranslationsSupportEn.internal(_root);
 	late final TranslationsDashboardEn dashboard = TranslationsDashboardEn.internal(_root);
@@ -221,6 +223,77 @@ class TranslationsRemindersEn {
 
 	/// en: 'No reminders for this day'
 	String get noRemindersForDay => 'No reminders for this day';
+}
+
+// Path: rewards
+class TranslationsRewardsEn {
+	TranslationsRewardsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Rewards'
+	String get title => 'Rewards';
+
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
+	late final TranslationsRewardsLevelsEn levels = TranslationsRewardsLevelsEn.internal(_root);
+
+	/// en: 'Streak Stats'
+	String get statsTitle => 'Streak Stats';
+
+	/// en: 'Current'
+	String get currentStreak => 'Current';
+
+	/// en: 'Longest'
+	String get longestStreak => 'Longest';
+
+	/// en: 'Total Days'
+	String get totalDays => 'Total Days';
+
+	/// en: 'days'
+	String get days => 'days';
+
+	/// en: 'Next: {level}'
+	String nextLevel({required Object level}) => 'Next: ${level}';
+
+	/// en: '{days} days to next level'
+	String daysToNextLevel({required Object days}) => '${days} days to next level';
+
+	/// en: 'Recent Activity (30 Days)'
+	String get recentActivity => 'Recent Activity (30 Days)';
+
+	/// en: 'Prayed'
+	String get prayed => 'Prayed';
+
+	/// en: 'Missed'
+	String get missed => 'Missed';
+
+	/// en: 'All Levels'
+	String get allLevels => 'All Levels';
+}
+
+// Path: prayerCheck
+class TranslationsPrayerCheckEn {
+	TranslationsPrayerCheckEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Daily Prayer Check'
+	String get title => 'Daily Prayer Check';
+
+	/// en: 'Have you prayed today? Keep your streak going!'
+	String get message => 'Have you prayed today? Keep your streak going!';
+
+	/// en: 'Yes, I Prayed'
+	String get yes => 'Yes, I Prayed';
+
+	/// en: 'Later'
+	String get later => 'Later';
 }
 
 // Path: about
@@ -511,6 +584,9 @@ class TranslationsDrawerCategoriesEn {
 
 	/// en: 'Reminders'
 	String get reminders => 'Reminders';
+
+	/// en: 'Rewards'
+	String get rewards => 'Rewards';
 }
 
 // Path: drawer.actions
@@ -717,6 +793,45 @@ class TranslationsRemindersMonthsEn {
 
 	/// en: 'December'
 	String get december => 'December';
+}
+
+// Path: rewards.levels
+class TranslationsRewardsLevelsEn {
+	TranslationsRewardsLevelsEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Seeker'
+	String get seeker => 'Seeker';
+
+	/// en: 'Beginning your prayer journey'
+	String get seekerDesc => 'Beginning your prayer journey';
+
+	/// en: 'Disciple'
+	String get disciple => 'Disciple';
+
+	/// en: 'Committed to daily prayer'
+	String get discipleDesc => 'Committed to daily prayer';
+
+	/// en: 'Watchman'
+	String get watchman => 'Watchman';
+
+	/// en: 'Vigilant in prayer for a month'
+	String get watchmanDesc => 'Vigilant in prayer for a month';
+
+	/// en: 'Intercessor'
+	String get intercessor => 'Intercessor';
+
+	/// en: 'A faithful prayer warrior'
+	String get intercessorDesc => 'A faithful prayer warrior';
+
+	/// en: 'Warrior'
+	String get warrior => 'Warrior';
+
+	/// en: 'Three months of unwavering prayer devotion'
+	String get warriorDesc => 'Three months of unwavering prayer devotion';
 }
 
 // Path: support.channels
@@ -1350,6 +1465,7 @@ extension on Translations {
 			'drawer.categories.prayers' => 'Prayers',
 			'drawer.categories.journal' => 'Journal',
 			'drawer.categories.reminders' => 'Reminders',
+			'drawer.categories.rewards' => 'Rewards',
 			'drawer.actions.add' => 'Add',
 			'drawer.actions.edit' => 'Edit',
 			'drawer.actions.layout' => 'Layout',
@@ -1436,6 +1552,33 @@ extension on Translations {
 			'reminders.items' => ({required Object count}) => '${count} items',
 			'reminders.noReminders' => 'No reminders',
 			'reminders.noRemindersForDay' => 'No reminders for this day',
+			'rewards.title' => 'Rewards',
+			'rewards.refresh' => 'Refresh',
+			'rewards.levels.seeker' => 'Seeker',
+			'rewards.levels.seekerDesc' => 'Beginning your prayer journey',
+			'rewards.levels.disciple' => 'Disciple',
+			'rewards.levels.discipleDesc' => 'Committed to daily prayer',
+			'rewards.levels.watchman' => 'Watchman',
+			'rewards.levels.watchmanDesc' => 'Vigilant in prayer for a month',
+			'rewards.levels.intercessor' => 'Intercessor',
+			'rewards.levels.intercessorDesc' => 'A faithful prayer warrior',
+			'rewards.levels.warrior' => 'Warrior',
+			'rewards.levels.warriorDesc' => 'Three months of unwavering prayer devotion',
+			'rewards.statsTitle' => 'Streak Stats',
+			'rewards.currentStreak' => 'Current',
+			'rewards.longestStreak' => 'Longest',
+			'rewards.totalDays' => 'Total Days',
+			'rewards.days' => 'days',
+			'rewards.nextLevel' => ({required Object level}) => 'Next: ${level}',
+			'rewards.daysToNextLevel' => ({required Object days}) => '${days} days to next level',
+			'rewards.recentActivity' => 'Recent Activity (30 Days)',
+			'rewards.prayed' => 'Prayed',
+			'rewards.missed' => 'Missed',
+			'rewards.allLevels' => 'All Levels',
+			'prayerCheck.title' => 'Daily Prayer Check',
+			'prayerCheck.message' => 'Have you prayed today? Keep your streak going!',
+			'prayerCheck.yes' => 'Yes, I Prayed',
+			'prayerCheck.later' => 'Later',
 			'about.title' => 'A Flutter Prayer Journal App',
 			'about.by' => 'by Baptist Missions OS',
 			'about.description' => 'A personal prayer journal to track your prayers, see answered prayers, and grow in your faith journey.',

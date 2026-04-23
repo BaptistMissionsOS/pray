@@ -11,7 +11,8 @@
       "dashboard": "Panel",
       "prayers": "Oraciones",
       "journal": "Diario",
-      "reminders": "Recordatorios"
+      "reminders": "Recordatorios",
+      "rewards": "Recompensas"
     },
     "actions": {
       "add": "Agregar",
@@ -127,6 +128,39 @@
     "items": "{count} elementos",
     "noReminders": "Sin recordatorios",
     "noRemindersForDay": "Sin recordatorios para este día"
+  },
+  "rewards": {
+    "title": "Recompensas",
+    "refresh": "Actualizar",
+    "levels": {
+      "seeker": "Buscador",
+      "seekerDesc": "Comenzando tu viaje de oración",
+      "disciple": "Discípulo",
+      "discipleDesc": "Comprometido con la oración diaria",
+      "watchman": "Vigía",
+      "watchmanDesc": "Vigilante en oración por un mes",
+      "intercessor": "Intercesor",
+      "intercessorDesc": "Un guerrero de oración fiel",
+      "warrior": "Guerrero",
+      "warriorDesc": "Tres meses de devoción inquebrantable"
+    },
+    "statsTitle": "Estadísticas de Racha",
+    "currentStreak": "Actual",
+    "longestStreak": "Más Larga",
+    "totalDays": "Días Totales",
+    "days": "días",
+    "nextLevel": "Siguiente: {level}",
+    "daysToNextLevel": "{days} días para el siguiente nivel",
+    "recentActivity": "Actividad Reciente (30 Días)",
+    "prayed": "Oró",
+    "missed": "No Oró",
+    "allLevels": "Todos los Niveles"
+  },
+  "prayerCheck": {
+    "title": "Verificación Diaria de Oración",
+    "message": "¿Has orado hoy? ¡Mantén tu racha activa!",
+    "yes": "Sí, Oré",
+    "later": "Más Tarde"
   },
   "about": {
     "title": "Una App de Diario de Oración Flutter",

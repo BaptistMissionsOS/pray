@@ -47,6 +47,8 @@ class TranslationsEs extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsTitlesEs titles = _TranslationsTitlesEs._(_root);
 	@override late final _TranslationsContentEs content = _TranslationsContentEs._(_root);
 	@override late final _TranslationsRemindersEs reminders = _TranslationsRemindersEs._(_root);
+	@override late final _TranslationsRewardsEs rewards = _TranslationsRewardsEs._(_root);
+	@override late final _TranslationsPrayerCheckEs prayerCheck = _TranslationsPrayerCheckEs._(_root);
 	@override late final _TranslationsAboutEs about = _TranslationsAboutEs._(_root);
 	@override late final _TranslationsSupportEs support = _TranslationsSupportEs._(_root);
 	@override late final _TranslationsDashboardEs dashboard = _TranslationsDashboardEs._(_root);
@@ -156,6 +158,42 @@ class _TranslationsRemindersEs extends TranslationsRemindersEn {
 	@override String items({required Object count}) => '${count} elementos';
 	@override String get noReminders => 'Sin recordatorios';
 	@override String get noRemindersForDay => 'Sin recordatorios para este día';
+}
+
+// Path: rewards
+class _TranslationsRewardsEs extends TranslationsRewardsEn {
+	_TranslationsRewardsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Recompensas';
+	@override String get refresh => 'Actualizar';
+	@override late final _TranslationsRewardsLevelsEs levels = _TranslationsRewardsLevelsEs._(_root);
+	@override String get statsTitle => 'Estadísticas de Racha';
+	@override String get currentStreak => 'Actual';
+	@override String get longestStreak => 'Más Larga';
+	@override String get totalDays => 'Días Totales';
+	@override String get days => 'días';
+	@override String nextLevel({required Object level}) => 'Siguiente: ${level}';
+	@override String daysToNextLevel({required Object days}) => '${days} días para el siguiente nivel';
+	@override String get recentActivity => 'Actividad Reciente (30 Días)';
+	@override String get prayed => 'Oró';
+	@override String get missed => 'No Oró';
+	@override String get allLevels => 'Todos los Niveles';
+}
+
+// Path: prayerCheck
+class _TranslationsPrayerCheckEs extends TranslationsPrayerCheckEn {
+	_TranslationsPrayerCheckEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Verificación Diaria de Oración';
+	@override String get message => '¿Has orado hoy? ¡Mantén tu racha activa!';
+	@override String get yes => 'Sí, Oré';
+	@override String get later => 'Más Tarde';
 }
 
 // Path: about
@@ -322,6 +360,7 @@ class _TranslationsDrawerCategoriesEs extends TranslationsDrawerCategoriesEn {
 	@override String get prayers => 'Oraciones';
 	@override String get journal => 'Diario';
 	@override String get reminders => 'Recordatorios';
+	@override String get rewards => 'Recompensas';
 }
 
 // Path: drawer.actions
@@ -434,6 +473,25 @@ class _TranslationsRemindersMonthsEs extends TranslationsRemindersMonthsEn {
 	@override String get october => 'Octubre';
 	@override String get november => 'Noviembre';
 	@override String get december => 'Diciembre';
+}
+
+// Path: rewards.levels
+class _TranslationsRewardsLevelsEs extends TranslationsRewardsLevelsEn {
+	_TranslationsRewardsLevelsEs._(TranslationsEs root) : this._root = root, super.internal(root);
+
+	final TranslationsEs _root; // ignore: unused_field
+
+	// Translations
+	@override String get seeker => 'Buscador';
+	@override String get seekerDesc => 'Comenzando tu viaje de oración';
+	@override String get disciple => 'Discípulo';
+	@override String get discipleDesc => 'Comprometido con la oración diaria';
+	@override String get watchman => 'Vigía';
+	@override String get watchmanDesc => 'Vigilante en oración por un mes';
+	@override String get intercessor => 'Intercesor';
+	@override String get intercessorDesc => 'Un guerrero de oración fiel';
+	@override String get warrior => 'Guerrero';
+	@override String get warriorDesc => 'Tres meses de devoción inquebrantable';
 }
 
 // Path: support.channels
@@ -785,6 +843,7 @@ extension on TranslationsEs {
 			'drawer.categories.prayers' => 'Oraciones',
 			'drawer.categories.journal' => 'Diario',
 			'drawer.categories.reminders' => 'Recordatorios',
+			'drawer.categories.rewards' => 'Recompensas',
 			'drawer.actions.add' => 'Agregar',
 			'drawer.actions.edit' => 'Editar',
 			'drawer.actions.layout' => 'Diseño',
@@ -871,6 +930,33 @@ extension on TranslationsEs {
 			'reminders.items' => ({required Object count}) => '${count} elementos',
 			'reminders.noReminders' => 'Sin recordatorios',
 			'reminders.noRemindersForDay' => 'Sin recordatorios para este día',
+			'rewards.title' => 'Recompensas',
+			'rewards.refresh' => 'Actualizar',
+			'rewards.levels.seeker' => 'Buscador',
+			'rewards.levels.seekerDesc' => 'Comenzando tu viaje de oración',
+			'rewards.levels.disciple' => 'Discípulo',
+			'rewards.levels.discipleDesc' => 'Comprometido con la oración diaria',
+			'rewards.levels.watchman' => 'Vigía',
+			'rewards.levels.watchmanDesc' => 'Vigilante en oración por un mes',
+			'rewards.levels.intercessor' => 'Intercesor',
+			'rewards.levels.intercessorDesc' => 'Un guerrero de oración fiel',
+			'rewards.levels.warrior' => 'Guerrero',
+			'rewards.levels.warriorDesc' => 'Tres meses de devoción inquebrantable',
+			'rewards.statsTitle' => 'Estadísticas de Racha',
+			'rewards.currentStreak' => 'Actual',
+			'rewards.longestStreak' => 'Más Larga',
+			'rewards.totalDays' => 'Días Totales',
+			'rewards.days' => 'días',
+			'rewards.nextLevel' => ({required Object level}) => 'Siguiente: ${level}',
+			'rewards.daysToNextLevel' => ({required Object days}) => '${days} días para el siguiente nivel',
+			'rewards.recentActivity' => 'Actividad Reciente (30 Días)',
+			'rewards.prayed' => 'Oró',
+			'rewards.missed' => 'No Oró',
+			'rewards.allLevels' => 'Todos los Niveles',
+			'prayerCheck.title' => 'Verificación Diaria de Oración',
+			'prayerCheck.message' => '¿Has orado hoy? ¡Mantén tu racha activa!',
+			'prayerCheck.yes' => 'Sí, Oré',
+			'prayerCheck.later' => 'Más Tarde',
 			'about.title' => 'Una App de Diario de Oración Flutter',
 			'about.by' => 'por Baptist Missions OS',
 			'about.description' => 'Un diario de oración personal para registrar tus oraciones, ver las respuestas y crecer en tu camino de fe.',
