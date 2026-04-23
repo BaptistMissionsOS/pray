@@ -1,90 +1,184 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show PrayerActivityData;
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  final db = DatabaseProvider.instance;
+  Map<String, int> _stats = {'total': 0, 'answered': 0, 'unanswered': 0, 'active': 0};
+  int _streak = 0;
+  List<PrayerActivityData> _weekActivity = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final stats = await db.getPrayerStats();
+    final streak = await db.getCurrentStreak();
+    final now = DateTime.now();
+    final weekStart = now.subtract(Duration(days: now.weekday - 1));
+    final weekEnd = weekStart.add(const Duration(days: 6));
+    final activity = await db.getPrayerActivityForRange(weekStart, weekEnd);
+
+    if (mounted) {
+      setState(() {
+        _stats = stats;
+        _streak = streak;
+        _weekActivity = activity;
+        _isLoading = false;
+      });
+    }
+  }
+
+  bool _isDayPrayed(DateTime date) {
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    return _weekActivity.any((a) => 
+      a.date.year == dateOnly.year && 
+      a.date.month == dateOnly.month && 
+      a.date.day == dateOnly.day && 
+      a.prayed
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
 
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text(t.content.dashboard)),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final now = DateTime.now();
+    final weekDays = [
+      ('M', now.subtract(Duration(days: now.weekday - 1))),
+      ('T', now.subtract(Duration(days: now.weekday - 2))),
+      ('W', now.subtract(Duration(days: now.weekday - 3))),
+      ('T', now.subtract(Duration(days: now.weekday - 4))),
+      ('F', now.subtract(Duration(days: now.weekday - 5))),
+      ('S', now.subtract(Duration(days: now.weekday - 6))),
+      ('S', now.subtract(Duration(days: now.weekday - 7))),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(t.content.dashboard),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildStatBlock(
-              context,
-              icon: Symbols.folded_hands,
-              title: 'Total Prayers',
-              value: '24',
-              subtitle: 'All time prayers',
-              color: colorScheme.primary,
-            ),
-            const SizedBox(height: 12),
-            _buildStatBlock(
-              context,
-              icon: Icons.check_circle,
-              title: 'Answered',
-              value: '8',
-              subtitle: 'Prayers answered',
-              color: Colors.green,
-            ),
-            const SizedBox(height: 12),
-            _buildStatBlock(
-              context,
-              icon: Icons.pending,
-              title: 'Unanswered',
-              value: '12',
-              subtitle: 'Still praying',
-              color: Colors.orange,
-            ),
-            const SizedBox(height: 12),
-            _buildStatBlock(
-              context,
-              icon: Icons.local_fire_department,
-              title: 'Streak',
-              value: '5',
-              subtitle: 'Day prayer streak',
-              color: Colors.red,
-            ),
-            const SizedBox(height: 24),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'This Week',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildDayIndicator(context, 'M', true),
-                        _buildDayIndicator(context, 'T', true),
-                        _buildDayIndicator(context, 'W', true),
-                        _buildDayIndicator(context, 'T', true),
-                        _buildDayIndicator(context, 'F', false),
-                        _buildDayIndicator(context, 'S', false),
-                        _buildDayIndicator(context, 'S', false),
-                      ],
-                    ),
-                  ],
+      body: RefreshIndicator(
+        onRefresh: _loadData,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildStatBlock(
+                context,
+                icon: Symbols.folded_hands,
+                title: 'Total Prayers',
+                value: _stats['total'].toString(),
+                subtitle: 'All time prayers',
+                color: colorScheme.primary,
+              ),
+              const SizedBox(height: 12),
+              _buildStatBlock(
+                context,
+                icon: Icons.check_circle,
+                title: 'Answered',
+                value: _stats['answered'].toString(),
+                subtitle: 'Prayers answered',
+                color: Colors.green,
+              ),
+              const SizedBox(height: 12),
+              _buildStatBlock(
+                context,
+                icon: Icons.pending,
+                title: 'Unanswered',
+                value: _stats['unanswered'].toString(),
+                subtitle: 'Still praying',
+                color: Colors.orange,
+              ),
+              const SizedBox(height: 12),
+              _buildStatBlock(
+                context,
+                icon: Icons.local_fire_department,
+                title: 'Streak',
+                value: _streak.toString(),
+                subtitle: 'Day prayer streak',
+                color: Colors.red,
+              ),
+              const SizedBox(height: 24),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'This Week',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: weekDays.map((day) => 
+                          _buildDayIndicator(context, day.$1, _isDayPrayed(day.$2))
+                        ).toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 24),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Quick Actions',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildQuickAction(
+                            context,
+                            icon: Symbols.folded_hands,
+                            label: 'I Prayed Today',
+                            onTap: () async {
+                              await db.recordPrayerActivity(DateTime.now(), prayed: true);
+                              _loadData();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -171,6 +265,38 @@ class Dashboard extends StatelessWidget {
           style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
+    );
+  }
+
+  Widget _buildQuickAction(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: Theme.of(context).colorScheme.primary, size: 32),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

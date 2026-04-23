@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:drift/drift.dart';
 import '../../app/i18n/strings.g.dart';
+import '../../core/db/db_provider.dart';
+import '../../core/db/database.dart' show PrayersCompanion;
 
 class PrayersAdd extends StatefulWidget {
   const PrayersAdd({super.key});
@@ -33,6 +36,27 @@ class _PrayersAddState extends State<PrayersAdd> {
     super.dispose();
   }
 
+  Future<void> _savePrayer() async {
+    if (_formKey.currentState!.validate()) {
+      final db = DatabaseProvider.instance;
+      final answeredAt = _selectedStatus == 'answered' ? DateTime.now() : null;
+      
+      await db.insertPrayer(
+        PrayersCompanion(
+          title: Value(_titleController.text),
+          description: Value(_descriptionController.text.isEmpty ? null : _descriptionController.text),
+          category: Value(_selectedCategory),
+          status: Value(_selectedStatus),
+          answeredAt: Value(answeredAt),
+        ),
+      );
+      
+      if (mounted) {
+        Navigator.pop(context, true);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
@@ -41,7 +65,7 @@ class _PrayersAddState extends State<PrayersAdd> {
         title: Text(t.titles.prayersAdd),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: _savePrayer,
             child: const Text('Save'),
           ),
         ],
