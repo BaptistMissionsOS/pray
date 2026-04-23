@@ -96,7 +96,7 @@ class _JournalEditState extends State<JournalEdit> {
         actions: [
           TextButton(
             onPressed: _saveEntry,
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -107,15 +107,15 @@ class _JournalEditState extends State<JournalEdit> {
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                hintText: 'Give your entry a title...',
-                prefixIcon: Icon(Icons.title),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.title,
+                hintText: t.journal.form.titleHint,
+                prefixIcon: const Icon(Icons.title),
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a title';
+                  return t.journal.form.titleRequired;
                 }
                 return null;
               },
@@ -123,17 +123,17 @@ class _JournalEditState extends State<JournalEdit> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _contentController,
-              decoration: const InputDecoration(
-                labelText: 'Content',
-                hintText: 'Write about your prayer experience, thoughts, or answered prayers...',
-                prefixIcon: Icon(Icons.notes),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.content,
+                hintText: t.journal.form.contentHint,
+                prefixIcon: const Icon(Icons.notes),
+                border: const OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
               maxLines: 8,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some content';
+                  return t.journal.form.contentRequired;
                 }
                 return null;
               },
@@ -141,15 +141,15 @@ class _JournalEditState extends State<JournalEdit> {
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: _selectedCategory,
-              decoration: const InputDecoration(
-                labelText: 'Category',
-                prefixIcon: Icon(Icons.folder),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: t.journal.form.category,
+                prefixIcon: const Icon(Icons.folder),
+                border: const OutlineInputBorder(),
               ),
               items: _categories.map((category) {
                 return DropdownMenuItem(
                   value: category,
-                  child: Text(category),
+                  child: Text(_getCategoryLabel(t, category)),
                 );
               }).toList(),
               onChanged: (value) {
@@ -163,16 +163,16 @@ class _JournalEditState extends State<JournalEdit> {
             const SizedBox(height: 16),
             DropdownButtonFormField<int?>(
               value: _selectedPrayerId,
-              decoration: const InputDecoration(
-                labelText: 'Related Prayer (Optional)',
-                prefixIcon: Icon(Icons.link),
-                border: OutlineInputBorder(),
-                hintText: 'Select a prayer this entry relates to',
+              decoration: InputDecoration(
+                labelText: t.journal.form.relatedPrayer,
+                prefixIcon: const Icon(Icons.link),
+                border: const OutlineInputBorder(),
+                hintText: t.journal.form.relatedPrayerHint,
               ),
               items: [
-                const DropdownMenuItem(
+                DropdownMenuItem(
                   value: null,
-                  child: Text('None'),
+                  child: Text(t.common.none),
                 ),
                 ..._prayers.map((prayer) {
                   return DropdownMenuItem(
@@ -191,7 +191,7 @@ class _JournalEditState extends State<JournalEdit> {
             const Divider(),
             const SizedBox(height: 8),
             Text(
-              'How are you feeling?',
+              t.journal.form.mood,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -208,7 +208,7 @@ class _JournalEditState extends State<JournalEdit> {
                     color: mood['color'] as Color,
                     size: 18,
                   ),
-                  label: Text(mood['name'] as String),
+                  label: Text(_getMoodLabel(t, mood['name'] as String)),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
@@ -222,5 +222,30 @@ class _JournalEditState extends State<JournalEdit> {
         ),
       ),
     );
+  }
+
+  String _getCategoryLabel(Translations t, String category) {
+    switch (category) {
+      case 'Answered Prayers': return t.journal.categories.answeredPrayers;
+      case 'Daily Devotion': return t.journal.categories.dailyDevotion;
+      case 'Health': return t.journal.categories.health;
+      case 'Missions': return t.journal.categories.missions;
+      case 'Family': return t.journal.categories.family;
+      case 'Spiritual Growth': return t.journal.categories.spiritualGrowth;
+      case 'Other': return t.journal.categories.other;
+      default: return category;
+    }
+  }
+
+  String _getMoodLabel(Translations t, String mood) {
+    switch (mood) {
+      case 'Grateful': return t.moods.grateful;
+      case 'Peaceful': return t.moods.peaceful;
+      case 'Hopeful': return t.moods.hopeful;
+      case 'Excited': return t.moods.excited;
+      case 'Anxious': return t.moods.anxious;
+      case 'Sad': return t.moods.sad;
+      default: return mood;
+    }
   }
 }

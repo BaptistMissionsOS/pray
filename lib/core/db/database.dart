@@ -193,6 +193,14 @@ class AppDatabase extends _$AppDatabase {
 
     return streak;
   }
+
+  // Clear all data
+  Future<void> clearAllData() async {
+    await delete(prayers).go();
+    await delete(journalEntries).go();
+    await delete(prayerActivity).go();
+    await delete(preferences).go();
+  }
 }
 
 Future<String> getDatabasePath() async {

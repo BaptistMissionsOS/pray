@@ -89,36 +89,36 @@ class _DashboardState extends State<Dashboard> {
               _buildStatBlock(
                 context,
                 icon: Symbols.folded_hands,
-                title: 'Total Prayers',
+                title: t.dashboard.stats.totalPrayers,
                 value: _stats['total'].toString(),
-                subtitle: 'All time prayers',
+                subtitle: t.dashboard.stats.allTimePrayers,
                 color: colorScheme.primary,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.check_circle,
-                title: 'Answered',
+                title: t.dashboard.stats.answered,
                 value: _stats['answered'].toString(),
-                subtitle: 'Prayers answered',
+                subtitle: t.dashboard.stats.prayersAnswered,
                 color: Colors.green,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.pending,
-                title: 'Unanswered',
+                title: t.dashboard.stats.unanswered,
                 value: _stats['unanswered'].toString(),
-                subtitle: 'Still praying',
+                subtitle: t.dashboard.stats.stillPraying,
                 color: Colors.orange,
               ),
               const SizedBox(height: 12),
               _buildStatBlock(
                 context,
                 icon: Icons.local_fire_department,
-                title: 'Streak',
+                title: t.dashboard.stats.streak,
                 value: _streak.toString(),
-                subtitle: 'Day prayer streak',
+                subtitle: t.dashboard.stats.dayPrayerStreak,
                 color: Colors.red,
               ),
               const SizedBox(height: 24),
@@ -129,7 +129,7 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'This Week',
+                        t.dashboard.stats.thisWeek,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -153,7 +153,7 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Quick Actions',
+                        t.dashboard.quickActions,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -165,7 +165,7 @@ class _DashboardState extends State<Dashboard> {
                           _buildQuickAction(
                             context,
                             icon: Symbols.folded_hands,
-                            label: 'I Prayed Today',
+                            label: t.dashboard.iPrayedToday,
                             onTap: () async {
                               await db.recordPrayerActivity(DateTime.now(), prayed: true);
                               _loadData();

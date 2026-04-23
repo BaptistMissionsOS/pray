@@ -79,7 +79,7 @@ class About extends StatelessWidget {
             const SizedBox(height: 24),
             ListTile(
               leading: const Icon(Icons.info_outline),
-              title: const Text('Version'),
+              title: Text(t.about.version),
               trailing: Text(
                 '1.0.0',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -90,8 +90,8 @@ class About extends StatelessWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.code),
-              title: const Text('Open Source'),
-              subtitle: const Text('Built with Flutter'),
+              title: Text(t.about.openSource),
+              subtitle: Text('Built with Flutter'),
               trailing: const Icon(Icons.open_in_new, size: 18),
               onTap: () {},
             ),

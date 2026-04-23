@@ -31,7 +31,7 @@ class _PrayersShareState extends State<PrayersShare> {
           if (selectedCount > 0)
             TextButton(
               onPressed: () {},
-              child: Text('Share ($selectedCount)'),
+              child: Text('${t.drawer.actions.share} ${t.prayers.share.selectedCount(count: selectedCount)}'),
             ),
         ],
       ),
@@ -55,10 +55,10 @@ class _PrayersShareState extends State<PrayersShare> {
                         });
                       },
                     ),
-                    const Text('Select All'),
+                    Text(t.prayers.share.selectAll),
                     const Spacer(),
                     Text(
-                      '$selectedCount selected',
+                      '$selectedCount ${t.prayers.share.selected}',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
@@ -68,28 +68,28 @@ class _PrayersShareState extends State<PrayersShare> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Export Format',
+                  t.prayers.share.exportFormat,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
                 const SizedBox(height: 8),
                 SegmentedButton<String>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: 'text',
-                      label: Text('Text'),
-                      icon: Icon(Icons.text_snippet),
+                      label: Text(t.prayers.share.text),
+                      icon: const Icon(Icons.text_snippet),
                     ),
                     ButtonSegment(
                       value: 'json',
-                      label: Text('JSON'),
-                      icon: Icon(Icons.code),
+                      label: Text(t.prayers.share.json),
+                      icon: const Icon(Icons.code),
                     ),
                     ButtonSegment(
                       value: 'csv',
-                      label: Text('CSV'),
-                      icon: Icon(Icons.table_chart),
+                      label: Text(t.prayers.share.csv),
+                      icon: const Icon(Icons.table_chart),
                     ),
                   ],
                   selected: {_selectedFormat},
@@ -149,7 +149,7 @@ class _PrayersShareState extends State<PrayersShare> {
                       child: OutlinedButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.copy),
-                        label: const Text('Copy'),
+                        label: Text(t.prayers.share.copy),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -157,7 +157,7 @@ class _PrayersShareState extends State<PrayersShare> {
                       child: ElevatedButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.share),
-                        label: const Text('Share'),
+                        label: Text(t.prayers.share.share),
                       ),
                     ),
                   ],

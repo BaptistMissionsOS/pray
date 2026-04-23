@@ -22,87 +22,87 @@ class Settings extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          _buildSectionHeader(context, 'Appearance'),
+          _buildSectionHeader(context, t.settings.sections.appearance),
           ListTile(
             leading: const Icon(Icons.language),
             title: Text(t.settings.language),
-            subtitle: Text(LocaleSettings.currentLocale == AppLocale.en ? 'English' : 'Español'),
+            subtitle: Text(LocaleSettings.currentLocale == AppLocale.en ? t.settings.english : t.settings.spanish),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguageDialog(context, t),
           ),
           ListTile(
             leading: const Icon(Icons.palette),
-            title: const Text('Theme'),
-            subtitle: const Text('System default'),
+            title: Text(t.settings.options.theme),
+            subtitle: Text(t.settings.options.themeSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           const Divider(),
-          _buildSectionHeader(context, 'Dashboard'),
+          _buildSectionHeader(context, t.settings.sections.dashboard),
           ListTile(
             leading: const Icon(Icons.dashboard),
-            title: const Text('Default View'),
-            subtitle: const Text('Show all statistics'),
+            title: Text(t.settings.options.defaultView),
+            subtitle: Text(t.settings.options.defaultViewSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           SwitchListTile(
             secondary: const Icon(Icons.notifications_active),
-            title: const Text('Daily Reminder'),
-            subtitle: const Text('Remind me to pray daily'),
+            title: Text(t.settings.options.dailyReminder),
+            subtitle: Text(t.settings.options.dailyReminderSubtitle),
             value: false,
             onChanged: (value) {},
           ),
           const Divider(),
-          _buildSectionHeader(context, 'Prayers'),
+          _buildSectionHeader(context, t.settings.sections.prayers),
           ListTile(
             leading: const Icon(Symbols.folded_hands),
-            title: const Text('Default Filter'),
-            subtitle: const Text('Show active prayers'),
+            title: Text(t.settings.options.defaultFilter),
+            subtitle: Text(t.settings.options.defaultFilterSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           SwitchListTile(
             secondary: const Icon(Icons.archive),
-            title: const Text('Auto-archive Answered'),
-            subtitle: const Text('Move answered prayers to archive after 7 days'),
+            title: Text(t.settings.options.autoArchive),
+            subtitle: Text(t.settings.options.autoArchiveSubtitle),
             value: false,
             onChanged: (value) {},
           ),
           const Divider(),
-          _buildSectionHeader(context, 'Journal'),
+          _buildSectionHeader(context, t.settings.sections.journal),
           ListTile(
             leading: const Icon(Icons.book),
-            title: const Text('Default Category'),
-            subtitle: const Text('Uncategorized'),
+            title: Text(t.journal.categories.defaultCategory),
+            subtitle: Text(t.journal.categories.uncategorized),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           SwitchListTile(
             secondary: const Icon(Icons.lock),
-            title: const Text('Private Mode'),
-            subtitle: const Text('Require authentication to view journal'),
+            title: Text(t.settings.options.privateMode),
+            subtitle: Text(t.settings.options.privateModeSubtitle),
             value: false,
             onChanged: (value) {},
           ),
           const Divider(),
-          _buildSectionHeader(context, 'Data'),
+          _buildSectionHeader(context, t.settings.sections.data),
           ListTile(
             leading: const Icon(Icons.backup),
-            title: const Text('Backup & Restore'),
-            subtitle: const Text('Export or import your data'),
+            title: Text(t.settings.options.backupRestore),
+            subtitle: Text(t.settings.options.backupRestoreSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.delete_outline, color: Colors.red),
-            title: const Text('Clear All Data', style: TextStyle(color: Colors.red)),
+            title: Text(t.settings.options.clearData, style: const TextStyle(color: Colors.red)),
             onTap: () => _showClearDataDialog(context),
           ),
           const SizedBox(height: 32),
           Center(
             child: Text(
-              'Version 1.0.0',
+              '${t.about.version} 1.0.0',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -162,7 +162,7 @@ class Settings extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
         ],
       ),
@@ -170,22 +170,29 @@ class Settings extends StatelessWidget {
   }
 
   void _showClearDataDialog(BuildContext context) {
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear All Data?'),
-        content: const Text('This will permanently delete all your prayers and journal entries. This action cannot be undone.'),
+        title: Text(t.common.clearConfirmTitle),
+        content: Text(t.settings.options.clearDataConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
+              await DatabaseProvider.instance.clearAllData();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(t.common.dataCleared)),
+                );
+              }
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Clear'),
+            child: Text(t.common.delete),
           ),
         ],
       ),

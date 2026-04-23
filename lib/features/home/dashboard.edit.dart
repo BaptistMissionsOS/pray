@@ -6,29 +6,30 @@ class DashboardEdit extends StatelessWidget {
 
   final List<Map<String, dynamic>> existingBlocks = const [
     {
-      'name': 'Total Prayers',
-      'type': 'Counter',
+      'nameKey': 'totalPrayers',
+      'typeKey': 'counter',
       'value': '24',
     },
     {
-      'name': 'Answered Prayers',
-      'type': 'Counter',
+      'nameKey': 'answeredPrayers',
+      'typeKey': 'counter',
       'value': '8',
     },
     {
-      'name': 'Unanswered',
-      'type': 'Counter',
+      'nameKey': 'unanswered',
+      'typeKey': 'counter',
       'value': '12',
     },
     {
-      'name': 'Prayer Streak',
-      'type': 'Streak',
-      'value': '5 days',
+      'nameKey': 'prayerStreak',
+      'typeKey': 'streak',
+      'value': '5',
+      'valueKey': 'days',
     },
     {
-      'name': 'Weekly Activity',
-      'type': 'Chart',
-      'value': 'Chart view',
+      'nameKey': 'weeklyActivity',
+      'typeKey': 'chart',
+      'valueKey': 'chartView',
     },
   ];
 
@@ -41,7 +42,7 @@ class DashboardEdit extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -49,14 +50,14 @@ class DashboardEdit extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Edit Dashboard Blocks',
+            t.dashboard.edit.title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Tap a block to edit its settings or remove it',
+            t.dashboard.edit.subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -74,7 +75,7 @@ class DashboardEdit extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        block['type'] as String,
+                        _getBlockType(t, block['typeKey'] as String),
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -83,8 +84,8 @@ class DashboardEdit extends StatelessWidget {
                       ),
                     ),
                   ),
-                  title: Text(block['name'] as String),
-                  subtitle: Text('Type: ${block['type']}'),
+                  title: Text(_getBlockName(t, block['nameKey'] as String)),
+                  subtitle: Text('${t.dashboard.edit.typeLabel}: ${_getBlockType(t, block['typeKey'] as String)}'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -104,10 +105,39 @@ class DashboardEdit extends StatelessWidget {
           OutlinedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.add),
-            label: const Text('Add New Block'),
+            label: Text(t.drawer.actions.add),
           ),
         ],
       ),
     );
+  }
+
+  String _getBlockName(Translations t, String key) {
+    switch (key) {
+      case 'totalPrayers': return t.dashboard.edit.blockNames.totalPrayers;
+      case 'answeredPrayers': return t.dashboard.edit.blockNames.answeredPrayers;
+      case 'unanswered': return t.dashboard.edit.blockNames.unanswered;
+      case 'prayerStreak': return t.dashboard.edit.blockNames.prayerStreak;
+      case 'weeklyActivity': return t.dashboard.edit.blockNames.weeklyActivity;
+      default: return key;
+    }
+  }
+
+  String _getBlockType(Translations t, String key) {
+    switch (key) {
+      case 'counter': return t.dashboard.edit.blockTypes.counter;
+      case 'streak': return t.dashboard.edit.blockTypes.streak;
+      case 'chart': return t.dashboard.edit.blockTypes.chart;
+      default: return key;
+    }
+  }
+
+  String _getBlockValue(Translations t, String value, String? valueKey) {
+    if (valueKey == null) return value;
+    switch (valueKey) {
+      case 'days': return t.dashboard.edit.blockValues.days(count: value);
+      case 'chartView': return t.dashboard.edit.blockValues.chartView;
+      default: return value;
+    }
   }
 }

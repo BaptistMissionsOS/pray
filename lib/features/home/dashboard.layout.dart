@@ -10,11 +10,11 @@ class DashboardLayout extends StatefulWidget {
 
 class _DashboardLayoutState extends State<DashboardLayout> {
   final List<Map<String, dynamic>> blocks = [
-    {'name': 'Total Prayers', 'type': 'Counter', 'icon': Icons.format_list_numbered},
-    {'name': 'Answered', 'type': 'Counter', 'icon': Icons.check_circle},
-    {'name': 'Unanswered', 'type': 'Counter', 'icon': Icons.pending},
-    {'name': 'Streak', 'type': 'Streak', 'icon': Icons.local_fire_department},
-    {'name': 'Weekly', 'type': 'Chart', 'icon': Icons.pie_chart},
+    {'nameKey': 'totalPrayers', 'type': 'Counter', 'icon': Icons.format_list_numbered},
+    {'nameKey': 'answered', 'type': 'Counter', 'icon': Icons.check_circle},
+    {'nameKey': 'unanswered', 'type': 'Counter', 'icon': Icons.pending},
+    {'nameKey': 'streak', 'type': 'Streak', 'icon': Icons.local_fire_department},
+    {'nameKey': 'weekly', 'type': 'Chart', 'icon': Icons.pie_chart},
   ];
 
   @override
@@ -26,7 +26,7 @@ class _DashboardLayoutState extends State<DashboardLayout> {
         actions: [
           TextButton(
             onPressed: () {},
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -36,14 +36,14 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Arrange Blocks',
+              t.dashboard.layout.title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Drag and drop to reorder your dashboard blocks',
+              t.dashboard.layout.subtitle,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -51,16 +51,16 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             const SizedBox(height: 16),
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
-              child: const Padding(
-                padding: EdgeInsets.all(12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, size: 20),
-                    SizedBox(width: 8),
+                    const Icon(Icons.info_outline, size: 20),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Long press and drag the handle to reorder',
-                        style: TextStyle(fontSize: 13),
+                        t.hints.reorder,
+                        style: const TextStyle(fontSize: 13),
                       ),
                     ),
                   ],
@@ -96,12 +96,23 @@ class _DashboardLayoutState extends State<DashboardLayout> {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-                title: Text(block['name'] as String),
+                title: Text(_getBlockName(t, block['nameKey'] as String)),
                 subtitle: Text(block['type'] as String),
                 trailing: const Icon(Icons.drag_handle),
               ),
             )).toList(),
       ),
     );
+  }
+
+  String _getBlockName(Translations t, String key) {
+    switch (key) {
+      case 'totalPrayers': return t.dashboard.layout.blockNames.totalPrayers;
+      case 'answered': return t.dashboard.layout.blockNames.answered;
+      case 'unanswered': return t.dashboard.layout.blockNames.unanswered;
+      case 'streak': return t.dashboard.layout.blockNames.streak;
+      case 'weekly': return t.dashboard.layout.blockNames.weekly;
+      default: return key;
+    }
   }
 }

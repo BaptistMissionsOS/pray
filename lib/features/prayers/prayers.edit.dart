@@ -66,7 +66,7 @@ class _PrayersEditState extends State<PrayersEdit> {
                     children: [
                       Chip(
                         label: Text(
-                          prayer['category'] as String,
+                          _getCategoryLabel(t, prayer['category'] as String),
                           style: const TextStyle(fontSize: 11),
                         ),
                         padding: EdgeInsets.zero,
@@ -76,7 +76,7 @@ class _PrayersEditState extends State<PrayersEdit> {
                       const SizedBox(width: 8),
                       Chip(
                         label: Text(
-                          prayer['status'] as String,
+                          _getStatusLabel(t, prayer['status'] as String),
                           style: const TextStyle(fontSize: 11),
                         ),
                         padding: EdgeInsets.zero,
@@ -119,27 +119,28 @@ class _PrayersEditState extends State<PrayersEdit> {
   }
 
   void _showEditDialog(BuildContext context, Map<String, dynamic> prayer) {
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Edit Prayer'),
+        title: Text(t.prayers.edit.title),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: TextEditingController(text: prayer['title'] as String),
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t.prayers.form.title,
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: TextEditingController(text: prayer['description'] as String),
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: t.prayers.form.description,
+                  border: const OutlineInputBorder(),
                 ),
                 maxLines: 3,
               ),
@@ -149,13 +150,13 @@ class _PrayersEditState extends State<PrayersEdit> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Save'),
+            child: Text(t.common.save),
           ),
         ],
       ),
@@ -163,25 +164,44 @@ class _PrayersEditState extends State<PrayersEdit> {
   }
 
   void _showDeleteDialog(BuildContext context, Map<String, dynamic> prayer) {
+    final t = Translations.of(context);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Prayer?'),
-        content: Text('Are you sure you want to delete "${prayer['title']}"?'),
+        title: Text(t.prayers.delete.title),
+        content: Text(t.prayers.delete.confirm(title: prayer['title'] as String)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(t.common.cancel),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
+            child: Text(t.common.delete),
           ),
         ],
       ),
     );
+  }
+
+  String _getCategoryLabel(Translations t, String category) {
+    switch (category) {
+      case 'Family': return t.prayers.categories.family;
+      case 'Work': return t.prayers.categories.work;
+      case 'Health': return t.prayers.categories.health;
+      default: return category;
+    }
+  }
+
+  String _getStatusLabel(Translations t, String status) {
+    switch (status) {
+      case 'unanswered': return t.status.unanswered;
+      case 'active': return t.status.active;
+      case 'answered': return t.status.answered;
+      default: return status;
+    }
   }
 }

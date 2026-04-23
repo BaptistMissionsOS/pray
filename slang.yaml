@@ -7,3 +7,4 @@ output_file_pattern: .g.dart
 output_format: multiple_files
 locale_handling: true
 flutter_integration: true
+string_interpolation: braces
